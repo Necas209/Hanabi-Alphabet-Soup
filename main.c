@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
-
 #define SIZE 10
 #define MAX 50
 #define MAX_COLOURS 5
