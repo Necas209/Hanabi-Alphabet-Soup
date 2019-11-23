@@ -2,11 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
+#include <locale.h>
+#include "lab.h"
 
 #define SIZE 10
 #define MAX 50
 #define MAX_COLOURS 5
 #define MAX_NUMBERS 10
+#define HAND 5
 
 struct card {
     char *number;
@@ -19,50 +22,58 @@ char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Bran
 
 void InitializeDeck(Deck[]);
 void ShuffleDeck(Deck[]);
-void DisplayDeck(const Deck[]);
 void PlayerName(char *, int);
 void DealCards(Deck[], Deck player_hand[], Deck bot_hand[]);
-int PickPlayer (int *);
+void PrintPlayerHand(Deck player_hand[], char name[]);
+void PrintPlayerCard(Deck player_hand[], int);
+void PrintBotHand(Deck bot_hand[]);
+void PrintBotCard(Deck bot_hand[], int );
+int PickPlayer (void);
+void PrintFireworks(void);
 void main() 
 {
+	setlocale(LC_ALL, "");
 	int option;
 	puts("\n Menu:");
 	puts("\n\t 1 - Jogar uma partida de Hanabi");
 	puts("\n\t 2 - Carregar uma partida a partir de ficheiro");
-	puts("\n\t 3 - Apresentar uma descricao do jogo na consola");
-	puts("\n\t 4 - Sair da aplicacao\n\n Opcao: ");
+	puts("\n\t 3 - Apresentar uma descrição do jogo na consola");
+	puts("\n\t 4 - Sair da aplicação\n\n Opção: ");
 	scanf("%d", &option);
 	system("cls");
 	switch(option) {
 		case 1:
 		{
 			Deck deck[MAX] = {"",""};
-			Deck player_hand[5];
-			Deck bot_hand[5];
+			Deck player_hand[HAND];
+			Deck bot_hand[HAND];
 			char name[16];
-			
 			PlayerName(name,16);
+			system("cls");
 			InitializeDeck(deck);
 			ShuffleDeck(deck);
-    		DisplayDeck(deck);
-			puts("\n\n\n");
 			DealCards(deck, player_hand, bot_hand);
-			int play = PickPlayer(&play);
-			int clues = 8, lifes = 3;
+			int play = PickPlayer();
+			int clues = 8, lifes = 3, k;
+			PrintPlayerHand(player_hand, name);
+			PrintBotHand(bot_hand);
+			PrintFireworks();
+			gotoxy(1,35);
 		}
 		case 2:
 			// Carregar uma partida a partir de um ficheiro
 		case 3:
 			// Apresentar uma descriçao do jogo na consola
 		case 4:
-			exit(0);	
+			exit(0);
 	}
 	
 }
-int PickPlayer (int *play) 
+int PickPlayer (void) 
 {
 	srand(time(NULL));
-	*play = rand()%2;
+	int n=rand()%2;
+	return n;
 }
 void PlayerName(char *name, int n)
 {
@@ -81,7 +92,6 @@ void InitializeDeck(Deck deck[])
     	strncpy(deck[i].colour, colours[i/MAX_NUMBERS], SIZE);
   }
 }
-
 void ShuffleDeck(Deck deck[])
 {
   int swapper = 0;
@@ -96,33 +106,61 @@ void ShuffleDeck(Deck deck[])
     	deck[swapper] = temp;
   }
 }
-
-void DisplayDeck(const Deck deck[])
-{
-	int i = 0;
-  	for(i=0;i<MAX;i++)
-	{
-    	printf("%5s %-10s", deck[i].number, deck[i].colour);
-    	if(0==((i+1)%3))
-		{
-      		printf("\n");
-    	}
-	}
-}
-
 void DealCards(Deck deck[], Deck player_hand[], Deck bot_hand[])
 {
 	int i;
-	for(i=0;i<5;i++)
+	for(i=0;i<HAND;i++)
 	{
 		player_hand[i].number = deck[MAX-1-2*i].number;
 		strcpy(player_hand[i].colour, deck[MAX-1-2*i].colour);
-		//printf("%5s %-12s", player_hand[i].number, player_hand[i].colour);
 	}
-	for(i=0;i<5;i++)
+	for(i=0;i<HAND;i++)
 	{
 		bot_hand[i].number = deck[MAX-2-2*i].number;
 		strcpy(bot_hand[i].colour, deck[MAX-2-2*i].colour);
-		//printf("%5s %-12s", bot_hand[i].number, bot_hand[i].colour);
 	}
+}
+void PrintPlayerHand(Deck player_hand[], char *name)
+{
+	int k=0;
+	gotoxy(3, 27);
+	printf("%.8s", name);
+	for (k=0; k<HAND; k++)
+		PrintPlayerCard(player_hand, k);
+}
+void PrintPlayerCard(Deck player_hand[], int k)
+{
+	showRectAt(10+14*k,25,8,6);
+}
+void PrintBotHand(Deck bot_hand[])
+{
+	int k=0;
+	gotoxy(3, 8);
+	puts("Bot");
+	for (k=0; k<HAND; k++)
+		PrintBotCard(bot_hand, k);
+}
+void PrintBotCard(Deck bot_hand[], int k)
+{
+	int colour_id;
+	if(strcmp(bot_hand[k].colour, "Amarelo")==0)
+			colour_id = 14;
+	else if(strcmp(bot_hand[k].colour, "Azul")==0)
+		 	colour_id = 11;
+	else if(strcmp(bot_hand[k].colour, "Verde")==0)
+			colour_id = 10;
+	else if(strcmp(bot_hand[k].colour, "Vermelho")==0)
+			colour_id = 12;
+	else if(strcmp(bot_hand[k].colour, "Branco")==0)
+			colour_id = 15;
+	setForeColor(colour_id);
+	showRectAt(10+14*k,5,8,6);
+	printfAt(14+14*k,8,bot_hand[k].number);
+}
+void PrintFireworks(void)
+{
+	int k=0;
+	setForeColor(15);
+	for(k=0; k<5; k++)
+		showRectAt(11+14*k,16,6,4);
 }
