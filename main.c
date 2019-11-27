@@ -6,7 +6,6 @@
 #include "lab.h"
 
 #define SIZE 10
-#define MAX 50
 #define MAX_COLOURS 5
 #define MAX_NUMBERS 10
 #define HAND 5
@@ -19,18 +18,27 @@ typedef struct card Deck;
 char * numbers[MAX_NUMBERS] = {"1", "1", "1", "2", "2", "3", "3", "4", "4", "5"};
 char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"};
 
-void InitializeDeck(Deck[]);
-void ShuffleDeck(Deck[]);
+void InitializeDeck(void);
+void ShuffleDeck(void);
 void PlayerName(char *, int);
-void DealCards(Deck[], Deck player_hand[], Deck bot_hand[]);
-void PrintPlayerHand(Deck player_hand[], char name[]);
-void PrintPlayerCard(Deck player_hand[], int);
-void PrintBotHand(Deck bot_hand[]);
-void PrintBotCard(Deck bot_hand[], int );
+void DealCards(void);
+void PrintPlayerHand(char*);
+void PrintPlayerCard(int);
+void PrintBotHand(void);
+void PrintBotCard(int);
 int PickPlayer (void);
 void PrintFireworks(void);
-void Display(const Deck deck[]);
-void PrintDiscardDeck(int discard_deck[][5]);
+void Display(void);
+void PrintDiscardDeck(void);	
+
+int dim=49;
+int clues = 8;
+int lifes = 3; 
+int fireworks[5][5];
+int discard_deck[5][5];
+Deck deck[50] = {"",""};
+Deck player_hand[HAND];
+Deck bot_hand[HAND];
 
 void main() 
 {
@@ -46,23 +54,18 @@ void main()
 	switch(option) {
 		case 1:
 		{
-			Deck deck[MAX] = {"",""};
-			Deck player_hand[HAND];
-			Deck bot_hand[HAND];
 			int play = PickPlayer();
-			int clues = 8, lifes = 3; 
-			int discard_deck[5][5];
-			int fireworks[5][5];
 			char name[16];
 			PlayerName(name,16);
 			system("cls");
-			InitializeDeck(deck);
-			ShuffleDeck(deck);
-			DealCards(deck, player_hand, bot_hand);
-			PrintPlayerHand(player_hand, name);
-			PrintBotHand(bot_hand);
+			InitializeDeck();
+			ShuffleDeck();
+			DealCards();
+			dim-=10;
+			PrintPlayerHand(name);
+			PrintBotHand();
 			PrintFireworks();
-			PrintDiscardDeck(discard_deck);
+			PrintDiscardDeck();
 			gotoxy(5,35);
 		}
 		case 2:
@@ -88,16 +91,16 @@ void PlayerName(char *name, int n)
 		scanf("%c", &name[i]);
 	
 }
-void InitializeDeck(Deck deck[])
+void InitializeDeck()
 {
   int i;
-  for(i=0;i<MAX;i++)
+  for(i=0;i<dim+1;i++)
   {
 		deck[i].number = numbers[i%MAX_NUMBERS];
     	strncpy(deck[i].colour, colours[i/MAX_NUMBERS], SIZE);
   }
 }
-void ShuffleDeck(Deck deck[])
+void ShuffleDeck()
 {
   int swapper = 0;
   int i, j;
@@ -105,50 +108,50 @@ void ShuffleDeck(Deck deck[])
   srand(time(NULL));
   for(j=0;j<5;j++)
   {
-  	for(i=0;i<MAX;i++)
+  	for(i=0;i<dim+1;i++)
  	{
-		swapper = rand() % MAX; 
+		swapper = rand() % (dim+1); 
     	temp = deck[i];
     	deck[i] = deck[swapper];
     	deck[swapper] = temp;
     }
   }
 }
-void DealCards(Deck deck[], Deck player_hand[], Deck bot_hand[])
+void DealCards()
 {
 	int i;
 	for(i=0;i<HAND;i++)
 	{
-		player_hand[i].number = deck[MAX-1-2*i].number;
-		strcpy(player_hand[i].colour, deck[MAX-1-2*i].colour);
+		player_hand[i].number = deck[dim-2*i].number;
+		strcpy(player_hand[i].colour, deck[dim-2*i].colour);
 	}
 	for(i=0;i<HAND;i++)
 	{
-		bot_hand[i].number = deck[MAX-2-2*i].number;
-		strcpy(bot_hand[i].colour, deck[MAX-2-2*i].colour);
+		bot_hand[i].number = deck[dim-1-2*i].number;
+		strcpy(bot_hand[i].colour, deck[dim-1-2*i].colour);
 	}
 }
-void PrintPlayerHand(Deck player_hand[], char *name)
+void PrintPlayerHand(char *name)
 {
 	int k=0;
 	gotoxy(3, 27);
 	printf("%.8s", name);
 	for (k=0; k<HAND; k++)
-		PrintPlayerCard(player_hand, k);
+		PrintPlayerCard(k);
 }
-void PrintPlayerCard(Deck player_hand[], int k)
+void PrintPlayerCard(int k)
 {
 	showRectAt(10+14*k,25,8,6);
 }
-void PrintBotHand(Deck bot_hand[])
+void PrintBotHand()
 {
 	int k=0;
 	gotoxy(3, 8);
 	puts("Bot");
 	for (k=0; k<HAND; k++)
-		PrintBotCard(bot_hand, k);
+		PrintBotCard(k);
 }
-void PrintBotCard(Deck bot_hand[], int k)
+void PrintBotCard(int k)
 {
 	int colour_id;
 	if(strcmp(bot_hand[k].colour, "Amarelo")==0)
@@ -172,7 +175,7 @@ void PrintFireworks(void)
 	for(k=0; k<5; k++)
 		showRectAt(11+14*k,16,6,4);
 }
-void PrintDiscardDeck(int discard_deck[][5])
+void PrintDiscardDeck(void)
 {
 	int i=0, j=0;
 	for(i=0; i<MAX_COLOURS; i++)
@@ -192,9 +195,9 @@ void PrintDiscardDeck(int discard_deck[][5])
 		}
 	}
 }
-void Display(const Deck deck[]){
+void Display(void){
   int i = 0;
-  for(i=0;i<MAX;i++){
+  for(i=0;i<dim+1;i++){
     printf("%5s of %-12s", deck[i].number, deck[i].colour);
     if(0==((i+1)%3)){
       printf("\n");
