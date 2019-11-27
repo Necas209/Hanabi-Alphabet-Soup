@@ -16,7 +16,6 @@ struct card {
     char colour[SIZE];
 };
 typedef struct card Deck;
-
 char * numbers[MAX_NUMBERS] = {"1", "1", "1", "2", "2", "3", "3", "4", "4", "5"};
 char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"};
 
@@ -30,6 +29,9 @@ void PrintBotHand(Deck bot_hand[]);
 void PrintBotCard(Deck bot_hand[], int );
 int PickPlayer (void);
 void PrintFireworks(void);
+void Display(const Deck deck[]);
+void PrintDiscardDeck(int discard_deck[][5]);
+
 void main() 
 {
 	setlocale(LC_ALL, "");
@@ -47,18 +49,21 @@ void main()
 			Deck deck[MAX] = {"",""};
 			Deck player_hand[HAND];
 			Deck bot_hand[HAND];
+			int play = PickPlayer();
+			int clues = 8, lifes = 3; 
+			int discard_deck[5][5];
+			int fireworks[5][5];
 			char name[16];
 			PlayerName(name,16);
 			system("cls");
 			InitializeDeck(deck);
 			ShuffleDeck(deck);
 			DealCards(deck, player_hand, bot_hand);
-			int play = PickPlayer();
-			int clues = 8, lifes = 3, k;
 			PrintPlayerHand(player_hand, name);
 			PrintBotHand(bot_hand);
 			PrintFireworks();
-			gotoxy(1,35);
+			PrintDiscardDeck(discard_deck);
+			gotoxy(5,35);
 		}
 		case 2:
 			// Carregar uma partida a partir de um ficheiro
@@ -95,15 +100,18 @@ void InitializeDeck(Deck deck[])
 void ShuffleDeck(Deck deck[])
 {
   int swapper = 0;
-  int i = 0;
+  int i, j;
   Deck temp = {"", ""};
   srand(time(NULL));
-  for(i=0;i<MAX;i++)
+  for(j=0;j<5;j++)
   {
+  	for(i=0;i<MAX;i++)
+ 	{
 		swapper = rand() % MAX; 
     	temp = deck[i];
     	deck[i] = deck[swapper];
     	deck[swapper] = temp;
+    }
   }
 }
 void DealCards(Deck deck[], Deck player_hand[], Deck bot_hand[])
@@ -163,4 +171,33 @@ void PrintFireworks(void)
 	setForeColor(15);
 	for(k=0; k<5; k++)
 		showRectAt(11+14*k,16,6,4);
+}
+void PrintDiscardDeck(int discard_deck[][5])
+{
+	int i=0, j=0;
+	for(i=0; i<MAX_COLOURS; i++)
+	{
+		for(j=0; j<5; j++)
+			discard_deck[i][j]=0;
+	}
+	for(i=0; i<MAX_COLOURS; i++)
+	{
+		printfAt(85,6+i,colours[i]);
+		gotoxy(95+3*i,5);
+		printf("%d", i+1);
+		for(j=0; j<5; j++)
+		{
+		gotoxy(95+3*i,6+j);
+		printf("%d", discard_deck[i][j]);
+		}
+	}
+}
+void Display(const Deck deck[]){
+  int i = 0;
+  for(i=0;i<MAX;i++){
+    printf("%5s of %-12s", deck[i].number, deck[i].colour);
+    if(0==((i+1)%3)){
+      printf("\n");
+    }
+  }
 }
