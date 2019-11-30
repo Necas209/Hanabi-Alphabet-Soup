@@ -21,7 +21,6 @@ char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Bran
 
 void InitializeDeck(void);
 void ShuffleDeck(void);
-void PlayerName(char *, int);
 void DealCards(void);
 void PrintPlayerHand(char*);
 void PrintBotHand(void);
@@ -29,10 +28,7 @@ void PrintBotCard(int);
 void PrintFireworks(void);
 void Display(void);
 void PrintDiscardDeck(void);	
-void PrintCL(void);
-void PrintDeck(void);
 void Start(void);
-void Menu(int *);
 
 int dim=49;
 int clues = 8;
@@ -64,8 +60,8 @@ void main()
 			PrintBotHand();
 			PrintFireworks();
 			PrintDiscardDeck();
-			PrintCL();
-			PrintDeck();
+			PrintCL(clues,lifes);
+			PrintDeck(dim);
 			gotoxy(5,35);
 			Display();
 		}
@@ -79,14 +75,6 @@ void main()
 	
 }
 
-void PlayerName(char *name, int n)
-{
-	int i;
-	printf("\n Digite o seu nome: ");
-	for(i=0; i<n; i++)
-		scanf("%c", &name[i]);
-	
-}
 void InitializeDeck()
 {
   int i;
@@ -189,23 +177,7 @@ void PrintDiscardDeck()
 		}
 	}
 }
-void PrintCL()
-{
-	char pistas[]="Pistas: ";
-	char vidas[]="Vidas: ";
-	printfAt(85,15,pistas);
-	printf("%d", clues);
-	printfAt(85,20,vidas);
-	printf("%d", lifes);
-}
-void PrintDeck()
-{
-	char d[]="Baralho:";
-	showRectAt(100,15,8,6);
-	printfAt(100,14,d);
-	gotoxy(103,18);
-	printf("%d", dim+1);
-}
+
 void Display()
 {
 	int i = 0;
@@ -264,13 +236,4 @@ void Start()
 	puts("-João Rodrigues");
 	sleep(3);
 }
-void Menu(int *option)
-{
-	setlocale(LC_ALL, "");
-	puts("\n\n Menu:");
-	puts("\n\t 1 - Jogar uma partida de Hanabi");
-	puts("\n\t 2 - Carregar uma partida a partir de ficheiro");
-	puts("\n\t 3 - Apresentar uma descrição do jogo na consola");
-	puts("\n\t 4 - Sair da aplicação\n\n Opção: ");
-	scanf("%d", option);
-}
+
