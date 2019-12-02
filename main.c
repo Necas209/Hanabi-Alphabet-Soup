@@ -55,7 +55,6 @@ void main()
 			InitializeDeck();
 			ShuffleDeck();
 			DealCards();
-			dim-=10;
 			PrintPlayerHand(name);
 			PrintBotHand();
 			PrintFireworks();
@@ -66,9 +65,20 @@ void main()
 			Display();
 		}
 		case 2:
-			// Carregar uma partida a partir de um ficheiro
+		// iniciar um jogo guardado
 		case 3:
-			// Apresentar uma descriçao do jogo na consola
+		{
+			FILE* rules=NULL;
+			rules=fopen("rules.txt","r");
+			char c;
+			c = fgetc(rules);
+    		while (c != EOF)
+    		{
+       			printf("%c", c);
+        		c = fgetc(rules);
+    		}
+  			fclose(rules);
+  		}	
 		case 4:
 			exit(0);
 	}
@@ -114,6 +124,7 @@ void DealCards()
 		bot_hand[i].number = deck[dim-1-2*i].number;
 		strcpy(bot_hand[i].colour, deck[dim-1-2*i].colour);
 	}
+	dim-=10;
 }
 void PrintPlayerHand(char *name)
 {
