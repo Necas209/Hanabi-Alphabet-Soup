@@ -30,12 +30,12 @@ void PickPlayer()
 	if(n==1)
 	{
 		gotoxy(2,33);
-		printf("O jogador e´ o 1.º a jogar.");
+		printf("O jogador e´ o primeiro a jogar.");
 	}
 	else
 	{
 		gotoxy(2,33);
-		printf("O bot e´ o 1.º a jogar.");
+		printf("O bot e´ o primeiro a jogar.");
 	}
 }
 void PrintDeck(int dim)
