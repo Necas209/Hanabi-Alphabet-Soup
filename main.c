@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <conio.h>
 #include <locale.h>
 #include "lab.h"
-#include "functions.h"
+#include "interface.h"
 
 #define SIZE 10
 #define MAX_COLOURS 5
@@ -28,7 +27,6 @@ void PrintBotCard(int);
 void PrintFireworks(void);
 void Display(void);
 void PrintDiscardDeck(void);	
-void Start(void);
 
 int dim=49;
 int clues = 8;
@@ -41,14 +39,17 @@ Deck bot_hand[HAND];
 
 void main() 
 {
+	int k=1;
 	Start();
 	int option=0;
+	while (k==1) 
+	{
 	Menu(&option);
 	system("cls");
 	switch(option) {
 		case 1:
 		{
-			int play = PickPlayer();
+			dim = 49;
 			char name[16];
 			PlayerName(name,16);
 			system("cls");
@@ -61,11 +62,15 @@ void main()
 			PrintDiscardDeck();
 			PrintCL(clues,lifes);
 			PrintDeck(dim);
-			gotoxy(5,35);
-			Display();
+			PickPlayer();
+			gotoxy(1,35);
+			system("pause");
+  			system("cls");
+			break;
 		}
 		case 2:
 		// iniciar um jogo guardado
+		break;
 		case 3:
 		{
 			FILE* rules=NULL;
@@ -78,11 +83,22 @@ void main()
         		c = fgetc(rules);
     		}
   			fclose(rules);
+  			system("pause");
+  			system("cls");
+  			break;
   		}	
 		case 4:
+		{
+			k=0;
 			exit(0);
+		}
+		default:
+			puts("\nA opção não existe.");
+			system("pause");
+  			system("cls");
+			break;
 	}
-	
+	}
 }
 
 void InitializeDeck()
@@ -146,7 +162,7 @@ void PrintBotCard(int k)
 {
 	int i, colour_id;
 	if(strcmp(bot_hand[k].colour, "Amarelo")==0)
-			colour_id = 14;
+			colour_id = 6;
 	else if(strcmp(bot_hand[k].colour, "Azul")==0)
 		 	colour_id = 11;
 	else if(strcmp(bot_hand[k].colour, "Verde")==0)
@@ -198,53 +214,3 @@ void Display()
     	printf("\n");
 	}
 }
-void Start()
-{
-	int i=0;
-	char H1[]={186,186,204,186,186};
-	char T[]={205,205,205,205};
-	char H2[]={186,186,185,186,186};
-	showVerticalWordAt(20,3,H1,5);	
-	printfAt(21,5,T);
-	showVerticalWordAt(25,3,H2,5);	
-	char A1[]={201,186,204,186,186};
-	char A2[]={187,186,185,186,186};
-	showVerticalWordAt(30,3,A1,5);
-	printfAt(31,3,T);
-	printfAt(31,5,T);
-	showVerticalWordAt(35,3,A2,5);
-	char N1[]={201,186,186,186,186};
-	char N2[]={186,186,186,186,188};
-	showVerticalWordAt(40,3,N1,5);
-	for(i=0;i<4;i++) {
-		gotoxy(41+i,3+i);
-		printf("\\");
-	}
-	showVerticalWordAt(45,3,N2,5);
-	showVerticalWordAt(50,3,A1,5);
-	printfAt(51,3,T);
-	printfAt(51,5,T);
-	showVerticalWordAt(55,3,A2,5);
-	char B1[]={186,186,204,186,186};
-	char B2[]={187,186,185,186,188};
-	showVerticalWordAt(60,3,B1,5);
-	for (i=3; i<=7;i+=2)
-		printfAt(61,i,T);
-	showVerticalWordAt(65,3,B2,5);
-	char I1[]={205,205,203,205,205};
-	char I2[]={205,205,202,205,205};
-	char I3[]={186,186,186};
-	printfAt(70,3,I1);
-	printfAt(70,7,I2);
-	showVerticalWordAt(72,4,I3,3);
-	gotoxy(85,2);
-	puts("Trabalho de:");
-	gotoxy(85,4);
-	puts("-Diogo Medeiros");
-	gotoxy(85,5);
-	puts("-Eduardo Chaves");
-	gotoxy(85,6);
-	puts("-João Rodrigues");
-	sleep(3);
-}
-
