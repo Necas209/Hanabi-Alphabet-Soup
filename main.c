@@ -9,6 +9,7 @@
 #define MAX_COLOURS 5
 #define MAX_NUMBERS 10
 #define HAND 5
+#define NAME 16
 
 struct card {
     char *number;
@@ -18,6 +19,7 @@ typedef struct card Deck;
 char * numbers[MAX_NUMBERS] = {"1", "1", "1", "2", "2", "3", "3", "4", "4", "5"};
 char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"};
 
+int Colour_ID(Deck arr[], int);
 void InitializeDeck(void);
 void ShuffleDeck(void);
 void DealCards(void);
@@ -26,7 +28,7 @@ void PrintBotHand(void);
 void PrintBotCard(int);
 void PrintFireworks(void);
 void Display(void);
-void PrintDiscardDeck(void);	
+void PrintDiscardDeck(void);
 
 int dim=49;
 int clues = 8;
@@ -50,8 +52,8 @@ void main()
 		case 1:
 		{
 			dim = 49;
-			char name[16];
-			PlayerName(name,16);
+			char name[NAME];
+			PlayerName(name,NAME);
 			system("cls");
 			InitializeDeck();
 			ShuffleDeck();
@@ -145,8 +147,8 @@ void DealCards()
 void PrintPlayerHand(char *name)
 {
 	int k=0;
-	gotoxy(3, 27);
-	printf("%.8s", name);
+	for(k=0; k<NAME; k++)
+		showCharAt(80+k,28,name[k]);
 	for (k=0; k<HAND; k++)
 		showRectAt(10+14*k,25,8,6);
 }
@@ -161,16 +163,7 @@ void PrintBotHand()
 void PrintBotCard(int k)
 {
 	int i, colour_id;
-	if(strcmp(bot_hand[k].colour, "Amarelo")==0)
-			colour_id = 6;
-	else if(strcmp(bot_hand[k].colour, "Azul")==0)
-		 	colour_id = 11;
-	else if(strcmp(bot_hand[k].colour, "Verde")==0)
-			colour_id = 10;
-	else if(strcmp(bot_hand[k].colour, "Vermelho")==0)
-			colour_id = 4;
-	else if(strcmp(bot_hand[k].colour, "Branco")==0)
-			colour_id = 15;
+	colour_id=Colour_ID(bot_hand,k);
 	setColor(0,colour_id);
 	showRectAt(10+14*k,5,8,6);
 	for(i=1;i<4;i++)
@@ -193,18 +186,41 @@ void PrintDiscardDeck()
 {
 	int i=0,j=0;
 	for(i=0; i<MAX_COLOURS; i++)
-	{
+	{	
+		if(strcmp(colours[i], "Amarelo")==0)
+			setForeColor(6);
+	else if(strcmp(colours[i], "Azul")==0)
+		 	setForeColor(11);
+	else if(strcmp(colours[i], "Verde")==0)
+			setForeColor(10);
+	else if(strcmp(colours[i], "Vermelho")==0)
+			setForeColor(4);
+	else if(strcmp(colours[i], "Branco")==0)
+			setForeColor(15);
 		printfAt(85,6+i,colours[i]);
-		gotoxy(95+4*i,5);
+		resetColor();
+		gotoxy(96+4*i,5);
 		printf("%d", i+1);
 		for(j=0; j<5; j++)
 		{
-		gotoxy(95+4*i,6+j);
+		gotoxy(96+4*i,6+j);
 		printf("%d", discard_deck[i][j]);
 		}
 	}
 }
-
+int Colour_ID(Deck arr[], int k)
+{
+	if(strcmp(arr[k].colour, "Amarelo")==0)
+			return 6;
+	else if(strcmp(arr[k].colour, "Azul")==0)
+		 	return 11;
+	else if(strcmp(arr[k].colour, "Verde")==0)
+			return 10;
+	else if(strcmp(arr[k].colour, "Vermelho")==0)
+			return 4;
+	else if(strcmp(arr[k].colour, "Branco")==0)
+			return 15;
+}
 void Display()
 {
 	int i = 0;
