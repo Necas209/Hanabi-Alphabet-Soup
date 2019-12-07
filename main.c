@@ -19,6 +19,7 @@ typedef struct card Deck;
 char * numbers[MAX_NUMBERS] = {"1", "1", "1", "2", "2", "3", "3", "4", "4", "5"};
 char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"};
 
+int CardColour(Deck arr[], int);
 int Colour_ID(Deck arr[], int);
 void InitializeDeck(void);
 void ShuffleDeck(void);
@@ -29,7 +30,10 @@ void PrintBotCard(int);
 void PrintFireworks(void);
 void Display(void);
 void PrintDiscardDeck(void);
+void PlayerTurn(void);
+void PlayerDiscard(void);
 
+int turn=-1;
 int dim=49;
 int clues = 8;
 int lifes = 3; 
@@ -38,6 +42,8 @@ int discard_deck[5][5]={0};
 Deck deck[50] = {"",""};
 Deck player_hand[HAND];
 Deck bot_hand[HAND];
+Deck bot_clues[HAND]={"",""};
+Deck player_clues[HAND]={"",""};
 
 void main() 
 {
@@ -64,15 +70,17 @@ void main()
 			PrintDiscardDeck();
 			PrintCL(clues,lifes);
 			PrintDeck(dim);
-			PickPlayer();
-			gotoxy(1,35);
+			PickPlayer(&turn);
+			system("pause");
+			ClearScreen();
+			PlayerTurn();
 			system("pause");
   			system("cls");
 			break;
 		}
 		case 2:
-		// iniciar um jogo guardado
-		break;
+			// iniciar um jogo guardado
+			break;
 		case 3:
 		{
 			FILE* rules=NULL;
@@ -102,7 +110,72 @@ void main()
 	}
 	}
 }
-
+void PlayerTurn()
+{
+	int jog;
+	gotoxy(2,34);
+	puts("\tA sua jogada:");
+	puts("\n\t 1. Dar uma pista");
+	puts("\n\t 2. Descartar uma carta");
+	puts("\n\t 3. Jogar uma carta");
+	if(turn==1)
+		puts("\n\t 4. Gravar o jogo e sair");
+	printf("\n\t Opção: ");
+	scanf("%d", &jog);
+	ClearScreen();
+	switch(jog) {
+		case 1:
+		//	Player_Clues();
+			break;
+		case 2:
+		{
+			PlayerDiscard();
+			break;
+		}
+		case 3:
+		//	Player_Play();
+			break;
+		case 4:
+		//	Save_Game();
+			break;	
+	}
+}
+void PlayerDiscard()
+{
+	int i, c, n;
+	if(clues==7)
+		PlayerTurn();
+	else
+	{
+		gotoxy(2,34);
+		printf("Escolha de 1 a 5 a carta que pretende descartar: ");
+		scanf("%d", &i);
+		i--;
+		printf("\n Descartaste a carta %s %s.", player_hand[i].number, player_hand[i].colour);
+		c=CardColour(player_hand, i);
+		n=atoi(player_hand[i].number)-1;
+		discard_deck[n][c]++;
+		PrintDiscardDeck();
+		player_hand[i].number=deck[dim].number;
+		strcpy(player_hand[i].colour, deck[dim].colour);
+		showRectAt(10+14*i,25,8,6);
+		dim--;
+		PrintDeck(dim);
+	}
+}
+int CardColour(Deck arr[], int k)
+{
+	if(strcmp(arr[k].colour, "Amarelo")==0)
+			return 0;
+	else if(strcmp(arr[k].colour, "Azul")==0)
+		 	return 1;
+	else if(strcmp(arr[k].colour, "Verde")==0)
+			return 2;
+	else if(strcmp(arr[k].colour, "Vermelho")==0)
+			return 3;
+	else if(strcmp(arr[k].colour, "Branco")==0)
+			return 4;
+}
 void InitializeDeck()
 {
   int i;
@@ -224,9 +297,12 @@ int Colour_ID(Deck arr[], int k)
 void Display()
 {
 	int i = 0;
-	for(i=0;i<=dim+10;i++){
+	gotoxy(1,60);
+	for(i=0;i<=49;i++){
     printf("%5s %-12s", deck[i].number, deck[i].colour);
     if(0==((i+1)%3))
     	printf("\n");
 	}
+	for(i=0; i<HAND; i++)
+		printf("\n\t%5s %-12s", player_hand[i].number, player_hand[i].colour);
 }

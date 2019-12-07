@@ -4,6 +4,15 @@
 #include <time.h>
 #include "lab.h"
 
+void ClearScreen()
+{
+	int i=0, j=0;
+	for(j=0; j<15; j++)
+	{
+		for(i=0; i<80; i++)
+			showCharAt(1+i, 32+j, ' ');
+	}
+}
 void Menu(int *option)
 {
 	setlocale(LC_ALL, "");
@@ -11,7 +20,8 @@ void Menu(int *option)
 	puts("\n\t 1 - Jogar uma partida de Hanabi");
 	puts("\n\t 2 - Carregar uma partida a partir de ficheiro");
 	puts("\n\t 3 - Apresentar uma descrição do jogo na consola");
-	puts("\n\t 4 - Sair da aplicação\n\n Opção: ");
+	puts("\n\t 4 - Sair da aplicação");
+	printf("\n\n Opção: ");
 	scanf("%d", option);
 }
 void PlayerName(char *name, int n)
@@ -22,19 +32,18 @@ void PlayerName(char *name, int n)
 		scanf("%c", &name[i]);
 	
 }
-void PickPlayer() 
+void PickPlayer(int *n)
 {
-	int n;
 	srand(time(NULL));
-	n=rand()%2;
-	if(n==1)
+	*n=rand()%2;
+	if(*n==1)
 	{
-		gotoxy(2,33);
+		gotoxy(2,34);
 		printf("O jogador e´ o primeiro a jogar.");
 	}
 	else
 	{
-		gotoxy(2,33);
+		gotoxy(2,34);
 		printf("O bot e´ o primeiro a jogar.");
 	}
 }
