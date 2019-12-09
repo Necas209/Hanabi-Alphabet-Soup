@@ -12,11 +12,11 @@
 #define NAME 16
 
 struct card {
-    char *number;
+    int number;
     char colour[SIZE];
 };
 typedef struct card Deck;
-char * numbers[MAX_NUMBERS] = {"1", "1", "1", "2", "2", "3", "3", "4", "4", "5"};
+int numbers[MAX_NUMBERS] = {1,1,1,2,2,3,3,4,4,5};
 char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"};
 
 int CardColour(Deck arr[], int);
@@ -33,17 +33,17 @@ void PrintDiscardDeck(void);
 void PlayerTurn(void);
 void PlayerDiscard(void);
 
-int turn=-1;
+int turn;
 int dim=49;
 int clues = 8;
 int lifes = 3; 
 int fireworks[5][5];
 int discard_deck[5][5]={0};
-Deck deck[50] = {"",""};
+Deck deck[50];
 Deck player_hand[HAND];
 Deck bot_hand[HAND];
-Deck bot_clues[HAND]={"",""};
-Deck player_clues[HAND]={"",""};
+Deck bot_clues[HAND];
+Deck player_clues[HAND];
 
 void main() 
 {
@@ -73,7 +73,10 @@ void main()
 			PickPlayer(&turn);
 			system("pause");
 			ClearScreen();
+			Display();
 			PlayerTurn();
+			Display();
+			gotoxy(1,35);
 			system("pause");
   			system("cls");
 			break;
@@ -142,7 +145,7 @@ void PlayerTurn()
 }
 void PlayerDiscard()
 {
-	int i, c, n;
+	int i, c, num;
 	if(clues==7)
 		PlayerTurn();
 	else
@@ -151,10 +154,10 @@ void PlayerDiscard()
 		printf("Escolha de 1 a 5 a carta que pretende descartar: ");
 		scanf("%d", &i);
 		i--;
-		printf("\n Descartaste a carta %s %s.", player_hand[i].number, player_hand[i].colour);
+		printf("\n Descartaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
 		c=CardColour(player_hand, i);
-		n=atoi(player_hand[i].number)-1;
-		discard_deck[n][c]++;
+		num=player_hand[i].number-1;
+		discard_deck[num][c]++;
 		PrintDiscardDeck();
 		player_hand[i].number=deck[dim].number;
 		strcpy(player_hand[i].colour, deck[dim].colour);
@@ -189,7 +192,7 @@ void ShuffleDeck()
 {
   int swapper = 0;
   int i, j;
-  Deck temp = {"", ""};
+  Deck temp;
   srand(time(NULL));
   for(j=0;j<5;j++)
   {
@@ -245,7 +248,7 @@ void PrintBotCard(int k)
 	showRectAt(10+14*k+i,5+i,8-2*i,6-2*i);
 	}
 	setColor(0,colour_id);
-	printfAt(14+14*k,8,bot_hand[k].number);
+	showNumAt(14+14*k,8,bot_hand[k].number);
 	resetColor();
 }
 void PrintFireworks()
@@ -299,10 +302,10 @@ void Display()
 	int i = 0;
 	gotoxy(1,60);
 	for(i=0;i<=49;i++){
-    printf("%5s %-12s", deck[i].number, deck[i].colour);
+    printf("%d %s", deck[i].number, deck[i].colour);
     if(0==((i+1)%3))
     	printf("\n");
 	}
 	for(i=0; i<HAND; i++)
-		printf("\n\t%5s %-12s", player_hand[i].number, player_hand[i].colour);
+		printf("\n\t%d %s", player_hand[i].number, player_hand[i].colour);
 }

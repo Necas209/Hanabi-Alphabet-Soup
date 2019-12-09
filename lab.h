@@ -98,6 +98,12 @@ void showCharAt(int x, int y, char c) {
 	printf("%c", c);
 	setlocale(LC_ALL, "");
 }
+void showNumAt(int x, int y, int c) {
+	setlocale(LC_ALL, "C");
+	gotoxy(x, y);
+	printf("%d", c);
+	setlocale(LC_ALL, "");
+}
 //write a 'string' verticaly at a designated position
 void showVerticalWordAt(int x, int y, char c[], int charNumber) {
 	setlocale(LC_ALL, "C");
