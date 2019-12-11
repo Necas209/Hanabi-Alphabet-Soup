@@ -17,7 +17,7 @@ struct card {
 };
 typedef struct card Deck;
 int numbers[MAX_NUMBERS] = {1,1,1,2,2,3,3,4,4,5};
-char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"}; // 0, 1, 2, 3, 4
+char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"}; // 0, 1, 2, 3, 4 //
 
 int CardColour(Deck arr[], int);
 int ColourID(Deck arr[], int);
