@@ -17,10 +17,10 @@ struct card {
 };
 typedef struct card Deck;
 int numbers[MAX_NUMBERS] = {1,1,1,2,2,3,3,4,4,5};
-char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"};
+char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"}; // 0, 1, 2, 3, 4
 
 int CardColour(Deck arr[], int);
-int Colour_ID(Deck arr[], int);
+int ColourID(Deck arr[], int);
 void InitializeDeck(void);
 void ShuffleDeck(void);
 void DealCards(void);
@@ -32,12 +32,13 @@ void Display(void);
 void PrintDiscardDeck(void);
 void PlayerTurn(void);
 void PlayerDiscard(void);
+void PlayerPlay(void);
 
 int turn;
 int dim=49;
 int clues = 8;
 int lifes = 3; 
-int fireworks[5][5];
+int fireworks[5]={0};
 int discard_deck[5][5]={0};
 Deck deck[50];
 Deck player_hand[HAND];
@@ -58,6 +59,8 @@ void main()
 		case 1:
 		{
 			dim = 49;
+			clues=8;
+			lifes=3;
 			char name[NAME];
 			PlayerName(name,NAME);
 			system("cls");
@@ -119,7 +122,8 @@ void PlayerTurn()
 	gotoxy(2,34);
 	puts("\tA sua jogada:");
 	puts("\n\t 1. Dar uma pista");
-	puts("\n\t 2. Descartar uma carta");
+	if(clues<=7)
+		puts("\n\t 2. Descartar uma carta");
 	puts("\n\t 3. Jogar uma carta");
 	if(turn==1)
 		puts("\n\t 4. Gravar o jogo e sair");
@@ -136,26 +140,49 @@ void PlayerTurn()
 			break;
 		}
 		case 3:
-		//	Player_Play();
+			PlayerPlay();
 			break;
 		case 4:
 		//	Save_Game();
 			break;	
 	}
 }
+void PlayerPlay()
+{
+	int i, col;
+	gotoxy(2,34);
+	printf("Escolha de 1 a 5 a carta que pretende jogar: ");
+	scanf("%d", &i);
+	i--;
+	printf("\n Jogaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
+	col=ColourID(player_hand, i);
+	if(player_hand[i].number==(fireworks[col]+1))
+	{
+		fireworks[col]++;
+		PrintFireworks();
+	}
+	else
+	{
+		printf("\n A carta que jogaste não é válida!");
+		discard_deck[player_hand[i].number-1][col]++;
+		PrintDiscardDeck();
+		lifes--;
+	}
+	player_hand[i].number=deck[dim].number;
+	strcpy(player_hand[i].colour, deck[dim].colour);
+	showRectAt(10+14*i,25,8,6);
+	dim--;
+	PrintDeck(dim);
+}
 void PlayerDiscard()
 {
 	int i, c, num;
-	if(clues==7)
-		PlayerTurn();
-	else
-	{
 		gotoxy(2,34);
 		printf("Escolha de 1 a 5 a carta que pretende descartar: ");
 		scanf("%d", &i);
 		i--;
 		printf("\n Descartaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
-		c=CardColour(player_hand, i);
+		c=ColourID(player_hand, i);
 		num=player_hand[i].number-1;
 		discard_deck[num][c]++;
 		PrintDiscardDeck();
@@ -164,9 +191,8 @@ void PlayerDiscard()
 		showRectAt(10+14*i,25,8,6);
 		dim--;
 		PrintDeck(dim);
-	}
 }
-int CardColour(Deck arr[], int k)
+int ColourID(Deck arr[], int k)
 {
 	if(strcmp(arr[k].colour, "Amarelo")==0)
 			return 0;
@@ -238,25 +264,47 @@ void PrintBotHand()
 }
 void PrintBotCard(int k)
 {
-	int i, colour_id;
-	colour_id=Colour_ID(bot_hand,k);
-	setColor(0,colour_id);
+	int i, cardcolour;
+	cardcolour=CardColour(bot_hand,k);
+	setColor(0,cardcolour);
 	showRectAt(10+14*k,5,8,6);
 	for(i=1;i<4;i++)
 	{
-	setColor(colour_id,colour_id);
+	setColor(cardcolour,cardcolour);
 	showRectAt(10+14*k+i,5+i,8-2*i,6-2*i);
 	}
-	setColor(0,colour_id);
+	setColor(0,cardcolour);
 	showNumAt(14+14*k,8,bot_hand[k].number);
 	resetColor();
 }
 void PrintFireworks()
 {
 	int k=0;
-	setForeColor(15);
 	for(k=0; k<5; k++)
+	{
+		switch(k)
+		{
+			case 0:
+				setForeColor(6);
+				break;
+			case 1:
+				setForeColor(11);
+				break;
+			case 2:
+				setForeColor(10);
+				break;
+			case 3:
+				setForeColor(4);
+				break;
+			case 4:
+				setForeColor(15);
+				break;
+		}
 		showRectAt(11+14*k,16,6,4);
+		gotoxy(14+14*k,18);
+		printf("%d", fireworks[k]);
+		resetColor();
+	}
 }
 void PrintDiscardDeck()
 {
@@ -284,7 +332,7 @@ void PrintDiscardDeck()
 		}
 	}
 }
-int Colour_ID(Deck arr[], int k)
+int CardColour(Deck arr[], int k)
 {
 	if(strcmp(arr[k].colour, "Amarelo")==0)
 			return 6;
@@ -307,5 +355,5 @@ void Display()
     	printf("\n");
 	}
 	for(i=0; i<HAND; i++)
-		printf("\n\t%d %s", player_hand[i].number, player_hand[i].colour);
+		printf("\n\n\t%d %s", player_hand[i].number, player_hand[i].colour);
 }
