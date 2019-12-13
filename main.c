@@ -17,7 +17,13 @@ struct card {
 };
 typedef struct card Deck;
 int numbers[MAX_NUMBERS] = {1,1,1,2,2,3,3,4,4,5};
-char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"}; // 0, 1, 2, 3, 4 //
+char colours[MAX_COLOURS][SIZE] = {"Amarelo", "Azul", "Verde", "Vermelho", "Branco"}; /* 0, 1, 2, 3, 4 */
+
+struct clue {
+	int nc[5];
+	int cc[5];
+};
+typedef struct clue Clues;
 
 int CardColour(Deck arr[], int);
 int ColourID(Deck arr[], int);
@@ -33,6 +39,7 @@ void PrintDiscardDeck(void);
 void PlayerTurn(void);
 void PlayerDiscard(void);
 void PlayerPlay(void);
+void PlayerClues(void);
 
 int turn;
 int dim=49;
@@ -43,8 +50,8 @@ int discard_deck[5][5]={0};
 Deck deck[50];
 Deck player_hand[HAND];
 Deck bot_hand[HAND];
-Deck bot_clues[HAND];
-Deck player_clues[HAND];
+Clues player_clues={{0},{0}};
+Clues bot_clues={{0},{0}};
 
 void main() 
 {
@@ -132,7 +139,7 @@ void PlayerTurn()
 	ClearScreen();
 	switch(jog) {
 		case 1:
-		//	Player_Clues();
+			PlayerClues();
 			break;
 		case 2:
 		{
@@ -143,8 +150,28 @@ void PlayerTurn()
 			PlayerPlay();
 			break;
 		case 4:
-		//	Save_Game();
+		//	SaveGame();
 			break;	
+	}
+}
+void PlayerClues()
+{
+	ClearScreen();
+	char option;
+	gotoxy(2,34);
+	printf(" Escolha o  tipo de pista que pretende dar:\n\n\tCor (C)\n\n\tNúmero (N)\n\n   Opção: ");
+	scanf("%c", &option);
+	switch(option)
+	{
+		case 'c': case 'C':	
+			break;
+		case 'n': case 'N':
+			break;
+		default:
+			printf("\n\n   Opção inválida.");
+			sleep(1);
+			PlayerClues();
+			break;
 	}
 }
 void PlayerPlay()
