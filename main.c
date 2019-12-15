@@ -32,7 +32,6 @@ void ShuffleDeck(void);
 void DealCards(void);
 void PrintPlayerHand(char*);
 void PrintBotHand(void);
-void PrintBotCard(int);
 void PrintFireworks(void);
 void Display(void);
 void PrintDiscardDeck(void);
@@ -41,6 +40,7 @@ void PlayerDiscard(void);
 void PlayerPlay(void);
 void PlayerClues(void);
 
+char name[NAME]="";
 int turn;
 int dim=49;
 int clues = 8;
@@ -68,7 +68,6 @@ void main()
 			dim = 49;
 			clues=8;
 			lifes=3;
-			char name[NAME];
 			PlayerName(name,NAME);
 			system("cls");
 			InitializeDeck();
@@ -86,8 +85,9 @@ void main()
 			Display();
 			PlayerTurn();
 			Display();
-			gotoxy(1,35);
+			gotoxy(1,50);
 			system("pause");
+			ClearScreen();
   			system("cls");
 			break;
 		}
@@ -157,18 +157,65 @@ void PlayerTurn()
 void PlayerClues()
 {
 	ClearScreen();
-	char option;
+	char option, clue_col[10]="";
+	int i, col, num;
 	gotoxy(2,34);
-	printf(" Escolha o  tipo de pista que pretende dar:\n\n\tCor (C)\n\n\tNúmero (N)\n\n   Opção: ");
-	scanf("%c", &option);
+	printf("Escolha o  tipo de pista que pretende dar:\n\n\t- Cor (C)\n\n\t- Número (N)\n\n  Opção: ");
+	scanf(" %c", &option);
 	switch(option)
 	{
 		case 'c': case 'C':	
+			printf("\n  Escolha a cor:");
+			printf("\n\n\t- Amarelo (1)\n\n\t- Azul (2)\n\n\t- Verde (3)\n\n\t- Vermelho (4)\n\n\t- Branco (5)\n\n  Opção: ");
+			scanf(" %d", &col);
+			switch(col) {
+				case 1:
+				strcpy(clue_col, "Amarelo");
+				break;
+				case 2:
+				strcpy(clue_col, "Azul");
+				break;
+				case 3:
+				strcpy(clue_col, "Verde");
+				break;	
+				case 4:
+				strcpy(clue_col, "Vermelho");
+				break;
+				case 5:					
+				strcpy(clue_col, "Branco");
+				break;
+				default:
+				printf("\n  Cor inválida.");
+				sleep(1);
+				PlayerClues();
+				break;
+			}
+			for(i=0; i<HAND; i++)
+			{
+				if(strcmp(bot_hand[i].colour, clue_col)==0)
+					bot_clues.cc[i]=1;
+			}
 			break;
 		case 'n': case 'N':
+			printf("\n  Escolha o número (1-5): ");
+			scanf(" %d", &num);
+			if(num<1||num>5)
+			{
+				printf("\n  Número inválido.");
+				sleep(1);
+				PlayerClues();
+			}
+			else
+			{
+				for(i=0; i<HAND; i++)
+				{
+					if(bot_hand[i].number==num)
+					bot_clues.nc[i]=1;
+				}
+			}
 			break;
 		default:
-			printf("\n\n   Opção inválida.");
+			printf("\n\n  Opção inválida.");
 			sleep(1);
 			PlayerClues();
 			break;
@@ -197,7 +244,9 @@ void PlayerPlay()
 	}
 	player_hand[i].number=deck[dim].number;
 	strcpy(player_hand[i].colour, deck[dim].colour);
-	showRectAt(10+14*i,25,8,6);
+	player_clues.nc[i]=0;
+	player_clues.cc[i]=0;
+	PrintPlayerHand(name);
 	dim--;
 	PrintDeck(dim);
 }
@@ -215,7 +264,9 @@ void PlayerDiscard()
 		PrintDiscardDeck();
 		player_hand[i].number=deck[dim].number;
 		strcpy(player_hand[i].colour, deck[dim].colour);
-		showRectAt(10+14*i,25,8,6);
+		player_clues.nc[i]=0;
+		player_clues.cc[i]=0;
+		PrintPlayerHand(name);
 		dim--;
 		PrintDeck(dim);
 }
@@ -275,23 +326,41 @@ void DealCards()
 }
 void PrintPlayerHand(char *name)
 {
-	int k=0;
+	int k=0, i=0, cardcolour;
 	for(k=0; k<NAME; k++)
 		showCharAt(80+k,28,name[k]);
-	for (k=0; k<HAND; k++)
-		showRectAt(10+14*k,25,8,6);
+	for (k=0; k<HAND; k++) {
+		cardcolour=CardColour(player_hand,k);
+		if(player_clues.cc[k]==1) {
+			setColor(0,cardcolour);
+			showRectAt(10+14*k,25,8,6);
+			for(i=1; i<4; i++) {
+				setColor(cardcolour,cardcolour);
+				showRectAt(10+14*k+i,25+i,8-2*i,6-2*i);
+			}	
+		}
+		else
+		{
+			resetColor();
+			showRectAt(10+14*k,25,8,6);
+		}
+		if(player_clues.nc[k]==1 && player_clues.cc[k]==1)
+		{
+			setColor(0,cardcolour);
+			showNumAt(14+14*k,28,bot_hand[k].number);
+		}
+		else if(player_clues.nc[k]==1 && player_clues.cc[k]==0)
+			showNumAt(14+14*k,28,bot_hand[k].number);
+	}
+	resetColor();
 }
 void PrintBotHand()
 {
-	int k=0;
+	int k=0, i=0, cardcolour;
 	gotoxy(3, 8);
 	puts("Bot");
 	for (k=0; k<HAND; k++)
-		PrintBotCard(k);
-}
-void PrintBotCard(int k)
-{
-	int i, cardcolour;
+	{
 	cardcolour=CardColour(bot_hand,k);
 	setColor(0,cardcolour);
 	showRectAt(10+14*k,5,8,6);
@@ -303,6 +372,7 @@ void PrintBotCard(int k)
 	setColor(0,cardcolour);
 	showNumAt(14+14*k,8,bot_hand[k].number);
 	resetColor();
+	}
 }
 void PrintFireworks()
 {
@@ -382,5 +452,9 @@ void Display()
     	printf("\n");
 	}
 	for(i=0; i<HAND; i++)
+	{
 		printf("\n\n\t%d %s", player_hand[i].number, player_hand[i].colour);
+	}
+	for(i=0; i<HAND; i++)
+		printf("\n\n\t %d %d", player_clues.nc[i], player_clues.cc[i]);
 }
