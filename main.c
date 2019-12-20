@@ -25,6 +25,8 @@ struct clue {
 };
 typedef struct clue Clues;
 
+void Interface(void);
+void ResetGame(void);
 int CardColour(Deck arr[], int);
 int ColourID(Deck arr[], int);
 void InitializeDeck(void);
@@ -39,9 +41,12 @@ void PlayerTurn(void);
 void PlayerDiscard(void);
 void PlayerPlay(void);
 void PlayerClues(void);
+void BotTurn(void);
+void BotClues(int);
+int BotPlayable(void);
 
 char name[NAME]="";
-int turn;
+int first;
 int dim=49;
 int clues = 8;
 int lifes = 3; 
@@ -55,7 +60,9 @@ Clues bot_clues={{0},{0}};
 
 void main() 
 {
+	system("MODE con cols=150 lines=200");
 	int k=1;
+	setlocale(LC_ALL, "");
 	Start();
 	int option=0;
 	while (k==1) 
@@ -65,21 +72,13 @@ void main()
 	switch(option) {
 		case 1:
 		{
-			dim = 49;
-			clues=8;
-			lifes=3;
+			ResetGame();
 			PlayerName(name,NAME);
 			system("cls");
 			InitializeDeck();
 			ShuffleDeck();
 			DealCards();
-			PrintPlayerHand(name);
-			PrintBotHand();
-			PrintFireworks();
-			PrintDiscardDeck();
-			PrintCL(clues,lifes);
-			PrintDeck(dim);
-			PickPlayer(&turn);
+			Interface();
 			system("pause");
 			ClearScreen();
 			Display();
@@ -123,6 +122,79 @@ void main()
 	}
 	}
 }
+void BotTurn()
+{
+	int i, flag=0;
+	if(first==0 && dim==39)
+	{
+		if(CountCards_N(player_hand,1)>0)
+			BotClues(1);
+	}
+	else if(BotPlayable!=-1)
+	{
+	//	
+	}
+	
+}
+
+int BotPlayable()
+{
+	int i=0, k=0;
+	do
+	{
+		if(bot_clues.cc[i]==1)
+		{
+			if(bot_hand[i].number==Table)
+				return i;
+			else if(bot_clues.nc[i]==1)				
+	}while(k==0);
+}
+
+int Table()
+{
+	int i, flag=-1;
+	for(i=0; i<HAND; i++)
+	{
+		if(fireworks[i]==fireworks[i+1])
+			flag=1;
+		else
+			flag=-1;
+		i++;
+	}
+	if(flag==1)
+		return fireworks[i];
+	else
+		return flag;
+}
+void BotClues(int n)
+{
+	int i;
+	for(i=0; i<HAND; i++)
+	{
+		if(player_hand[i].number==n)
+			player_clues.nc[i]=1;
+	}
+}
+int CountCards_C(Deck hand[], char c)
+{
+	int k, counter=0;
+	for(k=0; k<HAND; k++)
+	{
+		if(hand[k].colour[3]==c)
+			counter++;
+	}
+	return counter;
+}
+int CountCards_N(Deck hand[], int n)
+{
+	int k, counter=0;
+	for(k=0; k<HAND; k++)
+	{
+		if(hand[k].number==n)
+			counter++;
+	}
+	return counter;
+}
 void PlayerTurn()
 {
 	int jog;
@@ -132,7 +204,7 @@ void PlayerTurn()
 	if(clues<=7)
 		puts("\n\t 2. Descartar uma carta");
 	puts("\n\t 3. Jogar uma carta");
-	if(turn==1)
+	if(first==1)
 		puts("\n\t 4. Gravar o jogo e sair");
 	printf("\n\t Opção: ");
 	scanf("%d", &jog);
@@ -220,6 +292,8 @@ void PlayerClues()
 			PlayerClues();
 			break;
 	}
+	clues--;
+	Interface();
 }
 void PlayerPlay()
 {
@@ -233,22 +307,21 @@ void PlayerPlay()
 	if(player_hand[i].number==(fireworks[col]+1))
 	{
 		fireworks[col]++;
-		PrintFireworks();
+		Interface();
 	}
 	else
 	{
 		printf("\n A carta que jogaste não é válida!");
 		discard_deck[player_hand[i].number-1][col]++;
-		PrintDiscardDeck();
 		lifes--;
+		Interface();
 	}
 	player_hand[i].number=deck[dim].number;
 	strcpy(player_hand[i].colour, deck[dim].colour);
 	player_clues.nc[i]=0;
 	player_clues.cc[i]=0;
-	PrintPlayerHand(name);
 	dim--;
-	PrintDeck(dim);
+	Interface();
 }
 void PlayerDiscard()
 {
@@ -261,14 +334,12 @@ void PlayerDiscard()
 		c=ColourID(player_hand, i);
 		num=player_hand[i].number-1;
 		discard_deck[num][c]++;
-		PrintDiscardDeck();
 		player_hand[i].number=deck[dim].number;
 		strcpy(player_hand[i].colour, deck[dim].colour);
 		player_clues.nc[i]=0;
 		player_clues.cc[i]=0;
-		PrintPlayerHand(name);
 		dim--;
-		PrintDeck(dim);
+		Interface();
 }
 int ColourID(Deck arr[], int k)
 {
@@ -456,5 +527,31 @@ void Display()
 		printf("\n\n\t%d %s", player_hand[i].number, player_hand[i].colour);
 	}
 	for(i=0; i<HAND; i++)
-		printf("\n\n\t %d %d", player_clues.nc[i], player_clues.cc[i]);
+		printf("\n\n\t %d %d", bot_clues.nc[i], bot_clues.cc[i]);
+}
+
+void Interface()
+{
+	PrintPlayerHand(name);
+	PrintBotHand();
+	PrintFireworks();
+	PrintDiscardDeck();
+	PrintCL(clues,lifes);
+	PrintDeck(dim);
+	PickPlayer(&first);
+}
+
+void ResetGame()
+{
+	dim = 49;
+	clues=8;
+	lifes=3;
+	int i=0;
+	for(i=0; i<HAND; i++)
+	{
+		player_clues.cc[i]=0;
+		player_clues.nc[i]=0;
+		bot_clues.cc[i]=0;
+		bot_clues.nc[i]=0;	
+	}
 }
