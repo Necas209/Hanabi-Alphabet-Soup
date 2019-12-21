@@ -94,6 +94,7 @@ void Start()
 	printfAt(70,3,I1);
 	printfAt(70,7,I2);
 	showVerticalWordAt(72,4,I3,3);
+	gotoxy(75,3);
 	gotoxy(85,2);
 	puts("Trabalho de:");
 	gotoxy(85,4);

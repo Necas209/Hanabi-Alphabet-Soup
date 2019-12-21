@@ -42,8 +42,9 @@ void PlayerDiscard(void);
 void PlayerPlay(void);
 void PlayerClues(void);
 void BotTurn(void);
-void BotClues(int);
+void BotCluesN(int);
 int BotPlayable(void);
+void BotPlay(int);
 
 char name[NAME]="";
 int first;
@@ -79,10 +80,28 @@ void main()
 			ShuffleDeck();
 			DealCards();
 			Interface();
+			PickPlayer(&first);
 			system("pause");
 			ClearScreen();
 			Display();
-			PlayerTurn();
+			if(first==0)
+			{
+				do{
+				BotTurn();
+				gotoxy(1,40);
+				system("pause");
+				PlayerTurn();
+				}while(dim>0);
+			}
+			else if(first==1)
+			{
+				do{
+				PlayerTurn();
+				gotoxy(1,50);
+				system("pause");
+				BotTurn();
+				}while(dim>0);
+			}
 			Display();
 			gotoxy(1,50);
 			system("pause");
@@ -124,56 +143,55 @@ void main()
 }
 void BotTurn()
 {
-	int i, flag=0;
-	if(first==0 && dim==39)
+	int i, nflag=0;
+	int n=BotPlayable();
+	ClearScreen();
+	if(first==0 && dim==39 && clues==8)
 	{
 		if(CountCards_N(player_hand,1)>0)
-			BotClues(1);
+			BotCluesN(1);
+		else
+		{
+			gotoxy(2,34);
+			printf("Não tens cartas '1'.");
+		}
 	}
-	else if(BotPlayable!=-1)
+	else if(n!=-1)
 	{
-	//	
+		BotPlay(n);
 	}
-	
+	//else if
+	Interface();
 }
-
+void BotPlay(int n)
+{
+	ClearScreen();
+	gotoxy(2,34);
+	printf("O bot decidiu jogar a carta %d %s.", bot_hand[n].number, bot_hand[n].colour);
+	fireworks[ColourID(bot_hand,n)]++;
+	bot_hand[n].number=deck[dim].number;
+	strcpy(bot_hand[n].colour, deck[dim].colour);
+	dim--;
+}
 int BotPlayable()
 {
-	int i=0, k=0;
+	int i=0;
 	do
 	{
-		if(bot_clues.cc[i]==1)
+		if(bot_clues.nc[i]==1)
 		{
-			if(bot_hand[i].number==Table)
+			if(bot_hand[i].number==(Table()+1))
 				return i;
-			else if(bot_clues.nc[i]==1)				
-	}while(k==0);
-}
-
-int Table()
-{
-	int i, flag=-1;
-	for(i=0; i<HAND; i++)
-	{
-		if(fireworks[i]==fireworks[i+1])
-			flag=1;
-		else
-			flag=-1;
+			else if(bot_clues.cc[i]==1)
+				{
+					if(bot_hand[i].number==(fireworks[ColourID(bot_hand,i)]+1))
+						return i;
+				}
+		}
 		i++;
-	}
-	if(flag==1)
-		return fireworks[i];
-	else
-		return flag;
-}
-void BotClues(int n)
-{
-	int i;
-	for(i=0; i<HAND; i++)
-	{
-		if(player_hand[i].number==n)
-			player_clues.nc[i]=1;
-	}
+	}while(i<HAND);
+	if(i=HAND)
+		return -1;
 }
 int CountCards_C(Deck hand[], char c)
 {
@@ -195,9 +213,37 @@ int CountCards_N(Deck hand[], int n)
 	}
 	return counter;
 }
+int Table()
+{
+	int i, flag=-1;
+	for(i=0; i<HAND-1; i++)
+	{
+		if(fireworks[i]==fireworks[i+1])
+			flag=1;
+		else
+			flag=-1;
+		i++;
+	}
+	if(flag==1)
+		return fireworks[i];
+	else
+		return flag;
+}
+void BotCluesN(int n)
+{
+	int i;
+	for(i=0; i<HAND; i++)
+	{
+		if(player_hand[i].number==n)
+			player_clues.nc[i]=1;
+	}
+	gotoxy(2,34);
+	printf("O bot deu pistas sobre o número %d.", n);
+}
 void PlayerTurn()
 {
 	int jog;
+	ClearScreen();
 	gotoxy(2,34);
 	puts("\tA sua jogada:");
 	puts("\n\t 1. Dar uma pista");
@@ -398,6 +444,13 @@ void DealCards()
 void PrintPlayerHand(char *name)
 {
 	int k=0, i=0, cardcolour;
+	setColor(0,0);
+	for(i=10; i<75; i++) {
+		for(k=25; k<=31; k++) {	
+			showCharAt(i,k,' ');
+		}
+	}
+	resetColor();
 	for(k=0; k<NAME; k++)
 		showCharAt(80+k,28,name[k]);
 	for (k=0; k<HAND; k++) {
@@ -418,10 +471,10 @@ void PrintPlayerHand(char *name)
 		if(player_clues.nc[k]==1 && player_clues.cc[k]==1)
 		{
 			setColor(0,cardcolour);
-			showNumAt(14+14*k,28,bot_hand[k].number);
+			showNumAt(14+14*k,28,player_hand[k].number);
 		}
 		else if(player_clues.nc[k]==1 && player_clues.cc[k]==0)
-			showNumAt(14+14*k,28,bot_hand[k].number);
+			showNumAt(14+14*k,28,player_hand[k].number);
 	}
 	resetColor();
 }
@@ -538,7 +591,6 @@ void Interface()
 	PrintDiscardDeck();
 	PrintCL(clues,lifes);
 	PrintDeck(dim);
-	PickPlayer(&first);
 }
 
 void ResetGame()
