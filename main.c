@@ -213,18 +213,29 @@ void BotTurn()
 }
 int RandomColour()
 {
-	int i;
-	int aux[]={0,1,2,3,4};
+	int i, n, j=0, k=0, *aux;
+	int col[]={0,1,2,3,4};
 	for(i=0; i<HAND; i++)
 	{
 		if(player_clues.cc[i]==1)
-			aux[ColourID(player_hand,i)]=-1;
+			col[ColourID(player_hand,i)]=-1;
 	}
 	for(i=0; i<HAND; i++)
 	{
-		if(aux[i]!=-1)
-			return aux[i];
+		if(col[i]!=-1)
+			k++;
 	}
+	aux=malloc(k*sizeof(int));
+	for(i=0; i<HAND; i++)
+	{
+		if(col[i]!=-1) {
+			aux[j]=col[i];
+			j++;
+		}
+	}
+	srand(time(NULL));
+	n=rand()%k;
+	return aux[n];
 }
 int LowestNumber()
 {

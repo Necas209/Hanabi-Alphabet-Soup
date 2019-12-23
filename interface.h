@@ -14,7 +14,7 @@ int Random()
 void ClearScreen()
 {
 	int i=0, j=0;
-	for(j=0; j<30; j++)
+	for(j=0; j<20; j++)
 	{
 		for(i=0; i<80; i++)
 			showCharAt(1+i, 32+j, ' ');
