@@ -4,6 +4,13 @@
 #include <time.h>
 #include "lab.h"
 
+int Random()
+{
+	int n;
+	srand(time(NULL));
+	n=rand()%2;
+	return n;
+}
 void ClearScreen()
 {
 	int i=0, j=0;
