@@ -4,6 +4,7 @@
 #include <locale.h>
 #include "lab.h"
 #include "interface.h"
+#include "functions.h"
 
 #define SIZE 10
 #define MAX_COLOURS 5
@@ -50,6 +51,10 @@ int CountCards_C(Deck hand[], char);
 int CountCards_N(Deck hand[], int);
 int LowestNumber(void);
 int RandomColour(void);
+int BotDiscardable(int);
+void BotDiscard(int);
+int LowestTable(void);
+int Table(void);
 
 char name[NAME]="";
 int first;
@@ -152,7 +157,7 @@ void main()
 }
 void BotTurn()
 {
-	int i, n1, n2, n3;
+	int i, n1, n2, n3, n4;
 	ClearScreen();
 	if(first==0 && dim==39 && clues==8) {
 		if(CountCards_N(player_hand,1)>0)
@@ -187,7 +192,7 @@ void BotTurn()
 						BotClues_N(player_hand[n2].number);
 					else if(player_clues.cc[n2]==0 && player_clues.nc[n2]==1)
 						BotClues_C(player_hand[n2].colour);
-					else if(Random()==0)
+					else if(Random(2)==0)
 						BotClues_N(player_hand[n2].number);
 					else
 						BotClues_C(player_hand[n2].colour);	
@@ -205,11 +210,100 @@ void BotTurn()
 				}
 			}		
 		}
-	/*	else {
-			
-		}*/
+		else {
+			if(BotDiscardable(1)!=-1) {
+				n4=BotDiscardable(1);
+			}		
+			else if(BotDiscardable(2)!=-1) {
+				n4=BotDiscardable(2);
+			}	
+			else if(BotDiscardable(3)!=-1) {
+				n4=BotDiscardable(3);
+			}
+			else {
+				n4=BotDiscardable(4);
+			}
+			BotDiscard(n4);
+		}
 	}
 	Interface();
+}
+void BotDiscard(int i)
+{
+	int c, num;
+		gotoxy(2,34);
+		printf("O bot descartou a carta %d %s.", bot_hand[i].number, bot_hand[i].colour);
+		c=ColourID(bot_hand, i);
+		num=bot_hand[i].number-1;
+		discard_deck[num][c]++;
+		bot_hand[i].number=deck[dim].number;
+		strcpy(bot_hand[i].colour, deck[dim].colour);
+		bot_clues.nc[i]=0;
+		bot_clues.cc[i]=0;
+		clues++;
+		dim--;
+}
+int BotDiscardable(int n)
+{
+	int i;
+	
+	if(n==1) {
+		for(i=0; i<HAND; i++)
+		{
+			if(bot_clues.cc[i]==0 && bot_clues.nc[i]==0)
+				return i;
+		}
+		if(i==HAND)
+			return -1;
+	}
+	if(n==2) {
+		for(i=0; i<HAND; i++)
+		{
+			if(bot_clues.nc[i]==1 && bot_clues.cc[i]==0 && bot_hand[i].number<=LowestTable())
+				return i;
+		}
+		if(i==HAND)
+			return -1;
+	}
+	if(n==3) {
+		int j=0, k=0, *aux;
+		for(i=0; i<HAND; i++)
+		{
+			if((bot_clues.cc[i]==0&&bot_clues.nc[i]==1)||(bot_clues.cc[i]==1&&bot_clues.nc[i]==0))
+				k++;
+		}
+		if(k==0)
+			return -1;
+		else {
+			aux=malloc(k*sizeof(int));
+			for(i=0; i<HAND; i++)
+			{
+				if((bot_clues.cc[i]==0&&bot_clues.nc[i]==1)||(bot_clues.cc[i]==1&&bot_clues.nc[i]==0)) {
+					aux[j]=i;
+					j++;
+				}
+			}
+			return aux[Random(k)];
+		}
+	}
+	if(n==4) {
+		return Random(HAND);
+	}
+	
+}
+int LowestTable()
+{
+	int i, aux[HAND];
+	
+	for(i=0; i<HAND; i++)
+		aux[i]=fireworks[i];
+	
+	SelectionSort(aux, HAND);
+	for(i=0; i<HAND; i++)
+	{
+		if(aux[i]!=0)
+			return aux[i];
+	}
 }
 int RandomColour()
 {

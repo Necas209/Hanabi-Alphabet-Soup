@@ -4,22 +4,6 @@
 #include <time.h>
 #include "lab.h"
 
-int Random()
-{
-	int n;
-	srand(time(NULL));
-	n=rand()%2;
-	return n;
-}
-void ClearScreen()
-{
-	int i=0, j=0;
-	for(j=0; j<20; j++)
-	{
-		for(i=0; i<80; i++)
-			showCharAt(1+i, 32+j, ' ');
-	}
-}
 void Menu(int *option)
 {
 	setlocale(LC_ALL, "");
@@ -31,6 +15,7 @@ void Menu(int *option)
 	printf("\n\n Opção: ");
 	scanf("%d", option);
 }
+
 void PlayerName(char *name, int n)
 {
 	int i;
@@ -39,6 +24,7 @@ void PlayerName(char *name, int n)
 		scanf("%c", &name[i]);
 	
 }
+
 void PickPlayer(int *n)
 {
 	srand(time(NULL));
@@ -54,6 +40,7 @@ void PickPlayer(int *n)
 		printf("O bot e´ o primeiro a jogar.");
 	}
 }
+
 void PrintDeck(int dim)
 {
 	char d[]="Baralho:";
@@ -62,6 +49,7 @@ void PrintDeck(int dim)
 	gotoxy(104,18);
 	printf("%d", dim+1);
 }
+
 void Start()
 {
 	int i=0;
@@ -112,6 +100,7 @@ void Start()
 	puts("-João Rodrigues");
 	sleep(2);
 }
+
 void PrintCL(int clues, int lifes)
 {
 	char pistas[]="Pistas: ";
