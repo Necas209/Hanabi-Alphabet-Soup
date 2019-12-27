@@ -299,11 +299,7 @@ int LowestTable()
 		aux[i]=fireworks[i];
 	
 	SelectionSort(aux, HAND);
-	for(i=0; i<HAND; i++)
-	{
-		if(aux[i]!=0)
-			return aux[i];
-	}
+	return aux[0];
 }
 int RandomColour()
 {
