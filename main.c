@@ -28,8 +28,10 @@ typedef struct clue Clues;
 
 void Interface(void);
 void ResetGame(void);
+void Game(void);
 int CardColour(Deck arr[], int);
 int ColourID(Deck arr[], int);
+void ColourID_Reverse(char aux[], int b);
 void InitializeDeck(void);
 void ShuffleDeck(void);
 void DealCards(void);
@@ -42,6 +44,8 @@ void PlayerTurn(void);
 void PlayerDiscard(void);
 void PlayerPlay(void);
 void PlayerClues(void);
+void SaveGame(void);
+void GameSave(void);
 void BotTurn(void);
 void BotClues_N(int);
 void BotClues_C(char*);
@@ -68,6 +72,7 @@ Deck player_hand[HAND];
 Deck bot_hand[HAND];
 Clues player_clues={{0},{0}};
 Clues bot_clues={{0},{0}};
+FILE *save=NULL;
 
 void main() 
 {
@@ -93,39 +98,16 @@ void main()
 			PickPlayer(&first);
 			system("pause");
 			ClearScreen();
-			Display();
-			if(first==0)
-			{
-				do{
-				BotTurn();
-				gotoxy(1,40);
-				system("pause");
-				PlayerTurn();
-				gotoxy(1,50);
-				system("pause");
-				}while(dim>0);
-			}
-			else if(first==1)
-			{
-				do{
-				PlayerTurn();
-				gotoxy(1,50);
-				system("pause");
-				BotTurn();
-				gotoxy(1,40);
-				system("pause");
-				}while(dim>0);
-			}
-			Display();
-			gotoxy(1,50);
-			system("pause");
-			ClearScreen();
-  			system("cls");
+			Game();
 			break;
 		}
 		case 2:
-			// iniciar um jogo guardado
+		{
+			GameSave();
+			Interface();
+			Game();
 			break;
+		}
 		case 3:
 		{
 			FILE* rules=NULL;
@@ -143,10 +125,8 @@ void main()
   			break;
   		}	
 		case 4:
-		{
-			k=0;
 			exit(0);
-		}
+			break;
 		default:
 			puts("\nA opção não existe.");
 			system("pause");
@@ -155,10 +135,17 @@ void main()
 	}
 	}
 }
+////////////////////////////////////////////////////////////////////////////// Bot
 void BotTurn()
 {
-	int i, n1, n2, n3, n4;
+	int i, n1, n2, n3, n4, option;
 	ClearScreen();
+	gotoxy(2,34);
+	printf("Deseja guardar o jogo e sair?\n  Sim(1)/Não(2): ");
+	scanf(" %d", &option);
+	if(option==1)
+		SaveGame();
+	else {
 	if(first==0 && dim==39 && clues==8) {
 		if(CountCards_N(player_hand,1)>0)
 			BotClues_N(1);
@@ -226,6 +213,7 @@ void BotTurn()
 			BotDiscard(n4);
 		}
 	}
+	}
 	Interface();
 }
 void BotDiscard(int i)
@@ -248,8 +236,7 @@ int BotDiscardable(int n)
 	int i;
 	
 	if(n==1) {
-		for(i=0; i<HAND; i++)
-		{
+		for(i=0; i<HAND; i++) {
 			if(bot_clues.cc[i]==0 && bot_clues.nc[i]==0)
 				return i;
 		}
@@ -257,8 +244,7 @@ int BotDiscardable(int n)
 			return -1;
 	}
 	if(n==2) {
-		for(i=0; i<HAND; i++)
-		{
+		for(i=0; i<HAND; i++) {
 			if(bot_clues.nc[i]==1 && bot_clues.cc[i]==0 && bot_hand[i].number<=LowestTable())
 				return i;
 		}
@@ -267,8 +253,7 @@ int BotDiscardable(int n)
 	}
 	if(n==3) {
 		int j=0, k=0, *aux;
-		for(i=0; i<HAND; i++)
-		{
+		for(i=0; i<HAND; i++) {
 			if((bot_clues.cc[i]==0&&bot_clues.nc[i]==1)||(bot_clues.cc[i]==1&&bot_clues.nc[i]==0))
 				k++;
 		}
@@ -276,8 +261,7 @@ int BotDiscardable(int n)
 			return -1;
 		else {
 			aux=malloc(k*sizeof(int));
-			for(i=0; i<HAND; i++)
-			{
+			for(i=0; i<HAND; i++) {
 				if((bot_clues.cc[i]==0&&bot_clues.nc[i]==1)||(bot_clues.cc[i]==1&&bot_clues.nc[i]==0)) {
 					aux[j]=i;
 					j++;
@@ -286,81 +270,8 @@ int BotDiscardable(int n)
 			return aux[Random(k)];
 		}
 	}
-	if(n==4) {
-		return Random(HAND);
-	}
-	
-}
-int LowestTable()
-{
-	int i, aux[HAND];
-	
-	for(i=0; i<HAND; i++)
-		aux[i]=fireworks[i];
-	
-	SelectionSort(aux, HAND);
-	return aux[0];
-}
-int RandomColour()
-{
-	int i, n, j=0, k=0, *aux;
-	int col[]={0,1,2,3,4};
-	for(i=0; i<HAND; i++)
-	{
-		if(player_clues.cc[i]==1)
-			col[ColourID(player_hand,i)]=-1;
-	}
-	for(i=0; i<HAND; i++)
-	{
-		if(col[i]!=-1)
-			k++;
-	}
-	aux=malloc(k*sizeof(int));
-	for(i=0; i<HAND; i++)
-	{
-		if(col[i]!=-1) {
-			aux[j]=col[i];
-			j++;
-		}
-	}
-	srand(time(NULL));
-	n=rand()%k;
-	return aux[n];
-}
-int LowestNumber()
-{
-	int i=0, low_pos, flag=1;
-	for(i=0; i<HAND; i++) {
-		if(player_clues.nc[i]==1)
-			flag=-1;
-		else {
-			low_pos=i;
-			flag=0;
-		}
-	}
-	if(flag==0)
-	{
-		for(i=0; i<HAND; i++) {
-			if(player_hand[i].number<player_hand[low_pos].number && player_clues.nc[i]==0)
-				low_pos=i;
-		}
-		return low_pos;
-	}
-	else
-		return flag;
-	
-}
-int PlayerPlayable()
-{
-	int k=0;
-	do
-	{
-		if(player_hand[k].number==(fireworks[ColourID(player_hand,k)]+1))
-			return k;
-		k++;
-	}while(k<HAND);
-	if(k==HAND)
-		return -1;
+	if(n==4)
+		return Random(HAND);	
 }
 void BotPlay(int n)
 {
@@ -377,68 +288,28 @@ void BotPlay(int n)
 int BotPlayable()
 {
 	int i=0;
-	do
-	{
-		if(bot_clues.nc[i]==1)
-		{
+	do {
+		if(bot_clues.nc[i]==1) {
 			if(Table()!=-1 && bot_hand[i].number==(Table()+1))
 				return i;
-			else if(bot_clues.cc[i]==1)
-				{
+			else if(bot_clues.cc[i]==1) {
 					if(bot_hand[i].number==(fireworks[ColourID(bot_hand,i)]+1))
 						return i;
 				}
 		}
 		i++;
-	}while(i<HAND);
+	} while(i<HAND);
 	if(i=HAND)
 		return -1;
-}
-int CountCards_C(Deck hand[], char c)
-{
-	int k, counter=0;
-	for(k=0; k<HAND; k++)
-	{
-		if(hand[k].colour[2]==c)
-			counter++;
-	}
-	return counter;
-}
-int CountCards_N(Deck hand[], int n)
-{
-	int k, counter=0;
-	for(k=0; k<HAND; k++)
-	{
-		if(hand[k].number==n)
-			counter++;
-	}
-	return counter;
-}
-int Table()
-{
-	int i, flag=-1;
-	for(i=0; i<HAND-1; i++)
-	{
-		if(fireworks[i]==fireworks[i+1])
-			flag=1;
-		else
-			flag=-1;
-	}
-	if(flag==1)
-		return fireworks[i];
-	else
-		return flag;
 }
 void BotClues_C(char *col)
 {
 	int i;
 	char aux[SIZE];
-	for(i=0; i<SIZE; i++)
-	{
+	for(i=0; i<SIZE; i++) {
 		aux[i]=col[i];
 	}
-	for(i=0; i<HAND; i++)
-	{
+	for(i=0; i<HAND; i++) {
 		if(strcmp(player_hand[i].colour,aux)==0)
 			player_clues.cc[i]=1;
 	}
@@ -449,8 +320,7 @@ void BotClues_C(char *col)
 void BotClues_N(int n)
 {
 	int i;
-	for(i=0; i<HAND; i++)
-	{
+	for(i=0; i<HAND; i++) {
 		if(player_hand[i].number==n)
 			player_clues.nc[i]=1;
 	}
@@ -458,6 +328,18 @@ void BotClues_N(int n)
 	printf("O bot deu pistas sobre o número %d.", n);
 	clues--;
 }
+int PlayerPlayable()
+{
+	int k=0;
+	do {
+		if(player_hand[k].number==(fireworks[ColourID(player_hand,k)]+1))
+			return k;
+		k++;
+	} while(k<HAND);
+	if(k==HAND)
+		return -1;
+}
+//////////////////////////////////////////////////////////////////////// Jogador
 void PlayerTurn()
 {
 	int jog;
@@ -479,15 +361,13 @@ void PlayerTurn()
 			PlayerClues();
 			break;
 		case 2:
-		{
 			PlayerDiscard();
 			break;
-		}
 		case 3:
 			PlayerPlay();
 			break;
 		case 4:
-		//	SaveGame();
+			SaveGame();
 			break;	
 	}
 }
@@ -499,8 +379,7 @@ void PlayerClues()
 	gotoxy(2,34);
 	printf("Escolha o  tipo de pista que pretende dar:\n\n\t- Cor (C)\n\n\t- Número (N)\n\n  Opção: ");
 	scanf(" %c", &option);
-	switch(option)
-	{
+	switch(option) {
 		case 'c': case 'C':	
 			printf("\n  Escolha a cor:");
 			printf("\n\n\t- Amarelo (1)\n\n\t- Azul (2)\n\n\t- Verde (3)\n\n\t- Vermelho (4)\n\n\t- Branco (5)\n\n  Opção: ");
@@ -527,8 +406,7 @@ void PlayerClues()
 				PlayerClues();
 				break;
 			}
-			for(i=0; i<HAND; i++)
-			{
+			for(i=0; i<HAND; i++) {
 				if(strcmp(bot_hand[i].colour, clue_col)==0)
 					bot_clues.cc[i]=1;
 			}
@@ -536,16 +414,13 @@ void PlayerClues()
 		case 'n': case 'N':
 			printf("\n  Escolha o número (1-5): ");
 			scanf(" %d", &num);
-			if(num<1||num>5)
-			{
+			if(num<1||num>5) {
 				printf("\n  Número inválido.");
 				sleep(1);
 				PlayerClues();
 			}
-			else
-			{
-				for(i=0; i<HAND; i++)
-				{
+			else {
+				for(i=0; i<HAND; i++) {
 					if(bot_hand[i].number==num)
 					bot_clues.nc[i]=1;
 				}
@@ -569,13 +444,11 @@ void PlayerPlay()
 	i--;
 	printf("\n Jogaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
 	col=ColourID(player_hand, i);
-	if(player_hand[i].number==(fireworks[col]+1))
-	{
+	if(player_hand[i].number==(fireworks[col]+1)) {
 		fireworks[col]++;
 		Interface();
 	}
-	else
-	{
+	else {
 		printf("\n A carta que jogaste não é válida!");
 		discard_deck[player_hand[i].number-1][col]++;
 		lifes--;
@@ -607,6 +480,51 @@ void PlayerDiscard()
 		dim--;
 		Interface();
 }
+/////////////////////////////////////////////////////////////////// Cores e Numeros
+int LowestNumber()
+{
+	int i=0, low_pos, flag=1;
+	for(i=0; i<HAND; i++) {
+		if(player_clues.nc[i]==1)
+			flag=-1;
+		else {
+			low_pos=i;
+			flag=0;
+		}
+	}
+	if(flag==0) {
+		for(i=0; i<HAND; i++) {
+			if(player_hand[i].number<player_hand[low_pos].number && player_clues.nc[i]==0)
+				low_pos=i;
+		}
+		return low_pos;
+	}
+	else
+		return flag;
+}
+int RandomColour()
+{
+	int i, n, j=0, k=0, *aux;
+	int col[]={0,1,2,3,4};
+	for(i=0; i<HAND; i++) {
+		if(player_clues.cc[i]==1)
+			col[ColourID(player_hand,i)]=-1;
+	}
+	for(i=0; i<HAND; i++) {
+		if(col[i]!=-1)
+			k++;
+	}
+	aux=malloc(k*sizeof(int));
+	for(i=0; i<HAND; i++) {
+		if(col[i]!=-1) {
+			aux[j]=col[i];
+			j++;
+		}
+	}
+	srand(time(NULL));
+	n=rand()%k;
+	return aux[n];
+}
 int ColourID(Deck arr[], int k)
 {
 	if(strcmp(arr[k].colour, "Amarelo")==0)
@@ -620,13 +538,89 @@ int ColourID(Deck arr[], int k)
 	else if(strcmp(arr[k].colour, "Branco")==0)
 			return 4;
 }
+void ColourID_Reverse(char aux[], int b)
+{
+	switch (b) {
+		case 0:
+			strcpy(aux, "Amarelo");
+			break;
+		case 1:
+			strcpy(aux, "Azul");
+			break;
+		case 2:
+			strcpy(aux, "Verde");
+			break;
+		case 3:
+			strcpy(aux, "Vermelho");
+			break;
+		case 4:
+			strcpy(aux, "Branco");
+			break;
+	}
+}
+int CardColour(Deck arr[], int k)
+{
+	if(strcmp(arr[k].colour, "Amarelo")==0)
+			return 6;
+	else if(strcmp(arr[k].colour, "Azul")==0)
+		 	return 11;
+	else if(strcmp(arr[k].colour, "Verde")==0)
+			return 10;
+	else if(strcmp(arr[k].colour, "Vermelho")==0)
+			return 4;
+	else if(strcmp(arr[k].colour, "Branco")==0)
+			return 15;
+}
+///////////////////////////////////////////////////////////////////// Mesa
+int CountCards_C(Deck hand[], char c)
+{
+	int k, counter=0;
+	for(k=0; k<HAND; k++) {
+		if(hand[k].colour[2]==c)
+			counter++;
+	}
+	return counter;
+}
+int CountCards_N(Deck hand[], int n)
+{
+	int k, counter=0;
+	for(k=0; k<HAND; k++) {
+		if(hand[k].number==n)
+			counter++;
+	}
+	return counter;
+}
+int LowestTable()
+{
+	int i, aux[HAND];
+	
+	for(i=0; i<HAND; i++)
+		aux[i]=fireworks[i];
+	
+	SelectionSort(aux, HAND);
+	return aux[0];
+}
+int Table()
+{
+	int i, flag=-1;
+	for(i=0; i<HAND-1; i++) {
+		if(fireworks[i]==fireworks[i+1])
+			flag=1;
+		else
+			flag=-1;
+	}
+	if(flag==1)
+		return fireworks[i];
+	else
+		return flag;
+}
+////////////////////////////////////////////////////////////////////////// Deck
 void InitializeDeck()
 {
   int i;
-  for(i=0;i<dim+1;i++)
-  {
-		deck[i].number = numbers[i%MAX_NUMBERS];
-    	strncpy(deck[i].colour, colours[i/MAX_NUMBERS], SIZE);
+  for(i=0;i<dim+1;i++) {
+	deck[i].number = numbers[i%MAX_NUMBERS];
+    strncpy(deck[i].colour, colours[i/MAX_NUMBERS], SIZE);
   }
 }
 void ShuffleDeck()
@@ -635,27 +629,24 @@ void ShuffleDeck()
   int i, j;
   Deck temp;
   srand(time(NULL));
-  for(j=0;j<5;j++)
-  {
-  	for(i=0;i<dim+1;i++)
- 	{
-		swapper = rand() % (dim+1); 
-    	temp = deck[i];
-    	deck[i] = deck[swapper];
-    	deck[swapper] = temp;
-    }
+  for(j=0;j<5;j++) {
+	for(i=0;i<dim+1;i++) {
+  		swapper = rand() % (dim+1);
+		temp = deck[i];
+   		deck[i] = deck[swapper];
+   		deck[swapper] = temp;
+	}
   }
 }
+/////////////////////////////////////////////////////////////////////////////// Mãos
 void DealCards()
 {
 	int i;
-	for(i=0;i<HAND;i++)
-	{
+	for(i=0;i<HAND;i++) {
 		player_hand[i].number = deck[dim-2*i].number;
 		strcpy(player_hand[i].colour, deck[dim-2*i].colour);
 	}
-	for(i=0;i<HAND;i++)
-	{
+	for(i=0;i<HAND;i++) {
 		bot_hand[i].number = deck[dim-1-2*i].number;
 		strcpy(bot_hand[i].colour, deck[dim-1-2*i].colour);
 	}
@@ -683,13 +674,11 @@ void PrintPlayerHand(char *name)
 				showRectAt(10+14*k+i,25+i,8-2*i,6-2*i);
 			}	
 		}
-		else
-		{
+		else {
 			resetColor();
 			showRectAt(10+14*k,25,8,6);
 		}
-		if(player_clues.nc[k]==1 && player_clues.cc[k]==1)
-		{
+		if(player_clues.nc[k]==1 && player_clues.cc[k]==1) {
 			setColor(0,cardcolour);
 			showNumAt(14+14*k,28,player_hand[k].number);
 		}
@@ -703,28 +692,25 @@ void PrintBotHand()
 	int k=0, i=0, cardcolour;
 	gotoxy(3, 8);
 	puts("Bot");
-	for (k=0; k<HAND; k++)
-	{
-	cardcolour=CardColour(bot_hand,k);
-	setColor(0,cardcolour);
-	showRectAt(10+14*k,5,8,6);
-	for(i=1;i<4;i++)
-	{
-	setColor(cardcolour,cardcolour);
-	showRectAt(10+14*k+i,5+i,8-2*i,6-2*i);
-	}
-	setColor(0,cardcolour);
-	showNumAt(14+14*k,8,bot_hand[k].number);
-	resetColor();
+	for (k=0; k<HAND; k++) {
+		cardcolour=CardColour(bot_hand,k);
+		setColor(0,cardcolour);
+		showRectAt(10+14*k,5,8,6);
+		for(i=1;i<4;i++) {
+			setColor(cardcolour,cardcolour);
+			showRectAt(10+14*k+i,5+i,8-2*i,6-2*i);
+		}
+		setColor(0,cardcolour);
+		showNumAt(14+14*k,8,bot_hand[k].number);
+		resetColor();
 	}
 }
+/////////////////////////////////////////////////////////////////////////////// Interface
 void PrintFireworks()
 {
 	int k=0;
-	for(k=0; k<5; k++)
-	{
-		switch(k)
-		{
+	for(k=0; k<5; k++) {
+		switch(k) {
 			case 0:
 				setForeColor(6);
 				break;
@@ -750,8 +736,7 @@ void PrintFireworks()
 void PrintDiscardDeck()
 {
 	int i=0,j=0;
-	for(i=0; i<MAX_COLOURS; i++)
-	{	
+	for(i=0; i<MAX_COLOURS; i++) {	
 		if(strcmp(colours[i], "Amarelo")==0)
 			setForeColor(6);
 	else if(strcmp(colours[i], "Azul")==0)
@@ -766,43 +751,26 @@ void PrintDiscardDeck()
 		resetColor();
 		gotoxy(96+4*i,5);
 		printf("%d", i+1);
-		for(j=0; j<5; j++)
-		{
+		for(j=0; j<5; j++) {
 		gotoxy(96+4*i,6+j);
 		printf("%d", discard_deck[i][j]);
 		}
 	}
 }
-int CardColour(Deck arr[], int k)
-{
-	if(strcmp(arr[k].colour, "Amarelo")==0)
-			return 6;
-	else if(strcmp(arr[k].colour, "Azul")==0)
-		 	return 11;
-	else if(strcmp(arr[k].colour, "Verde")==0)
-			return 10;
-	else if(strcmp(arr[k].colour, "Vermelho")==0)
-			return 4;
-	else if(strcmp(arr[k].colour, "Branco")==0)
-			return 15;
-}
 void Display()
 {
 	int i = 0;
 	gotoxy(1,60);
-	for(i=0;i<=49;i++){
+	for(i=0;i<=49;i++) {
     printf("%d %s", deck[i].number, deck[i].colour);
     if(0==((i+1)%3))
     	printf("\n");
 	}
 	for(i=0; i<HAND; i++)
-	{
 		printf("\n\n\t%d %s", player_hand[i].number, player_hand[i].colour);
-	}
 	for(i=0; i<HAND; i++)
 		printf("\n\n\t %d %d", bot_clues.nc[i], bot_clues.cc[i]);
 }
-
 void Interface()
 {
 	PrintPlayerHand(name);
@@ -812,15 +780,111 @@ void Interface()
 	PrintCL(clues,lifes);
 	PrintDeck(dim);
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////// Jogo
+void Game()
+{
+	if(first==0) {
+		do {
+			BotTurn();
+			gotoxy(1,40);
+			system("pause");
+			PlayerTurn();
+			gotoxy(1,50);
+			system("pause");
+		} while(dim>0);
+	}
+	else if(first==1) {
+		do {
+			PlayerTurn();
+			gotoxy(1,50);
+			system("pause");
+			BotTurn();
+			gotoxy(1,40);
+			system("pause");
+		} while(dim>0);
+	}
+}
+void SaveGame()
+{
+	int i=0, j=0, col;
+	save=fopen("save.txt", "w");
+	for(i=0; i<49; i++) {
+		col=ColourID(deck, i);
+		fprintf(save, "%d %d ", deck[i].number, col);	
+	}
+	fprintf(save, "%d ", dim);
+	for(i=0; i<HAND; i++) {
+		col=ColourID(player_hand, i);
+		fprintf(save, "%d %d %d %d ", player_hand[i].number, col, player_clues.nc[i], player_clues.cc[i]);
+	}
+	for(i=0; i<HAND; i++) {
+		col=ColourID(bot_hand, i);
+		fprintf(save, "%d %d %d %d ", bot_hand[i].number, col, bot_clues.nc[i], bot_clues.cc[i]);
+	}
+	for(i=0; i<HAND; i++)
+		fprintf(save, "%d ", fireworks[i]);
+	for(j=0; j<HAND; j++) {
+		for(i=0; i<HAND; i++) {
+			fprintf(save, "%d ", discard_deck[j][i]);
+		}
+	}
+	fprintf(save, "%d %d %d ", first, clues, lifes);
+	fprintf(save, "%s", name);
+	fclose(save);
+	exit(0);
+}
+void GameSave()
+{
+	int i, j, a, b, c, d;
+	char x, aux[SIZE];
+	if((save=fopen("save.txt", "r"))==NULL)
+		return;
+	else {
+		for(i=0; i<49; i++) {
+			fscanf(save, "%d %d ", &a, &b);
+			deck[i].number=a;
+			ColourID_Reverse(aux,b);
+			strcpy(deck[i].colour, aux);
+		}
+		fscanf(save, "%d ", &dim);
+		for(i=0; i<HAND; i++) {
+			fscanf(save, "%d %d %d %d ", &a, &b, &c, &d);
+			player_hand[i].number=a;
+			ColourID_Reverse(aux,b);
+			strcpy(player_hand[i].colour, aux);
+			player_clues.nc[i]=c;
+			player_clues.cc[i]=d;
+		}
+		for(i=0; i<HAND; i++) {
+			fscanf(save, "%d %d %d %d ", &a, &b, &c, &d);
+			bot_hand[i].number=a;
+			ColourID_Reverse(aux,b);
+			strcpy(bot_hand[i].colour, aux);
+			bot_clues.nc[i]=c;
+			bot_clues.cc[i]=d;
+		}
+		for(i=0; i<HAND; i++)
+			fscanf(save, "%d ", &fireworks[i]);
+		for(j=0; j<HAND; j++) {
+			for(i=0; i<HAND; i++) {
+				fscanf(save, "%d ", &discard_deck[j][i]);
+			}
+		}
+		fscanf(save, "%d %d %d ", &first, &clues, &lifes);
+		for(i=0; i<NAME; i++) {
+			fscanf(save, "%c", &x);
+			name[i]=x;
+		}
+		fclose(save);
+	}
+}
 void ResetGame()
 {
 	dim = 49;
 	clues=8;
 	lifes=3;
 	int i=0;
-	for(i=0; i<HAND; i++)
-	{
+	for(i=0; i<HAND; i++) {
 		player_clues.cc[i]=0;
 		player_clues.nc[i]=0;
 		bot_clues.cc[i]=0;
