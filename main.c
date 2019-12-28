@@ -31,7 +31,7 @@ void ResetGame(void);
 void Game(void);
 int CardColour(Deck arr[], int);
 int ColourID(Deck arr[], int);
-void ColourID_Reverse(char aux[], int b);
+void ColourID_Reverse(char aux[], int);
 void InitializeDeck(void);
 void ShuffleDeck(void);
 void DealCards(void);
@@ -146,6 +146,7 @@ void BotTurn()
 	if(option==1)
 		SaveGame();
 	else {
+		ClearScreen();
 	if(first==0 && dim==39 && clues==8) {
 		if(CountCards_N(player_hand,1)>0)
 			BotClues_N(1);
