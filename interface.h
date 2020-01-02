@@ -46,43 +46,27 @@ void PrintDeck(int dim)
 }
 void Start()
 {
-	int i=0;
-	char H1[]={186,186,204,186,186};
-	char T[]={205,205,205,205};
-	char H2[]={186,186,185,186,186};
-	showVerticalWordAt(20,3,H1,5);	
-	printfAt(21,5,T);
-	showVerticalWordAt(25,3,H2,5);	
-	char A1[]={201,186,204,186,186};
-	char A2[]={187,186,185,186,186};
-	showVerticalWordAt(30,3,A1,5);
-	printfAt(31,3,T);
-	printfAt(31,5,T);
-	showVerticalWordAt(35,3,A2,5);
-	char N1[]={201,186,186,186,186};
-	char N2[]={186,186,186,186,188};
-	showVerticalWordAt(40,3,N1,5);
-	for(i=0;i<4;i++) {
-		gotoxy(41+i,3+i);
-		printf("\\");
+	FILE *file;
+	file = fopen("Letras.txt", "r");
+	char frase;
+	gotoxy(1,1);
+	
+	while(frase!=EOF) {
+			if(frase=='H')
+				setForeColor(10);
+			else if(frase=='A')
+				setForeColor(11);
+			else if(frase=='N')
+				setForeColor(4);
+			else if(frase=='B')
+				setForeColor(6);
+			else if(frase=='I')
+				setForeColor(15);
+			printf("%c", frase);
+			frase=fgetc(file);
 	}
-	showVerticalWordAt(45,3,N2,5);
-	showVerticalWordAt(50,3,A1,5);
-	printfAt(51,3,T);
-	printfAt(51,5,T);
-	showVerticalWordAt(55,3,A2,5);
-	char B1[]={186,186,204,186,186};
-	char B2[]={187,186,185,186,188};
-	showVerticalWordAt(60,3,B1,5);
-	for (i=3; i<=7;i+=2)
-		printfAt(61,i,T);
-	showVerticalWordAt(65,3,B2,5);
-	char I1[]={205,205,203,205,205};
-	char I2[]={205,205,202,205,205};
-	char I3[]={186,186,186};
-	printfAt(70,3,I1);
-	printfAt(70,7,I2);
-	showVerticalWordAt(72,4,I3,3);
+	fclose(file);
+	resetColor();
 	gotoxy(75,3);
 	gotoxy(85,2);
 	puts("Trabalho de:");
