@@ -794,7 +794,7 @@ void Game()
 	if(k==25) {
 		ClearScreen();
 		gotoxy(2,34);
-		printf("Lendário! O público nunca esquecerá este espetáculo!!!\n\tPontuacão final: %d pontos\n", k);
+		printf("Lendário! O público nunca esquecerá este espetáculo!!!\n\tPontuacão final: 25 pontos\n");
 		system("pause");
 	}
 	if(dim==0) {
@@ -823,7 +823,7 @@ void Score()
 		puts("O espetáculo foi razoável, mas os espectadores já viram melhor.");
 	else if(score>=16 && score<=20)
 		puts("Bom espetáculo! O público está satisfeito.");
-	else if(score>=21 && score<=25)
+	else if(score>=21 && score<25)
 		puts("Muito bom! O público está entusiasmado!");
 	else if(score==25)
 		puts("Lendário! O público nunca esquecerá este espetáculo!");
