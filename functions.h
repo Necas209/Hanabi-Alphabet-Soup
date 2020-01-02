@@ -3,6 +3,14 @@
 #include <locale.h>
 #include <time.h>
 
+int Sum(int arr[], int n)
+{
+	int i=0, sum=0;
+	for(i=0; i<n; i++) {
+		sum+=arr[i];
+	}
+	return sum;
+}
 int Random(int k)
 {
 	int n;

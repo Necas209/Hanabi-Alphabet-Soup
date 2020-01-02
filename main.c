@@ -29,9 +29,17 @@ typedef struct clue Clues;
 void Interface(void);
 void ResetGame(void);
 void Game(void);
+void Turn(void);
+void Score(void);
+void SaveGame(void);
+void LoadGame(void);
 int CardColour(Deck arr[], int);
 int ColourID(Deck arr[], int);
 void ColourID_Reverse(char aux[], int);
+int LowestNumber(void);
+int RandomColour(void);
+int LowestTable(void);
+int Table(void);
 void InitializeDeck(void);
 void ShuffleDeck(void);
 void DealCards(void);
@@ -44,8 +52,6 @@ void PlayerTurn(void);
 void PlayerDiscard(void);
 void PlayerPlay(void);
 void PlayerClues(void);
-void SaveGame(void);
-void GameSave(void);
 void BotTurn(void);
 void BotClues_N(int);
 void BotClues_C(char*);
@@ -53,12 +59,8 @@ int BotPlayable(void);
 void BotPlay(int);
 int CountCards_C(Deck hand[], char);
 int CountCards_N(Deck hand[], int);
-int LowestNumber(void);
-int RandomColour(void);
 int BotDiscardable(int);
 void BotDiscard(int);
-int LowestTable(void);
-int Table(void);
 
 char name[NAME]="";
 int first;
@@ -103,7 +105,7 @@ void main()
 		}
 		case 2:
 		{
-			GameSave();
+			LoadGame();
 			Interface();
 			Game();
 			break;
@@ -784,25 +786,66 @@ void Interface()
 //////////////////////////////////////////////////////////////////////////////////////////////// Jogo
 void Game()
 {
+	int k;
+	while(dim>0||lifes>0||k<25) {
+		Turn();
+		k=Sum(fireworks, 5);
+	}
+	if(k==25) {
+		ClearScreen();
+		gotoxy(2,34);
+		printf("Lendário! O público nunca esquecerá este espetáculo!!!\n\tPontuacão final: %d pontos\n", k);
+		system("pause");
+	}
+	if(dim==0) {
+		Turn();
+		Score();
+	}
+	else if(lifes==0) {
+		ClearScreen();
+		gotoxy(2,34);
+		printf("Perdeste todas as vidas!");
+		printf("\n\tOs deuses demonstraram a sua ira na forma de uma tempestade que pôs fim ao fogo-de-artifício.");
+		printf("\n\tPontuação final: 0 pontos\n");
+		system("pause");
+	}
+}
+void Score()
+{
+	int score=Sum(fireworks, 5);
+	ClearScreen();
+	gotoxy(2,34);
+	if(score>=0 && score <=5)
+		puts("Oh! Credo foram todos vaiados.");
+	else if(score>=6 && score <=10)
+		puts("Muito pobre, os espectadores estão entediados.");
+	else if(score>=11 && score <=15)
+		puts("O espetáculo foi razoável, mas os espectadores já viram melhor.");
+	else if(score>=16 && score<=20)
+		puts("Bom espetáculo! O público está satisfeito.");
+	else if(score>=21 && score<=25)
+		puts("Muito bom! O público está entusiasmado!");
+	else if(score==25)
+		puts("Lendário! O público nunca esquecerá este espetáculo!");
+	system("pause");
+}
+void Turn()
+{
 	if(first==0) {
-		do {
-			BotTurn();
-			gotoxy(1,40);
-			system("pause");
-			PlayerTurn();
-			gotoxy(1,50);
-			system("pause");
-		} while(dim>0);
+		BotTurn();
+		gotoxy(1,40);
+		system("pause");
+		PlayerTurn();
+		gotoxy(1,50);
+		system("pause");
 	}
 	else if(first==1) {
-		do {
-			PlayerTurn();
-			gotoxy(1,50);
-			system("pause");
-			BotTurn();
-			gotoxy(1,40);
-			system("pause");
-		} while(dim>0);
+		PlayerTurn();
+		gotoxy(1,50);
+		system("pause");
+		BotTurn();
+		gotoxy(1,40);
+		system("pause");
 	}
 }
 void SaveGame()
@@ -834,7 +877,7 @@ void SaveGame()
 	fclose(save);
 	exit(0);
 }
-void GameSave()
+void LoadGame()
 {
 	int i, j, a, b, c, d;
 	char x, aux[SIZE];
