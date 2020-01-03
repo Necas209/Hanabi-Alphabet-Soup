@@ -707,19 +707,21 @@ void PrintBotHand()
 		cardcolour=CardColour(bot_hand,k);
 		setColor(0,cardcolour);
 		showRectAt(10+14*k,5,8,6);
-		if(bot_clues.nc[k]==1)
-			showNumAt(10+14*k,12,bot_hand[k].number);
-		else
-			showCharAt(10+14*k,12,' ');
-		if(bot_clues.cc[k]==1) {
+		if(bot_clues.nc[k]==1 && bot_clues.cc[k]==1) {
 			setColor(cardcolour, cardcolour);
-			showCharAt(10+14*k,12,' ');
-			resetColor();
+			showNumAt(10+14*k,12,bot_hand[k].number);
 		}
-		else{
+		else if(bot_clues.nc[k]==1 && bot_clues.cc[k]==0) {
+			setColor(0,0);
+			showNumAt(10+14*k,12,bot_hand[k].number);
+		}
+		else if(bot_clues.nc[k]==0 && bot_clues.cc[k]==1) {
+			setColor(cardcolour, cardcolour);
+			showCharAt(10+14*k,12,' ');	
+		}
+		else {
 			setColor(0,0);
 			showCharAt(10+14*k,12,' ');
-			resetColor();
 		}
 		for(i=1;i<4;i++) {
 			setColor(cardcolour,cardcolour);
