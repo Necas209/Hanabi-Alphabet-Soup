@@ -709,9 +709,16 @@ void PrintBotHand()
 		showRectAt(10+14*k,5,8,6);
 		if(bot_clues.nc[k]==1)
 			showNumAt(10+14*k,12,bot_hand[k].number);
+		else
+			showCharAt(10+14*k,12,' ');
 		if(bot_clues.cc[k]==1) {
 			setColor(cardcolour, cardcolour);
-			showCharAt(18+14*k,12,' ');
+			showCharAt(10+14*k,12,' ');
+			resetColor();
+		}
+		else{
+			setColor(0,0);
+			showCharAt(10+14*k,12,' ');
 			resetColor();
 		}
 		for(i=1;i<4;i++) {
