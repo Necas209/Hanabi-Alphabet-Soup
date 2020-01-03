@@ -712,6 +712,7 @@ void PrintBotHand()
 		if(bot_clues.cc[k]==1) {
 			setColor(cardcolour, cardcolour);
 			showCharAt(18+14*k,12,' ');
+			resetColor();
 		}
 		for(i=1;i<4;i++) {
 			setColor(cardcolour,cardcolour);
