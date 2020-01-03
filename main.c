@@ -250,7 +250,7 @@ int BotDiscardable(int n)
 	}
 	if(n==2) {
 		for(i=0; i<HAND; i++) {
-			if(bot_clues.nc[i]==1 && bot_clues.cc[i]==0 && bot_hand[i].number<=LowestTable())
+			if(bot_clues.nc[i]==1 && bot_hand[i].number<=LowestTable())
 				return i;
 		}
 		if(i==HAND)
@@ -811,14 +811,14 @@ void Interface()
 void Game()
 {
 	int k=0;
-	while(dim>=0&&lifes>0&&k<25) {
+	while(dim>=0&&lifes!=0&&k<25) {
 		Turn();
 		k=Sum(fireworks, 5);
 	}
 	if(k==25) {
 		ClearScreen();
 		gotoxy(2,34);
-		printf("Lendário! O público nunca esquecerá este espetáculo!!!\n\tPontuacão final: 25 pontos\n");
+		printf("Lendário! O público nunca esquecerá este espetáculo!!!\n\tPontuacão final: 25 pontos\n\n");
 		system("pause");
 	}
 	if(dim==-1) {
@@ -829,8 +829,8 @@ void Game()
 		ClearScreen();
 		gotoxy(2,34);
 		printf("Perdeste todas as vidas!");
-		printf("\n\tOs deuses demonstraram a sua ira na forma de uma tempestade que pôs fim ao fogo-de-artifício.");
-		printf("\n\tPontuação final: 0 pontos\n");
+		printf("\n\n\tOs deuses demonstraram a sua ira na forma de uma tempestade que pôs fim ao fogo-de-artifício.");
+		printf("\n\n\tPontuação final: 0 pontos\n\n");
 		system("pause");
 	}
 }
@@ -851,6 +851,7 @@ void Score()
 		puts("Muito bom! O público está entusiasmado!");
 	else if(score==25)
 		puts("Lendário! O público nunca esquecerá este espetáculo!");
+	printf("\n\n");
 	system("pause");
 }
 void Turn()
@@ -948,14 +949,17 @@ void LoadGame()
 }
 void ResetGame()
 {
+	int i=0, j=0;
 	dim = 49;
 	clues=8;
 	lifes=3;
-	int i=0;
 	for(i=0; i<HAND; i++) {
 		player_clues.cc[i]=0;
 		player_clues.nc[i]=0;
 		bot_clues.cc[i]=0;
-		bot_clues.nc[i]=0;	
+		bot_clues.nc[i]=0;
+		fireworks[i]=0;
+		for(j=0; j<HAND; j++)
+			discard_deck[i][j]=0;
 	}
 }
