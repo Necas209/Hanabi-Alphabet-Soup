@@ -222,17 +222,19 @@ void BotTurn()
 void BotDiscard(int i)
 {
 	int c, num;
-		gotoxy(2,34);
-		printf("O bot descartou a carta %d %s.", bot_hand[i].number, bot_hand[i].colour);
-		c=ColourID(bot_hand, i);
-		num=bot_hand[i].number-1;
-		discard_deck[num][c]++;
+	gotoxy(2,34);
+	printf("O bot descartou a carta %d %s.", bot_hand[i].number, bot_hand[i].colour);
+	c=ColourID(bot_hand, i);
+	num=bot_hand[i].number-1;
+	discard_deck[num][c]++;
+	if(dim>=0) {
 		bot_hand[i].number=deck[dim].number;
 		strcpy(bot_hand[i].colour, deck[dim].colour);
 		bot_clues.nc[i]=0;
 		bot_clues.cc[i]=0;
 		clues++;
 		dim--;
+	}
 }
 int BotDiscardable(int n)
 {
@@ -282,11 +284,13 @@ void BotPlay(int n)
 	gotoxy(2,34);
 	printf("O bot decidiu jogar a carta %d %s.", bot_hand[n].number, bot_hand[n].colour);
 	fireworks[ColourID(bot_hand,n)]++;
-	bot_hand[n].number=deck[dim].number;
-	strcpy(bot_hand[n].colour, deck[dim].colour);
-	bot_clues.nc[n]=0;
-	bot_clues.cc[n]=0;
-	dim--;
+	if(dim>=0){
+		bot_hand[n].number=deck[dim].number;
+		strcpy(bot_hand[n].colour, deck[dim].colour);
+		bot_clues.nc[n]=0;
+		bot_clues.cc[n]=0;
+		dim--;
+	}
 }
 int BotPlayable()
 {
@@ -457,31 +461,35 @@ void PlayerPlay()
 		lifes--;
 		Interface();
 	}
-	player_hand[i].number=deck[dim].number;
-	strcpy(player_hand[i].colour, deck[dim].colour);
-	player_clues.nc[i]=0;
-	player_clues.cc[i]=0;
-	dim--;
+	if(dim>=0){
+		player_hand[i].number=deck[dim].number;
+		strcpy(player_hand[i].colour, deck[dim].colour);
+		player_clues.nc[i]=0;
+		player_clues.cc[i]=0;
+		dim--;
+	}
 	Interface();
 }
 void PlayerDiscard()
 {
 	int i, c, num;
-		gotoxy(2,34);
-		printf("Escolha de 1 a 5 a carta que pretende descartar: ");
-		scanf("%d", &i);
-		i--;
-		printf("\n Descartaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
-		c=ColourID(player_hand, i);
-		num=player_hand[i].number-1;
-		discard_deck[num][c]++;
+	gotoxy(2,34);
+	printf("Escolha de 1 a 5 a carta que pretende descartar: ");
+	scanf("%d", &i);
+	i--;
+	printf("\n Descartaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
+	c=ColourID(player_hand, i);
+	num=player_hand[i].number-1;
+	discard_deck[num][c]++;
+	if(dim>=0) {
 		player_hand[i].number=deck[dim].number;
 		strcpy(player_hand[i].colour, deck[dim].colour);
 		player_clues.nc[i]=0;
 		player_clues.cc[i]=0;
 		clues++;
 		dim--;
-		Interface();
+	}
+	Interface();
 }
 /////////////////////////////////////////////////////////////////// Cores e Numeros
 int LowestNumber()
@@ -787,7 +795,7 @@ void Interface()
 void Game()
 {
 	int k;
-	while(dim>0||lifes>0||k<25) {
+	while(dim>=0||lifes>0||k<25) {
 		Turn();
 		k=Sum(fireworks, 5);
 	}
@@ -797,7 +805,7 @@ void Game()
 		printf("Lendário! O público nunca esquecerá este espetáculo!!!\n\tPontuacão final: 25 pontos\n");
 		system("pause");
 	}
-	if(dim==0) {
+	if(dim==-1) {
 		Turn();
 		Score();
 	}
