@@ -811,7 +811,7 @@ void Interface()
 void Game()
 {
 	int k;
-	while(dim>=0||lifes>0||k<25) {
+	while(dim>=0&&lifes>0&&k<25) {
 		Turn();
 		k=Sum(fireworks, 5);
 	}
