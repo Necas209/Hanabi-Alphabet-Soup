@@ -387,7 +387,12 @@ void PlayerTurn()
 			break;
 		case 4:
 			SaveGame();
-			break;	
+			break;
+		default:
+			gotoxy(2,34);
+			puts("Opção inválida!");
+			PlayerTurn();
+			break;
 	}
 }
 void PlayerClues()
@@ -863,6 +868,7 @@ void Score()
 		puts("Muito bom! O público está entusiasmado!");
 	else if(score==25)
 		puts("Lendário! O público nunca esquecerá este espetáculo!");
+	printf("\n  Pontuação final: %d pontos", score);
 	printf("\n\n");
 	system("pause");
 }
