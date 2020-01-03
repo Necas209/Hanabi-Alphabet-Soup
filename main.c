@@ -210,9 +210,11 @@ void BotTurn()
 			else if(BotDiscardable(3)!=-1) {
 				n4=BotDiscardable(3);
 			}
-			else {
+			else if(BotDiscardable(4)!=-1){
 				n4=BotDiscardable(4);
 			}
+			else
+				n4=BotDiscardable(5);
 			BotDiscard(n4);
 		}
 	}
@@ -257,6 +259,16 @@ int BotDiscardable(int n)
 			return -1;
 	}
 	if(n==3) {
+		int col;
+		for(i=0; i<HAND; i++) {
+			col=ColourID(bot_hand,i);
+			if(bot_clues.cc[i]==1 && bot_clues.nc[i]==1 && bot_hand[i].number<=fireworks[col])
+				return i;
+		}
+		if(i==HAND)
+			return -1;
+	}
+	if(n==4) {
 		int j=0, k=0, *aux;
 		for(i=0; i<HAND; i++) {
 			if((bot_clues.cc[i]==0&&bot_clues.nc[i]==1)||(bot_clues.cc[i]==1&&bot_clues.nc[i]==0))
@@ -275,7 +287,7 @@ int BotDiscardable(int n)
 			return aux[Random(k)];
 		}
 	}
-	if(n==4)
+	if(n==5)
 		return Random(HAND);	
 }
 void BotPlay(int n)
