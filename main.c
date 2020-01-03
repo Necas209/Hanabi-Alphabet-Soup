@@ -810,7 +810,7 @@ void Interface()
 //////////////////////////////////////////////////////////////////////////////////////////////// Jogo
 void Game()
 {
-	int k;
+	int k=0;
 	while(dim>=0&&lifes>0&&k<25) {
 		Turn();
 		k=Sum(fireworks, 5);
