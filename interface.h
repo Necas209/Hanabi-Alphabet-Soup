@@ -42,7 +42,10 @@ void PrintDeck(int dim)
 	showRectAt(100,15,9,6);
 	printfAt(101,14,d);
 	gotoxy(104,18);
-	printf("%d", dim+1);
+	if(dim>=9)
+		printf("%d", dim+1);
+	else
+		printf("0%d", dim+1);
 }
 void Start()
 {
