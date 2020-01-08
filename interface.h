@@ -28,11 +28,11 @@ void PickPlayer(int *n)
 	srand(time(NULL));
 	*n=rand()%2;
 	if(*n==1) {
-		gotoxy(2,34);
+		gotoxy(120,6);
 		printf("O jogador e´ o primeiro a jogar.");
 	}
 	else {
-		gotoxy(2,34);
+		gotoxy(120,6);
 		printf("O bot e´ o primeiro a jogar.");
 	}
 }

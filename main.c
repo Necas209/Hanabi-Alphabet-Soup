@@ -78,7 +78,7 @@ FILE *save=NULL;
 
 void main() 
 {
-	system("MODE con cols=150 lines=200");
+	system("MODE con cols=200 lines=200");
 	int k=1;
 	setlocale(LC_ALL, "");
 	Start();
@@ -142,19 +142,22 @@ void BotTurn()
 {
 	int i, n1, n2, n3, n4, option;
 	ClearScreen();
-	gotoxy(2,34);
-	printf("Deseja guardar o jogo e sair?\n  Sim(1)/Não(2): ");
-	scanf(" %d", &option);
-	if(option==1)
+	gotoxy(120,6);
+	printf("Deseja guardar o jogo e sair?");
+	gotoxy(120,8);
+	printf("  Sim(1)/Não(2): ");
+	scanf("%d", &option);
+	if(option==1) {
 		SaveGame();
+		exit(0);
+	}
 	else {
 		ClearScreen();
 	if(first==0 && dim==39 && clues==8) {
 		if(CountCards_N(player_hand,1)>0)
 			BotClues_N(1);
 		else {
-			gotoxy(2,34);
-			printf("Não tens cartas '1'.");
+			printfAt(120,6,"Não tens cartas '1'.");
 		}
 	}
 	else if(BotPlayable()!=-1) {
@@ -166,13 +169,13 @@ void BotTurn()
 			if(PlayerPlayable()!=-1) {
 				n2=PlayerPlayable();
 				if(player_clues.nc[n2]==0 && CountCards_N(player_hand, player_hand[n2].number)==1) {
-					gotoxy(2,34);
+					gotoxy(120,6);
 					printf("A %d.ª carta é a tua única carta %d.", n2+1, player_hand[n2].number);
 					player_clues.nc[n2]=1;
 					clues--;
 				}
 				else if(player_clues.cc[n2]==0 && CountCards_C(player_hand, player_hand[n2].colour[2])==1) {
-					gotoxy(2,34);
+					gotoxy(120,6);
 					printf("A %d.ª carta é a tua única carta %s.", n2+1, player_hand[n2].colour);
 					player_clues.cc[n2]=1;
 					clues--;
@@ -224,7 +227,7 @@ void BotTurn()
 void BotDiscard(int i)
 {
 	int c, num;
-	gotoxy(2,34);
+	gotoxy(120,6);
 	printf("O bot descartou a carta %d %s.", bot_hand[i].number, bot_hand[i].colour);
 	c=ColourID(bot_hand, i);
 	num=bot_hand[i].number-1;
@@ -293,7 +296,7 @@ int BotDiscardable(int n)
 void BotPlay(int n)
 {
 	ClearScreen();
-	gotoxy(2,34);
+	gotoxy(120,6);
 	printf("O bot decidiu jogar a carta %d %s.", bot_hand[n].number, bot_hand[n].colour);
 	fireworks[ColourID(bot_hand,n)]++;
 	if(dim>=0){
@@ -332,7 +335,7 @@ void BotClues_C(char *col)
 		if(strcmp(player_hand[i].colour,aux)==0)
 			player_clues.cc[i]=1;
 	}
-	gotoxy(2,34);
+	gotoxy(120,6);
 	printf("O bot deu pistas sobre a cor %s.", aux);
 	clues--;
 }
@@ -343,7 +346,7 @@ void BotClues_N(int n)
 		if(player_hand[i].number==n)
 			player_clues.nc[i]=1;
 	}
-	gotoxy(2,34);
+	gotoxy(120,6);
 	printf("O bot deu pistas sobre o número %d.", n);
 	clues--;
 }
@@ -363,16 +366,14 @@ void PlayerTurn()
 {
 	int jog;
 	ClearScreen();
-	gotoxy(2,34);
-	puts("\tA sua jogada:");
-	if(clues>0)
-	puts("\n\t 1. Dar uma pista");
-	if(clues<=7)
-		puts("\n\t 2. Descartar uma carta");
-	puts("\n\t 3. Jogar uma carta");
-	if(first==1)
-		puts("\n\t 4. Gravar o jogo e sair");
-	printf("\n\t Opção: ");
+	printfAt(120,6,"\tA sua jogada:");
+	printfAt(120,8,"\t 1. Dar uma pista");
+	printfAt(120,10,"\t 2. Descartar uma carta");
+	printfAt(120,12,"\t 3. Jogar uma carta");
+	if(first==1) {
+		printfAt(120,14,"\t 4. Gravar o jogo e sair");
+	}
+	printfAt(120,16,"\t Opção: ");
 	scanf("%d", &jog);
 	ClearScreen();
 	switch(jog) {
@@ -387,27 +388,38 @@ void PlayerTurn()
 			break;
 		case 4:
 			SaveGame();
+			exit(0);
 			break;
 		default:
-			gotoxy(2,34);
-			puts("Opção inválida!");
+			printfAt(120,6,"Opção inválida!");
+			sleep(1);
 			PlayerTurn();
 			break;
 	}
 }
 void PlayerClues()
 {
+	if(clues==0)
+		PlayerTurn();
+	else {
 	ClearScreen();
 	char option, clue_col[10]="";
-	int i, col, num;
-	gotoxy(2,34);
-	printf("Escolha o  tipo de pista que pretende dar:\n\n\t- Cor (C)\n\n\t- Número (N)\n\n  Opção: ");
-	scanf(" %c", &option);
+	int i, col=-1, num=-1;
+	printfAt(120,6,"Escolha o  tipo de pista que pretende dar:");
+	printfAt(120,8,"\t- Cor (C)");
+	printfAt(120,10,"\t- Número (N)");
+	printfAt(120,12,"  Opção: ");
+	scanf("%c", &option);
 	switch(option) {
 		case 'c': case 'C':	
-			printf("\n  Escolha a cor:");
-			printf("\n\n\t- Amarelo (1)\n\n\t- Azul (2)\n\n\t- Verde (3)\n\n\t- Vermelho (4)\n\n\t- Branco (5)\n\n  Opção: ");
-			scanf(" %d", &col);
+			printfAt(120,14,"Escolha a cor:");
+			printfAt(120,16,"\t- Amarelo (1)");
+			printfAt(120,18,"\t- Azul (2)");
+			printfAt(120,20,"\t- Verde (3)");
+			printfAt(120,22,"\t- Vermelho (4)");
+			printfAt(120,24,"\t- Branco (5)");
+			printfAt(120,26,"  Opção: ");
+			scanf("%d", &col);
 			switch(col) {
 				case 1:
 				strcpy(clue_col, "Amarelo");
@@ -425,7 +437,7 @@ void PlayerClues()
 				strcpy(clue_col, "Branco");
 				break;
 				default:
-				printf("\n  Cor inválida.");
+				printfAt(120,28,"  Cor inválida.");
 				sleep(1);
 				PlayerClues();
 				break;
@@ -436,10 +448,10 @@ void PlayerClues()
 			}
 			break;
 		case 'n': case 'N':
-			printf("\n  Escolha o número (1-5): ");
-			scanf(" %d", &num);
+			printfAt(120,14,"  Escolha o número (1-5): ");
+			scanf("%d", &num);
 			if(num<1||num>5) {
-				printf("\n  Número inválido.");
+				printfAt(120,16,"  Número inválido.");
 				sleep(1);
 				PlayerClues();
 			}
@@ -451,29 +463,30 @@ void PlayerClues()
 			}
 			break;
 		default:
-			printf("\n\n  Opção inválida.");
+			printfAt(120,14,"  Opção inválida.");
 			sleep(1);
 			PlayerClues();
 			break;
 	}
 	clues--;
 	Interface();
+	}
 }
 void PlayerPlay()
 {
 	int i, col;
-	gotoxy(2,34);
-	printf("Escolha de 1 a 5 a carta que pretende jogar: ");
+	printfAt(120,6,"Escolha de 1 a 5 a carta que pretende jogar: ");
 	scanf("%d", &i);
 	i--;
-	printf("\n Jogaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
+	gotoxy(120,8);
+	printf(" Jogaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
 	col=ColourID(player_hand, i);
 	if(player_hand[i].number==(fireworks[col]+1)) {
 		fireworks[col]++;
 		Interface();
 	}
 	else {
-		printf("\n A carta que jogaste não é válida!");
+		printfAt(120,10," A carta que jogaste não é válida!");
 		discard_deck[player_hand[i].number-1][col]++;
 		lifes--;
 		Interface();
@@ -489,12 +502,16 @@ void PlayerPlay()
 }
 void PlayerDiscard()
 {
+	if(clues==8)
+		PlayerTurn();
+	else {
 	int i, c, num;
-	gotoxy(2,34);
-	printf("Escolha de 1 a 5 a carta que pretende descartar: ");
+	gotoxy(120,6);
+	printf("Escolha de 1 a 5 a carta que pretende descartar:");
 	scanf("%d", &i);
 	i--;
-	printf("\n Descartaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
+	gotoxy(120,8);
+	printf(" Descartaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
 	c=ColourID(player_hand, i);
 	num=player_hand[i].number-1;
 	discard_deck[num][c]++;
@@ -507,6 +524,7 @@ void PlayerDiscard()
 		dim--;
 	}
 	Interface();
+	}
 }
 /////////////////////////////////////////////////////////////////// Cores e Numeros
 int LowestNumber()
@@ -801,20 +819,6 @@ void PrintDiscardDeck()
 		}
 	}
 }
-void Display()
-{
-	int i = 0;
-	gotoxy(1,60);
-	for(i=0;i<=49;i++) {
-    printf("%d %s", deck[i].number, deck[i].colour);
-    if(0==((i+1)%3))
-    	printf("\n");
-	}
-	for(i=0; i<HAND; i++)
-		printf("\n\n\t%d %s", player_hand[i].number, player_hand[i].colour);
-	for(i=0; i<HAND; i++)
-		printf("\n\n\t %d %d", bot_clues.nc[i], bot_clues.cc[i]);
-}
 void Interface()
 {
 	PrintPlayerHand(name);
@@ -834,9 +838,9 @@ void Game()
 	}
 	if(k==25) {
 		ClearScreen();
-		gotoxy(2,34);
-		printf("Lendário! O público nunca esquecerá este espetáculo!!!\n\tPontuacão final: 25 pontos\n\n");
-		system("pause");
+		printfAt(120,6,"Lendário! O público nunca esquecerá este espetáculo!!!");
+		printfAt(120,8,"\tPontuacão final: 25 pontos");
+		sleep(5);
 	}
 	if(dim==-1) {
 		Turn();
@@ -844,18 +848,17 @@ void Game()
 	}
 	else if(lifes==0) {
 		ClearScreen();
-		gotoxy(2,34);
-		printf("Perdeste todas as vidas!");
-		printf("\n\n\tOs deuses demonstraram a sua ira na forma de uma tempestade que pôs fim ao fogo-de-artifício.");
-		printf("\n\n\tPontuação final: 0 pontos\n\n");
-		system("pause");
+		printfAt(120,6,"Perdeste todas as vidas!");
+		printfAt(120,8,"\tOs deuses demonstraram a sua ira na forma de uma tempestade que pôs fim ao fogo-de-artifício.");
+		printfAt(120,10,"\tPontuação final: 0 pontos");
+		sleep(5);
 	}
 }
 void Score()
 {
 	int score=Sum(fireworks, 5);
 	ClearScreen();
-	gotoxy(2,34);
+	gotoxy(120,6);
 	if(score>=0 && score <=5)
 		puts("Oh! Credo foram todos vaiados.");
 	else if(score>=6 && score <=10)
@@ -868,26 +871,28 @@ void Score()
 		puts("Muito bom! O público está entusiasmado!");
 	else if(score==25)
 		puts("Lendário! O público nunca esquecerá este espetáculo!");
-	printf("\n  Pontuação final: %d pontos", score);
-	printf("\n\n");
-	system("pause");
+	gotoxy(120,8);
+	printf("  Pontuação final: %d pontos", score);
+	sleep(5);
 }
 void Turn()
 {
 	if(first==0) {
+		SaveGame();
 		BotTurn();
-		gotoxy(1,40);
+		gotoxy(120,30);
 		system("pause");
 		PlayerTurn();
-		gotoxy(1,50);
+		gotoxy(120,30);
 		system("pause");
 	}
 	else if(first==1) {
+		SaveGame();
 		PlayerTurn();
-		gotoxy(1,50);
+		gotoxy(120,30);
 		system("pause");
 		BotTurn();
-		gotoxy(1,40);
+		gotoxy(120,30);
 		system("pause");
 	}
 }
@@ -918,7 +923,6 @@ void SaveGame()
 	fprintf(save, "%d %d %d ", first, clues, lifes);
 	fprintf(save, "%s", name);
 	fclose(save);
-	exit(0);
 }
 void LoadGame()
 {

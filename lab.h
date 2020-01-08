@@ -117,7 +117,7 @@ void showVerticalWordAt(int x, int y, char c[], int charNumber) {
 }
 //write an horizontal 'string' at a designated position
 void printfAt(int x, int y, char c[]) {
-	setlocale(LC_ALL, "C");
+	setlocale(LC_ALL, "");
 	gotoxy(x, y);
 	printf("%s", c);		
 	setlocale(LC_ALL, "");
