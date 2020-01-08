@@ -201,9 +201,9 @@ void BotTurn()
 			}		
 		}
 		else {
-//			if(BotDiscardable(1)!=-1) {
-//				n4=BotDiscardable(1);
-//			}		
+/*			if(BotDiscardable(1)!=-1) {
+				n4=BotDiscardable(1);
+		}	*/	
 			if(BotDiscardable(2)!=-1) {
 				n4=BotDiscardable(2);
 			}	
