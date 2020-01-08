@@ -78,7 +78,7 @@ FILE *save=NULL;
 
 void main() 
 {
-	system("MODE con cols=200 lines=200");
+	system("MODE con cols=200 lines=50");
 	int k=1;
 	setlocale(LC_ALL, "");
 	Start();
@@ -400,18 +400,22 @@ void PlayerTurn()
 void PlayerClues()
 {
 	if(clues==0)
+	{
+		printfAt(120,6,"Jogada ilegal!");
+		sleep(2);
 		PlayerTurn();
+	}
 	else {
-	ClearScreen();
-	char option, clue_col[10]="";
-	int i, col=-1, num=-1;
-	printfAt(120,6,"Escolha o  tipo de pista que pretende dar:");
-	printfAt(120,8,"\t- Cor (C)");
-	printfAt(120,10,"\t- Número (N)");
-	printfAt(120,12,"  Opção: ");
-	scanf("%c", &option);
-	switch(option) {
-		case 'c': case 'C':	
+		ClearScreen();
+		char option, clue_col[10]="";
+		int i, col, num;
+		printfAt(120,6,"Escolha o  tipo de pista que pretende dar:");
+		printfAt(120,8,"\t- Cor (C)");
+		printfAt(120,10,"\t- Número (N)");
+		printfAt(120,12,"  Opção: ");
+		scanf("%c", &option);
+		switch(option) {
+			case 'c': case 'C':	
 			printfAt(120,14,"Escolha a cor:");
 			printfAt(120,16,"\t- Amarelo (1)");
 			printfAt(120,18,"\t- Azul (2)");
@@ -446,8 +450,9 @@ void PlayerClues()
 				if(strcmp(bot_hand[i].colour, clue_col)==0)
 					bot_clues.cc[i]=1;
 			}
+			clues--;
 			break;
-		case 'n': case 'N':
+			case 'n': case 'N':
 			printfAt(120,14,"  Escolha o número (1-5): ");
 			scanf("%d", &num);
 			if(num<1||num>5) {
@@ -458,17 +463,17 @@ void PlayerClues()
 			else {
 				for(i=0; i<HAND; i++) {
 					if(bot_hand[i].number==num)
-					bot_clues.nc[i]=1;
+						bot_clues.nc[i]=1;
 				}
 			}
+			clues--;
 			break;
-		default:
+			default:
 			printfAt(120,14,"  Opção inválida.");
 			sleep(1);
 			PlayerClues();
 			break;
-	}
-	clues--;
+		}
 	Interface();
 	}
 }
@@ -502,28 +507,30 @@ void PlayerPlay()
 }
 void PlayerDiscard()
 {
-	if(clues==8)
+	if(clues==8) {
+		printfAt(120,6,"Jogada ilegal!");
+		sleep(2);
 		PlayerTurn();
-	else {
-	int i, c, num;
-	gotoxy(120,6);
-	printf("Escolha de 1 a 5 a carta que pretende descartar:");
-	scanf("%d", &i);
-	i--;
-	gotoxy(120,8);
-	printf(" Descartaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
-	c=ColourID(player_hand, i);
-	num=player_hand[i].number-1;
-	discard_deck[num][c]++;
-	if(dim>=0) {
-		player_hand[i].number=deck[dim].number;
-		strcpy(player_hand[i].colour, deck[dim].colour);
-		player_clues.nc[i]=0;
-		player_clues.cc[i]=0;
-		clues++;
-		dim--;
 	}
-	Interface();
+	else {
+		int i, c, num;
+		printfAt(120,6,"Escolha de 1 a 5 a carta que pretende descartar:");
+		scanf("%d", &i);
+		i--;
+		gotoxy(120,8);
+		printf(" Descartaste a carta %d %s.", player_hand[i].number, player_hand[i].colour);
+		c=ColourID(player_hand, i);
+		num=player_hand[i].number-1;
+		discard_deck[num][c]++;
+		if(dim>=0) {
+			player_hand[i].number=deck[dim].number;
+			strcpy(player_hand[i].colour, deck[dim].colour);
+			player_clues.nc[i]=0;
+			player_clues.cc[i]=0;
+			dim--;
+		}
+		clues++;
+		Interface();
 	}
 }
 /////////////////////////////////////////////////////////////////// Cores e Numeros
@@ -849,10 +856,12 @@ void Game()
 	else if(lifes==0) {
 		ClearScreen();
 		printfAt(120,6,"Perdeste todas as vidas!");
-		printfAt(120,8,"\tOs deuses demonstraram a sua ira na forma de uma tempestade que pôs fim ao fogo-de-artifício.");
-		printfAt(120,10,"\tPontuação final: 0 pontos");
+		printfAt(120,8,"Os deuses demonstraram a sua ira na forma de uma tempestade");
+		printfAt(120,9," que pôs fim ao fogo-de-artifício.");
+		printfAt(120,12,"Pontuação final: 0 pontos");
 		sleep(5);
 	}
+	gotoxy(2,34);
 }
 void Score()
 {

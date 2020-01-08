@@ -12,7 +12,7 @@ void Menu(int *option)
 	puts("\n\t 2 - Carregar uma partida a partir de ficheiro");
 	puts("\n\t 3 - Apresentar uma descrição do jogo na consola");
 	puts("\n\t 4 - Sair da aplicação");
-	printf("\n\n Opção: ");
+	printf("\n Opção: ");
 	scanf("%d", option);
 }
 void PlayerName(char *name, int n)
