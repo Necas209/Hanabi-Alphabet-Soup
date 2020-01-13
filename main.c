@@ -413,6 +413,7 @@ void PlayerClues()
 		printfAt(120,8,"\t- Cor (C)");
 		printfAt(120,10,"\t- Número (N)");
 		printfAt(120,12,"  Opção: ");
+		fflush(stdin);
 		scanf("%c", &option);
 		switch(option) {
 			case 'c': case 'C':	
