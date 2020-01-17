@@ -143,16 +143,18 @@ void BotTurn()
 	int i, n1, n2, n3, n4, option;
 	ClearScreen();
 	gotoxy(120,6);
-	printf("Deseja guardar o jogo e sair?");
-	gotoxy(120,8);
-	printf("  Sim(1)/Não(2): ");
-	scanf("%d", &option);
-	if(option==1) {
+	if(first==0) {
+		printf("Deseja guardar o jogo e sair?");
+		gotoxy(120,8);
+		printf("  Sim(1)/Não(2): ");
+		scanf("%d", &option);
+		if(option==1) {
 		SaveGame();
 		exit(0);
 	}
-	else {
+	else
 		ClearScreen();
+	}
 	if(first==0 && dim==39 && clues==8) {
 		if(CountCards_N(player_hand,1)>0)
 			BotClues_N(1);
@@ -193,7 +195,6 @@ void BotTurn()
 			}
 			else {
 				if(LowestNumber()!=-1) {
-					
 					n3=player_hand[LowestNumber()].number;
 					BotClues_N(n3);
 				}
@@ -220,7 +221,6 @@ void BotTurn()
 				n4=BotDiscardable(5);
 			BotDiscard(n4);
 		}
-	}
 	}
 	Interface();
 }
@@ -656,13 +656,14 @@ int LowestTable()
 }
 int Table()
 {
-	int i, flag=-1;
-	for(i=0; i<HAND-1; i++) {
+	int i=0, flag=-1;
+	do {
 		if(fireworks[i]==fireworks[i+1])
 			flag=1;
 		else
 			flag=-1;
-	}
+		i++;
+	} while(flag==1||i<HAND);
 	if(flag==1)
 		return fireworks[i];
 	else
@@ -852,7 +853,16 @@ void Game()
 	}
 	if(dim==-1) {
 		Turn();
-		Score();
+		if(lifes==0) {
+			ClearScreen();
+			printfAt(120,6,"Perdeste todas as vidas!");
+			printfAt(120,8,"Os deuses demonstraram a sua ira na forma de uma tempestade");
+			printfAt(120,9," que pôs fim ao fogo-de-artifício.");
+			printfAt(120,12,"Pontuação final: 0 pontos");
+			sleep(5);
+		}
+		else
+			Score();
 	}
 	else if(lifes==0) {
 		ClearScreen();

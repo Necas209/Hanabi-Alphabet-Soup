@@ -53,7 +53,7 @@ void Start()
 	file = fopen("Letras.txt", "r");
 	char frase;
 	gotoxy(1,1);
-	
+	frase=fgetc(file);
 	while(frase!=EOF) {
 			if(frase=='H')
 				setForeColor(10);
@@ -70,7 +70,6 @@ void Start()
 	}
 	fclose(file);
 	resetColor();
-	gotoxy(75,3);
 	gotoxy(85,2);
 	puts("Trabalho de:");
 	gotoxy(85,4);
