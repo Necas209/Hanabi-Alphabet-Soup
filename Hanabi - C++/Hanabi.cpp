@@ -85,8 +85,7 @@ void main()
 	setlocale(LC_ALL, "");
 	Start();
 	int option = 0;
-	while (k == 1)
-	{
+	while (k == 1) {
 		Menu(&option);
 		system("cls");
 		switch (option) {
