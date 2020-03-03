@@ -561,6 +561,7 @@ int RandomColour()
 {
 	int i, n, j = 0, k = 0, * aux;
 	int col[] = { 0,1,2,3,4 };
+	free(aux);
 	for (i = 0; i < HAND; i++) {
 		if (player_clues.cc[i] == 1)
 			col[ColourID(player_hand, i)] = -1;
