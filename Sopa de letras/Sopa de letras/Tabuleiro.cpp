@@ -68,7 +68,7 @@ void Tabuleiro::Show_matriz()
 
 void Tabuleiro::Ask_DimX() {
 	int dim_x;
-	cout << endl << "PS: Recomenda-se a escolha de dimensões mínimas de 15*15" << endl;
+	cout << endl << "PS: Recomenda-se a escolha de dimensões mínimas de 17*17" << endl;
 	cout << endl << "Insira a dimensão X da matriz: ";
 	cin >> dim_x;
 	Set_DimX(dim_x);
