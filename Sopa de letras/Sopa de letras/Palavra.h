@@ -28,6 +28,7 @@ public:
 	string Get_string(void);
 	int Verify_letra(char c);
 	void RandOrientacao(void);
+	void RandPontoInicial(int x, int y);
 	void operator=(Palavra p);
 	friend ostream& operator<<(ostream& os, Palavra p);
 };

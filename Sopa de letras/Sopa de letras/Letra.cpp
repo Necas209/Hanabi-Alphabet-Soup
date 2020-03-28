@@ -17,6 +17,22 @@ Letra::~Letra()
 {
 }
 
+void Letra::Set_Letra(char letra, int ascii, int M_m, Ponto ponto)
+{
+	Set_letra(letra);
+	Set_ascii(ascii);
+	Set_M_m(M_m);
+	Set_ponto(ponto);
+}
+
+void Letra::RandLetra(int x, int y)
+{
+	char c;
+	srand((unsigned)time(nullptr));
+	c = rand() % 26 + 65;
+	Set_Letra(c, c, 1, Ponto(x, y));
+}
+
 void Letra::operator=(Letra l)
 {
 	Set_letra(l.Get_letra());

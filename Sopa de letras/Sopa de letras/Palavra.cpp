@@ -1,5 +1,4 @@
 #include "Palavra.h"
-#include <ctime>
 
 using namespace std;
 
@@ -39,6 +38,15 @@ void Palavra::RandOrientacao(void)
 	srand((unsigned)time(nullptr));
 	o = rand() % 8 + 1;
 	Set_orientacao(o);
+}
+
+void Palavra::RandPontoInicial(int x, int y)
+{
+	int n_x, n_y;
+	srand((unsigned)time(nullptr));
+	n_x = rand() % x;
+	n_y = rand() % y;
+	Set_ponto_inicial(Ponto(n_x, n_y));
 }
 
 void Palavra::operator=(Palavra p)

@@ -19,10 +19,12 @@ public:
 	void Set_ascii(int ascii) { this->ascii = ascii; };
 	void Set_M_m(int M_m) { this->M_m = M_m; };
 	void Set_ponto(Ponto ponto) { this->ponto = ponto; };
+	void Set_Letra(char letra, int ascii, int M_m, Ponto ponto);
 	char Get_letra(void) const { return letra; };
 	int Get_ascii(void) const { return ascii; };
 	int Get_M_m(void) const { return M_m; };
 	Ponto Get_ponto(void) const { return ponto; };
+	void RandLetra(int x, int y);
 	void operator=(Letra l);
 	friend ostream& operator<<(ostream& os, Letra l);
 };

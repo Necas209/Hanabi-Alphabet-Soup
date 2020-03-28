@@ -1,5 +1,5 @@
 #include "Tabuleiro.h"
-#include <ctime>
+#include <fstream>
 
 using namespace std;
 
@@ -32,27 +32,22 @@ void Tabuleiro::Create_matriz()
 
 void Tabuleiro::Fill_matriz(void)
 {
-	int l;
-	srand((unsigned)time(nullptr));
 	for (int i = 0; i < Get_n(); i++) {
 		do {
-			lista[i].Set_ponto_inicial(Ponto(rand() % Get_DimX(),rand() % Get_DimY()));
+			lista[i].RandPontoInicial(Get_DimX(), Get_DimY());
 			lista[i].RandOrientacao();
 		} while (!CheckIfItFits(i));
 		Insert_palavra(i);
-	}
+	}/*
 	for (int i = 0; i < Get_DimY(); i++)
 	{
 		for (int j = 0; j < Get_DimX(); j++)
 		{
 			matriz[i][j].Set_ponto(Ponto(j, i));
 			if (matriz[i][j].Get_letra() == ' ')
-			{
-				l = rand() % 26 + 65;
-				matriz[i][j] = Letra((char)l, Ponto(j, i), l, 1);
-			}
+				matriz[i][j].RandLetra(j, i);
 		}
-	}
+	}*/
 }
 
 void Tabuleiro::Show_matriz()
