@@ -1,4 +1,5 @@
 #include "Palavra.h"
+#include <ctime>
 
 using namespace std;
 
@@ -32,23 +33,6 @@ int Palavra::Verify_letra(char c)
 	return(c < 'a' or c > 'z');
 }
 
-void Palavra::RandOrientacao(void)
-{
-	int o;
-	srand((unsigned)time(nullptr));
-	o = rand() % 8 + 1;
-	Set_orientacao(o);
-}
-
-void Palavra::RandPontoInicial(int x, int y)
-{
-	int n_x, n_y;
-	srand((unsigned)time(nullptr));
-	n_x = rand() % x;
-	n_y = rand() % y;
-	Set_ponto_inicial(Ponto(n_x, n_y));
-}
-
 void Palavra::operator=(Palavra p)
 {
 	Set_Palavra(p.Get_palavra());
@@ -59,8 +43,7 @@ void Palavra::operator=(Palavra p)
 
 string Palavra::Get_string()
 {
-	int l;
-	l = Get_palavra().size();
+	int l = Get_palavra().size();
 	string aux;
 	aux.resize(l);
 	for (int i = 0; i < l; i++)

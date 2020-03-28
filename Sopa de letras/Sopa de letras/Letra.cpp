@@ -27,9 +27,7 @@ void Letra::Set_Letra(char letra, int ascii, int M_m, Ponto ponto)
 
 void Letra::RandLetra(int x, int y)
 {
-	char c;
-	srand((unsigned)time(nullptr));
-	c = rand() % 26 + 65;
+	char c = rand() % 26 + 65;
 	Set_Letra(c, c, 1, Ponto(x, y));
 }
 
