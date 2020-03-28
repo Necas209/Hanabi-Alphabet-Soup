@@ -27,6 +27,7 @@ public:
 	Ponto Get_ponto_inicial(void) const { return ponto_inicial; };
 	string Get_string(void);
 	int Verify_letra(char c);
+	void RandOrientacao(void);
 	void operator=(Palavra p);
 	friend ostream& operator<<(ostream& os, Palavra p);
 };
