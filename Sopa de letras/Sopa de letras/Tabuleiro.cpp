@@ -32,13 +32,12 @@ void Tabuleiro::Create_matriz()
 
 void Tabuleiro::Fill_matriz(void)
 {
-	int o, l;
+	int l;
 	srand((unsigned)time(nullptr));
 	for (int i = 0; i < Get_n(); i++) {
 		do {
-			o = rand() % 8 + 1;
 			lista[i].Set_ponto_inicial(Ponto(rand() % Get_DimX(),rand() % Get_DimY()));
-			lista[i].Set_orientacao(o);
+			lista[i].RandOrientacao();
 		} while (!CheckIfItFits(i));
 		Insert_palavra(i);
 	}
