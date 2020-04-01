@@ -138,24 +138,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Jogador.cpp" />
-    <ClCompile Include="Jogo.cpp" />
-    <ClCompile Include="Letra.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Letter.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Palavra.cpp" />
-    <ClCompile Include="Ponto.cpp" />
-    <ClCompile Include="Tabuleiro.cpp" />
+    <ClCompile Include="Word.cpp" />
+    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Board.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="lista.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Jogador.h" />
-    <ClInclude Include="Jogo.h" />
-    <ClInclude Include="Letra.h" />
-    <ClInclude Include="Palavra.h" />
-    <ClInclude Include="Ponto.h" />
-    <ClInclude Include="Tabuleiro.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Letter.h" />
+    <ClInclude Include="Word.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Board.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,12 +1,12 @@
-#include "Jogo.h"
+#include "Game.h"
 #include <clocale>
 
 using namespace std;
 
 int main() 
 {
-	int opção;
-	Jogo jogo;
+	int option;
+	Game game;
 	setlocale(LC_ALL, "");
 	cout << endl << "Diogo Medeiros n.o 70633" << endl;
 	cout << endl << "\t\t\t\tSopa de letras" << endl;
@@ -18,12 +18,12 @@ int main()
 	do
 	{
 		cout << endl << " Opção: ";
-		cin >> opção;
-		switch (opção)
+		cin >> option;
+		switch (option)
 		{
 		case 1:
-			jogo.New_Jogo();
-			jogo.Run_Jogo();
+			game.New_Game();
+			game.Run_Game();
 			break;
 		case 2:
 			break;
@@ -34,5 +34,5 @@ int main()
 		default:
 			cout << "Opção inválida.";
 		}
-	} while (opção < 1 or opção > 4);
+	} while (option < 1 or option > 4);
 }
