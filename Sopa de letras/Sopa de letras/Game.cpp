@@ -1,4 +1,6 @@
 #include "Game.h"
+#include <thread>
+#include <chrono>
 
 Game::Game()
 {
@@ -27,7 +29,7 @@ void Game::Run_Game()
 		board->Show_matrix();
 		Play();
 		cout << player;
-		system("pause");
+		this_thread::sleep_for(chrono::seconds(2));
 	} while (player->Get_score()<board->Get_n());
 	board->Show_list();
 }
@@ -58,6 +60,6 @@ void Game::Play(void)
 		break;
 	default:
 		cout << endl << "\t Opção inválida." << endl;
-		Play();
+		break;
 	}
 }
