@@ -1,4 +1,5 @@
 #include "Jogo.h"
+#include <clocale>
 
 using namespace std;
 
@@ -21,8 +22,8 @@ int main()
 		switch (opção)
 		{
 		case 1:
-			jogo.Novo_Jogo();
-			jogo.loop();
+			jogo.New_Jogo();
+			jogo.Run_Jogo();
 			break;
 		case 2:
 			break;

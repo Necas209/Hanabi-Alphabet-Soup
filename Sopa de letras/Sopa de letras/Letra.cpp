@@ -41,6 +41,6 @@ void Letra::operator=(Letra l)
 
 ostream& operator<<(ostream& os, Letra l)
 {
-	os << l.letra;
+	os << l.letra << ' ';
 	return os;
 }

@@ -52,7 +52,7 @@ void Tabuleiro::Show_matriz()
 	for (int i = 0; i < DimY; i++) 
 	{
 		for (int j = 0; j < DimX; j++)
-			cout << matriz[i][j] << ' ';
+			cout << matriz[i][j];
 		cout << endl;
 	}
 }

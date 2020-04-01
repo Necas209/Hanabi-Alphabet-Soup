@@ -14,6 +14,6 @@ public:
 	void Set_jogador(Jogador* jog);
 	Tabuleiro* Get_tabuleiro(void) const { return tabuleiro; };
 	Jogador* Get_jogador(void) { return jogador; };
-	void Novo_Jogo();
-	void loop();
+	void New_Jogo(void);
+	void Run_Jogo(void);
 };
