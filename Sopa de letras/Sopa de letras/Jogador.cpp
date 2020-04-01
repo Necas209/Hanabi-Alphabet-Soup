@@ -4,10 +4,10 @@
 using namespace std;
 
 Jogador::Jogador()
+	:pontos(0)
 {
 	nome = Ask_nome();
 	idade = Ask_idade();
-	pontos = 0;
 }
 
 Jogador::Jogador(string n, int id, int p)

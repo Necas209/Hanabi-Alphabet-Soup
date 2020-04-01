@@ -1,10 +1,8 @@
 #include "Tabuleiro.h"
 #include <fstream>
 
-using namespace std;
-
 Tabuleiro::Tabuleiro()
-	:n(0)
+	:DimX(0), DimY(0), n(0)
 {
 	Ask_DimX();
 	Ask_DimY();
@@ -12,6 +10,8 @@ Tabuleiro::Tabuleiro()
 
 Tabuleiro::~Tabuleiro()
 {
+	matriz.clear();
+	lista.clear();
 }
 
 void Tabuleiro::Create_matriz()

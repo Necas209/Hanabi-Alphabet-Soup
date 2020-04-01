@@ -1,7 +1,6 @@
 #include "Palavra.h"
 #include <ctime>
 
-using namespace std;
 
 Palavra::Palavra()
 	:orientacao(-1), estado(false)
@@ -16,6 +15,7 @@ Palavra::Palavra(std::vector<Letra> palavra, Ponto ponto)
 
 Palavra::~Palavra()
 {
+	palavra.clear();
 }
 
 void Palavra::Set_Palavra(string str)
