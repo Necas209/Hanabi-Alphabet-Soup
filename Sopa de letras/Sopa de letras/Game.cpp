@@ -37,29 +37,31 @@ void Game::Run_Game()
 void Game::Play(void)
 {
 	string w;
-	int option;
-	cout << endl << "\t1 -> Introduzir uma palavra" << endl;
-	cout << endl << "\t2 -> Salvar o jogo" << endl;
-	cout << endl << "\tOpção: ";
-	cin >> option;
-	switch (option)
+	int option = 0;
+	while (option != 1 and option != 2)
 	{
-	case 1:
-		cout << endl << "Palavra: ";
-		cin.ignore();
-		getline(cin, w);
-		if (board->Check_If_Word_Is_Present(w))
+		cout << endl << "\t1 -> Introduzir uma palavra" << endl;
+		cout << endl << "\t2 -> Salvar o jogo" << endl;
+		cout << endl << "\tOpção: ";
+		cin >> option;
+		switch (option)
 		{
-			cout << endl << "\tCerto!!" << endl;
-			player->Increase_score();
-		}	
-		else
-			cout << endl << "\tA palavra não existe na matriz.";
-		break;
-	case 2:
-		break;
-	default:
-		cout << endl << "\t Opção inválida." << endl;
-		break;
+		case 1:
+			cout << endl << "Palavra: ";
+			cin.ignore();
+			getline(cin, w);
+			if (board->Check_If_Word_Is_Present(w))
+			{
+				cout << endl << "\tCerto!!" << endl;
+				player->Increase_score();
+			}
+			else
+				cout << endl << "\tA palavra não existe na matriz.";
+			break;
+		case 2:
+			break;
+		default:
+			cout << endl << "\t Opção inválida." << endl;
+		}
 	}
 }

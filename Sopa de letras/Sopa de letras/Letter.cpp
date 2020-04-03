@@ -25,10 +25,17 @@ void Letter::Set_Letter(char letter, int ascii, int M_m, Point point)
 	Set_point(point);
 }
 
-void Letter::Rand_letter(int x, int y)
+void Letter::Set_Letter(char letter, int ascii, int M_m)
+{
+	Set_letra(letter);
+	Set_ascii(ascii);
+	Set_M_m(M_m);
+}
+
+void Letter::Rand_letter()
 {
 	char c = rand() % 26 + 65;
-	Set_Letter(c, c, 1, Point(x, y));
+	Set_Letter(c, c, 1);
 }
 
 void Letter::operator=(Letter l)

@@ -40,7 +40,7 @@ void Board::Fill_matrix(void)
 		for (int j = 0; j < DimX; j++)
 		{
 			if (matrix[i][j].Get_letter() == ' ')
-				matrix[i][j].Rand_letter(j, i);
+				matrix[i][j].Rand_letter();
 		}
 	}
 }
@@ -50,7 +50,9 @@ void Board::Show_matrix()
 	for (int i = 0; i < DimY; i++) 
 	{
 		for (int j = 0; j < DimX; j++)
+		{
 			cout << matrix[i][j];
+		}
 		cout << endl;
 	}
 }
