@@ -47,8 +47,21 @@ void Board::Fill_matrix(void)
 
 void Board::Show_matrix()
 {
+	cout << "  ";
+	for (int i = 0; i < DimX; i++)
+	{
+		if (i < 10)
+			cout << i << ' ';
+		else
+			cout << i-10 << ' ';
+	}
+	cout << endl;
 	for (int i = 0; i < DimY; i++) 
 	{
+		if (i < 10)
+			cout << i << ' ';
+		else
+			cout << i - 10 << ' ';
 		for (int j = 0; j < DimX; j++)
 		{
 			cout << matrix[i][j];
@@ -261,16 +274,16 @@ void Board::Insert_Word(int i)
 	}
 }
 
-bool Board::Check_If_Word_Is_Present(string p)
+bool Board::Check_If_Word_Is_Present(string w, Point p)
 {
-	for (int i = 0; i < p.length(); i++)
+	for (int i = 0; i < w.length(); i++)
 	{
-		if (p[i] >= 'a' and p[i] <= 'z')
-			p[i] -= 32;
+		if (w[i] >= 'a' and w[i] <= 'z')
+			w[i] -= 32;
 	}
 	for (int i = 0; i < n; i++)
 	{
-		if (p == list[i].Get_word())
+		if (w == list[i].Get_word() and p == list[i].Get_initial_point())
 		{
 			list[i].Set_state(true);
 			return true;

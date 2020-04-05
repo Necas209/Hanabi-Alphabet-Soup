@@ -1,5 +1,6 @@
 ﻿  Board.cpp
-C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Board.cpp(266,20): warning C4018: '<': signed/unsigned mismatch
-  Letter.cpp
+C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Board.cpp(279,20): warning C4018: '<': signed/unsigned mismatch
+  Game.cpp
+  main.cpp
   Generating Code...
   Sopa de letras.vcxproj -> C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Debug\Sopa de letras.exe
