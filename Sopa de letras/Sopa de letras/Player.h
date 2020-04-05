@@ -24,15 +24,3 @@ public:
 	void Increase_score(void);
 	friend ostream& operator<<(ostream& os, Player* player);
 };
-
-class Principiante :
-	public Player
-{
-
-};
-
-class Experiente :
-	public Player
-{
-
-};

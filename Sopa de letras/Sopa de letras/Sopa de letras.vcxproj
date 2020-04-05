@@ -138,6 +138,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Beginner.cpp" />
+    <ClCompile Include="Expert.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Letter.cpp" />
@@ -150,6 +152,8 @@
     <Text Include="lista.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Beginner.h" />
+    <ClInclude Include="Expert.h" />
     <ClInclude Include="lab.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Game.h" />
