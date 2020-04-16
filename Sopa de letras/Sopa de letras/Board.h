@@ -1,4 +1,6 @@
 #pragma once
+#include <fstream>
+#include <algorithm>
 #include "Letter.h"
 #include "Word.h"
 
@@ -13,6 +15,7 @@ private:
 public:
 	Board();
 	virtual ~Board();
+	//virtual void Difficulty() = 0;
 	void Set_matrix(vector<vector<Letter>> matrix) { this->matrix = matrix; };
 	void Set_list(vector<Word> list) { this->list = list; };
 	void Set_DimX(int DimX) { this->DimX = DimX; };

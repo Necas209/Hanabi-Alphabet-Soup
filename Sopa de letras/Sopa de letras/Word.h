@@ -26,6 +26,7 @@ public:
 	int Get_orientation(void) const { return orientation; };
 	bool Get_state(void) const { return state; };
 	Point Get_initial_point(void) const { return initial_point; };
+	size_t size(void);
 	int Verify_letter(char c);
 	void operator=(Word w);
 	friend ostream& operator<<(ostream& os, Word w);

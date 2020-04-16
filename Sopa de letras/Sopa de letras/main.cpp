@@ -1,5 +1,5 @@
 #include "Game.h"
-#include <clocale>
+#include <locale>
 
 using namespace std;
 

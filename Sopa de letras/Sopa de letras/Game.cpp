@@ -52,6 +52,7 @@ void Game::Play(void)
 			cin.ignore();
 			getline(cin, w);
 			p.Ask2Set_P();
+
 			if (board->Check_If_Word_Is_Present(w, p))
 			{
 				cout << endl << "\tCerto!!" << endl;

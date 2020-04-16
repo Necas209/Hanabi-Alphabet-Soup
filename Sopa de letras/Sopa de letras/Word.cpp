@@ -29,6 +29,11 @@ void Word::Set_initial_point(int x, int y)
 	initial_point.Set_P(x, y);
 }
 
+size_t Word::size(void)
+{
+	return word.length();
+}
+
 int Word::Verify_letter(char c)
 {
 	return(c < 'a' or c > 'z');

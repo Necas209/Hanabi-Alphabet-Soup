@@ -1,5 +1,4 @@
 #include "Board.h"
-#include <fstream>
 
 Board::Board()
 	:DimX(0), DimY(0), n(0)
@@ -49,19 +48,11 @@ void Board::Show_matrix()
 {
 	cout << "  ";
 	for (int i = 0; i < DimX; i++)
-	{
-		if (i < 10)
-			cout << i << ' ';
-		else
-			cout << i-10 << ' ';
-	}
+			cout << i % 10 << ' ';
 	cout << endl;
 	for (int i = 0; i < DimY; i++) 
 	{
-		if (i < 10)
-			cout << i << ' ';
-		else
-			cout << i - 10 << ' ';
+		cout << i % 10 << ' ';
 		for (int j = 0; j < DimX; j++)
 		{
 			cout << matrix[i][j];
@@ -122,7 +113,7 @@ bool Board::Check_If_It_Fits(int i)
 {
 	int x = list[i].Get_initial_point().Get_x();
 	int y = list[i].Get_initial_point().Get_y();
-	int l = list[i].Get_word().length();
+	int l = list[i].size();
 	int o = list[i].Get_orientation();
 	switch (o)
 	{
@@ -166,7 +157,7 @@ bool Board::Check_Crossing(int i)
 {
 	int x = list[i].Get_initial_point().Get_x();
 	int y = list[i].Get_initial_point().Get_y();
-	int l = list[i].Get_word().length();
+	int l = list[i].size();
 	int o = list[i].Get_orientation();
 	if (i == 0)
 		return 1;
@@ -235,7 +226,7 @@ void Board::Insert_Word(int i)
 {
 	int x = list[i].Get_initial_point().Get_x();
 	int y = list[i].Get_initial_point().Get_y();
-	int l = list[i].Get_word().length();
+	int l = list[i].size();
 	int o = list[i].Get_orientation();
 	switch (o)
 	{
@@ -276,11 +267,9 @@ void Board::Insert_Word(int i)
 
 bool Board::Check_If_Word_Is_Present(string w, Point p)
 {
-	for (int i = 0; i < w.length(); i++)
-	{
-		if (w[i] >= 'a' and w[i] <= 'z')
-			w[i] -= 32;
-	}
+	cout << w << endl;
+	transform(w.begin(), w.end(), w.begin(), ::toupper);
+	cout << w << endl;
 	for (int i = 0; i < n; i++)
 	{
 		if (w == list[i].Get_word() and p == list[i].Get_initial_point())
