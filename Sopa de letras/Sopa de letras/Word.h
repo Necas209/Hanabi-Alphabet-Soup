@@ -2,6 +2,7 @@
 #include "Letter.h"
 #include <vector>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -26,8 +27,11 @@ public:
 	int Get_orientation(void) const { return orientation; };
 	bool Get_state(void) const { return state; };
 	Point Get_initial_point(void) const { return initial_point; };
+	void Ask2Set_W(void);
+	void Upper_Case(void);
 	size_t size(void);
 	int Verify_letter(char c);
+	bool operator==(Word w);
 	void operator=(Word w);
 	friend ostream& operator<<(ostream& os, Word w);
 };

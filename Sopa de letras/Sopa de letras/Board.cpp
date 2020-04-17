@@ -265,14 +265,12 @@ void Board::Insert_Word(int i)
 	}
 }
 
-bool Board::Check_If_Word_Is_Present(string w, Point p)
+bool Board::Check_If_Word_Is_Present(Word w)
 {
-	cout << w << endl;
-	transform(w.begin(), w.end(), w.begin(), ::toupper);
-	cout << w << endl;
+	w.Upper_Case();
 	for (int i = 0; i < n; i++)
 	{
-		if (w == list[i].Get_word() and p == list[i].Get_initial_point())
+		if (w == list[i])
 		{
 			list[i].Set_state(true);
 			return true;

@@ -29,6 +29,19 @@ void Word::Set_initial_point(int x, int y)
 	initial_point.Set_P(x, y);
 }
 
+void Word::Ask2Set_W(void)
+{
+	cout << endl << "Palavra: ";
+	cin.ignore();
+	getline(cin, word);
+	initial_point.Ask2Set_P();
+}
+
+void Word::Upper_Case(void)
+{
+	transform(word.begin(), word.end(), word.begin(), ::toupper);
+}
+
 size_t Word::size(void)
 {
 	return word.length();
@@ -37,6 +50,11 @@ size_t Word::size(void)
 int Word::Verify_letter(char c)
 {
 	return(c < 'a' or c > 'z');
+}
+
+bool Word::operator==(Word w)
+{
+	return (word == w.Get_word() && initial_point == w.Get_initial_point());
 }
 
 void Word::operator=(Word w)

@@ -1,6 +1,5 @@
 #pragma once
 #include <fstream>
-#include <algorithm>
 #include "Letter.h"
 #include "Word.h"
 
@@ -37,5 +36,5 @@ public:
 	bool Check_Crossing(int i);
 	bool Check_Letter(int i, int x, int y, int k);
 	void Insert_Word(int i);
-	bool Check_If_Word_Is_Present(string w, Point p);
+	bool Check_If_Word_Is_Present(Word w);
 };

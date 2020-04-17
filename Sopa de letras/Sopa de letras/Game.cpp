@@ -36,8 +36,7 @@ void Game::Run_Game()
 
 void Game::Play(void)
 {
-	string w;
-	Point p;
+	Word w;
 	int option = 0;
 	while (option != 1 and option != 2)
 	{
@@ -48,12 +47,8 @@ void Game::Play(void)
 		switch (option)
 		{
 		case 1:
-			cout << endl << "Palavra: ";
-			cin.ignore();
-			getline(cin, w);
-			p.Ask2Set_P();
-
-			if (board->Check_If_Word_Is_Present(w, p))
+			w.Ask2Set_W();
+			if (board->Check_If_Word_Is_Present(w))
 			{
 				cout << endl << "\tCerto!!" << endl;
 				player->Increase_score();
