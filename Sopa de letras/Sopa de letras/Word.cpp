@@ -3,11 +3,11 @@
 
 
 Word::Word()
-	:orientation(-1), state(false)
+	:orientation(-1), state(NOT_USED)
 {
 }
 
-Word::Word(string word, int orientation, bool state, Point initial_point)
+Word::Word(string word, int orientation, int state, Point initial_point)
 {
 	this->word = word;
 	this->orientation = orientation;
@@ -18,6 +18,7 @@ Word::Word(string word, int orientation, bool state, Point initial_point)
 Word::Word(string word)
 {
 	this->word = word;
+	state = NOT_USED;
 }
 
 Word::~Word()
@@ -31,7 +32,7 @@ void Word::Set_initial_point(int x, int y)
 
 void Word::Ask2Set_W(void)
 {
-	cout << endl << "Palavra: ";
+	cout << endl << " Palavra: ";
 	cin.ignore();
 	getline(cin, word);
 	initial_point.Ask2Set_P();

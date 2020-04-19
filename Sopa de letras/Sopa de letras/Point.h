@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 #include <ctime>
+
+using namespace std;
 
 class Point
 {
@@ -23,7 +26,7 @@ public:
 	bool operator==(const Point ponto) const;
 	bool operator!=(const Point ponto) const;
 	void operator=(Point ponto);
-	/*void Save(ofstream& os);
-	void Read(ifstream& is);*/
+	void Save(ofstream& os);
+	void Read(ifstream& is);
 };
 

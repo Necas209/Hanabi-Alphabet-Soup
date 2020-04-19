@@ -149,7 +149,7 @@
     <ClCompile Include="Board.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="lista.txt" />
+    <Text Include="distritos.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Beginner.h" />

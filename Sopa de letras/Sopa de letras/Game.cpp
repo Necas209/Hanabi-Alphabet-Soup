@@ -80,8 +80,6 @@ void Game::Play(void)
 			cout << endl << "\tCerto!!" << endl;
 			player->Increase_score();
 		}
-		else
-			cout << endl << "\tA palavra não existe na matriz.";
 		break;
 	case 2:
 		break;

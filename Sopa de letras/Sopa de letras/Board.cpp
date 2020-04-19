@@ -93,7 +93,7 @@ void Board::Load_list()
 {
 	string aux;
 	ifstream file;
-	file.open("lista.txt");
+	file.open("distritos.txt");
 	while (!file.eof())
 	{
 		getline(file, aux);
@@ -228,6 +228,7 @@ void Board::Insert_Word(int i)
 	int y = list[i].Get_initial_point().Get_y();
 	int l = list[i].size();
 	int o = list[i].Get_orientation();
+	list[i].Set_state(NOT_FOUND);
 	switch (o)
 	{
 	case 1:
@@ -268,14 +269,22 @@ void Board::Insert_Word(int i)
 bool Board::Check_If_Word_Is_Present(Word w)
 {
 	w.Upper_Case();
-	cout << w;
 	for (int i = 0; i < n; i++)
 	{
 		if (w == list[i])
 		{
-			list[i].Set_state(true);
-			return true;
+			if (list[i].Get_state() != FOUND)
+			{
+				list[i].Set_state(FOUND);
+				return true;
+			}
+			else
+			{
+				cout << endl << " A palavra já foi encontrada." << endl;
+				return false;
+			}
 		}
 	}
+	cout << endl << " A palavra não está na sopa de letras." << endl;
 	return false;
 }

@@ -1,7 +1,5 @@
 #include "Point.h"
 
-using namespace std;
-
 Point::Point()
 	:x(-1), y(-1)
 {
@@ -82,14 +80,14 @@ void Point::operator=(Point ponto)
 	Set_x(ponto.Get_x());
 	Set_y(ponto.Get_y());
 }
-/*void Ponto::Save(ofstream& os)
+void Point::Save(ofstream& os)
 {
 	os << Get_x() << ' ' << Get_y();
 }
 
-void Ponto::Read(ifstream& is)
+void Point::Read(ifstream& is)
 {
 	int x, y;
 	is >> x >> y;
-	Set_P(Ponto(x, y));
-}*/
+	Set_P(x,y);
+}

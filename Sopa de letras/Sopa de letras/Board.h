@@ -1,7 +1,7 @@
 #pragma once
-#include <fstream>
 #include "Letter.h"
 #include "Word.h"
+#include <vector>
 
 class Board
 {

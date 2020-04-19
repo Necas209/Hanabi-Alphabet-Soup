@@ -2,8 +2,6 @@
 #include "Point.h"
 #include <iostream>
 
-using namespace std;
-
 class Letter
 {
 private:

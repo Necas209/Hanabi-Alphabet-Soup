@@ -1,8 +1,6 @@
 #include "Player.h"
 #include <string>
 
-using namespace std;
-
 Player::Player()
 	:score(0), name(Ask_name()), age(Ask_age())
 {
