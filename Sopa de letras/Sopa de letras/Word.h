@@ -14,14 +14,14 @@
 #define UP 4
 #define DIAG_FRONT_DOWN 5
 #define DIAG_BACK_UP 6
-#define DIAG_FRONT_UP 7
-#define DIAG_BACK_DOWN 8
+#define DIAG_BACK_DOWN 7
+#define DIAG_FRONT_UP 8
 
 class Word
 {
 private:
 	string word;
-	int orientation; // 1 - HF, 2 - HT, 3 - VB, 4 - VC, 5 - D1B, 6 - D1C, 7 - D2B, 8 - D2C
+	int orientation;
 	int state;
 	Point initial_point;
 public:

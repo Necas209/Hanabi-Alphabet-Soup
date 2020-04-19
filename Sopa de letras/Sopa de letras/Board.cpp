@@ -141,11 +141,11 @@ bool Board::Check_If_It_Fits(int i)
 		if ((x + 1 - l) < 0 or (y + 1 - l) < 0)
 			return 0;
 		break;
-	case DIAG_FRONT_UP:
+	case DIAG_BACK_DOWN:
 		if ((x + 1 - l) < 0 or (y + l) > DimY)
 			return 0;
 		break;
-	case DIAG_BACK_DOWN:
+	case DIAG_FRONT_UP:
 		if ((x + l) > DimX or (y + 1 - l) < 0)
 			return 0;
 		break;
@@ -199,13 +199,13 @@ bool Board::Check_Crossing(int i)
 				return false;
 		}
 		break;
-	case DIAG_FRONT_UP:
+	case DIAG_BACK_DOWN:
 		for (int j1 = x, j2 = y; j1 > (x - l) and j2 < (y + l); j1--, j2++) {
 			if (!Check_Letter(i, j1, j2, x-j1))
 				return false;
 		}
 		break;
-	case DIAG_BACK_DOWN:
+	case DIAG_FRONT_UP:
 		for (int j1 = x, j2 = y; j1 < (x + l) and j2 > (y - l); j1++, j2--) {
 			if (!Check_Letter(i, j1, j2, j1-x))
 				return false;
@@ -255,11 +255,11 @@ void Board::Insert_Word(int i)
 		for (int j1 = x, j2 = y, k = 0; j1 > (x - l) and j2 > (y - l) and k < l; j1--, j2--, k++)
 			matrix[j2][j1] = list[i].Get_word()[k];
 		break;
-	case DIAG_FRONT_UP:
+	case DIAG_BACK_DOWN:
 		for (int j1 = x, j2 = y; j1 > (x - l) and j2 < (y + l); j1--, j2++)
 			matrix[j2][j1] = list[i].Get_word()[j2 - y];
 		break;
-	case DIAG_BACK_DOWN:
+	case DIAG_FRONT_UP:
 		for (int j1 = x, j2 = y; j1 < (x + l) and j2 > (y - l); j1++, j2--)
 			matrix[j2][j1] = list[i].Get_word()[j1 - x];
 		break;
