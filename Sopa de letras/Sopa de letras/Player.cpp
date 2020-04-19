@@ -20,7 +20,7 @@ Player::~Player()
 string Player::Ask_name()
 {
 	string name;
-	cout << endl << "Insira o seu nome: ";
+	cout << endl << " Insira o seu nome: ";
 	cin.ignore();
 	getline(cin, name);
 	return name;
@@ -29,7 +29,8 @@ string Player::Ask_name()
 int Player::Ask_age()
 {
 	int age;
-	cout << endl << "Insira a sua idade: ";
+	cin.clear();
+	cout << endl << " Insira a sua idade: ";
 	cin >> age;
 	return age;
 }
@@ -41,8 +42,9 @@ void Player::Increase_score(void)
 
 ostream& operator<<(ostream& os, Player* player)
 {
-	os << endl << "Nome: " << player->name << endl;
-	os << endl << "Idade: " << player->age << endl;
-	os << endl << "Pontuação: " << player->score << endl;
+	os << endl << " Nome: " << player->name << endl;
+	os << endl << " Idade: " << player->age << endl;
+	os << endl << " Pontuação: " << player->score << endl;
+	os << endl << " Nível: " << player->level << endl;
 	return os;
 }

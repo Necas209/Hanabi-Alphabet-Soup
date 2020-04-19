@@ -49,17 +49,17 @@ void Point::Set_P(Point m_P)
 bool Point::Ask2Set_P(void)
 {
 	int x, y;
-	cout << "X: ";
+	cout << " X: ";
 	cin >> x;
-	cout << "Y: ";
+	cout << " Y: ";
 	cin >> y;
-	Set_P(Point(x, y));
+	Set_P(x, y);
 	return IsValid();
 }
 
 bool Point::IsValid(void)
 {
-	return (Get_x() >= 0 and Get_y()>=0);
+	return (x >= 0 and y >= 0);
 }
 
 void Point::ShowPoint(void)

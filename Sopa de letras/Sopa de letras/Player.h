@@ -9,6 +9,7 @@ private:
 	string name;
 	int age;
 	int score;
+	string level;
 public:
 	Player();
 	Player(string n, int id, int p);
@@ -16,6 +17,8 @@ public:
 	void Set_name(string name) { this->name = name; };
 	void Set_age(int age) { this->age = age; };
 	void Set_score(int score) { this->score = score; };
+	void Set_level(string level) { this->level = level; };
+	virtual void Set_level(void) = 0;
 	string Get_name(void) const { return name; };
 	int Get_age(void) const { return age; };
 	int Get_score(void) const { return score; };

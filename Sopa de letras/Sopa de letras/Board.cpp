@@ -46,13 +46,13 @@ void Board::Fill_matrix(void)
 
 void Board::Show_matrix()
 {
-	cout << "  ";
+	cout << endl << "   ";
 	for (int i = 0; i < DimX; i++)
 			cout << i % 10 << ' ';
 	cout << endl;
 	for (int i = 0; i < DimY; i++) 
 	{
-		cout << i % 10 << ' ';
+		cout << ' ' << i % 10 << ' ';
 		for (int j = 0; j < DimX; j++)
 		{
 			cout << matrix[i][j];
@@ -268,6 +268,7 @@ void Board::Insert_Word(int i)
 bool Board::Check_If_Word_Is_Present(Word w)
 {
 	w.Upper_Case();
+	cout << w;
 	for (int i = 0; i < n; i++)
 	{
 		if (w == list[i])

@@ -1,6 +1,7 @@
 #pragma once
 #include "Board.h"
-#include "Player.h"
+#include "Beginner.h"
+#include "Expert.h"
 
 class Game
 {
@@ -14,6 +15,7 @@ public:
 	void Set_player(Player* player) { this->player = player; };
 	Board* Get_board(void) const { return board; };
 	Player* Get_player(void) const { return player; };
+	void Choose_Player(void);
 	void New_Game(void);
 	void Run_Game(void);
 	void Play(void);
