@@ -3,9 +3,19 @@
 #include <string>
 #include <algorithm>
 
+// States
 #define NOT_USED 0
 #define NOT_FOUND 1
 #define FOUND 2
+// Orientations
+#define FRONT 1
+#define BACK 2
+#define DOWN 3
+#define UP 4
+#define DIAG_FRONT_DOWN 5
+#define DIAG_BACK_UP 6
+#define DIAG_FRONT_UP 7
+#define DIAG_BACK_DOWN 8
 
 class Word
 {
