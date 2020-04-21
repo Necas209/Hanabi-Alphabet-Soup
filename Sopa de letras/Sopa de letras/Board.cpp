@@ -27,12 +27,17 @@ void Board::Create_matrix()
 void Board::Fill_matrix(void)
 {
 	srand((unsigned)time(nullptr));
-	for (int i = 0; i < n; i++) {
-		do {
-			list[i].Set_initial_point(rand() % DimX, rand() % DimY);
-			list[i].Set_orientation(rand() % 8 + 1);
-		} while (!Check_If_It_Fits(i));
-		Insert_Word(i);
+	for (int i = 0; i < n; i++) 
+	{
+		int l = list[i].size();
+		if (l <= DimX and l <= DimY)
+		{
+			do {
+				list[i].Set_orientation(rand() % 8 + 1);
+				list[i].RandPoint(DimX, DimY);
+			} while (!Check_Crossing(i));
+			Insert_Word(i);
+		}
 	}
 	for (int i = 0; i < DimY; i++)
 	{
@@ -61,7 +66,18 @@ void Board::Show_matrix()
 	}
 }
 
-void Board::Ask_DimX() 
+int Board::Get_n_used(void)
+{
+	int k = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (list[i].Get_state() != NOT_USED)
+			k++;
+	}
+	return k;
+}
+
+void Board::Ask_DimX()
 {
 	int dim_x;
 	cout << endl << "Insira a dimensão X da matriz: ";
@@ -109,50 +125,6 @@ void Board::Show_list()
 		cout << list[i] << endl;
 }
 
-bool Board::Check_If_It_Fits(int i)
-{
-	int x = list[i].Get_initial_point().Get_x();
-	int y = list[i].Get_initial_point().Get_y();
-	int l = list[i].size();
-	int o = list[i].Get_orientation();
-	switch (o)
-	{
-	case FRONT:
-		if ((x + l) > DimX)
-			return 0;
-		break;
-	case BACK:
-		if ((x + 1 - l) < 0)
-			return 0;
-		break;
-	case DOWN:
-		if ((y + l) > DimY)
-			return 0;
-		break;
-	case UP:
-		if ((y + 1 - l) < 0)
-			return 0;
-		break;
-	case DIAG_FRONT_DOWN:
-		if ((x + l) > DimX or (y + l) > DimY)
-			return 0;
-		break;
-	case DIAG_BACK_UP:
-		if ((x + 1 - l) < 0 or (y + 1 - l) < 0)
-			return 0;
-		break;
-	case DIAG_BACK_DOWN:
-		if ((x + 1 - l) < 0 or (y + l) > DimY)
-			return 0;
-		break;
-	case DIAG_FRONT_UP:
-		if ((x + l) > DimX or (y + 1 - l) < 0)
-			return 0;
-		break;
-	}
-	return Check_Crossing(i);
-}
-
 bool Board::Check_Crossing(int i)
 {
 	int x = list[i].Get_initial_point().Get_x();
@@ -187,25 +159,25 @@ bool Board::Check_Crossing(int i)
 				return false;
 		}
 		break;
-	case DIAG_FRONT_DOWN:
+	case FRONT_DOWN:
 		for (int j1 = x, j2 = y; j1 < (x + l) and j2 < (y + l); j1++, j2++) {
 			if (!Check_Letter(i, j1, j2, j1-x))
 				return false;
 		}
 		break;
-	case DIAG_BACK_UP:
+	case BACK_UP:
 		for (int j1 = x, j2 = y; j1 > (x - l) and j2 > (y - l); j1--, j2--) {
 			if (!Check_Letter(i, j1, j2, x-j1))
 				return false;
 		}
 		break;
-	case DIAG_BACK_DOWN:
+	case BACK_DOWN:
 		for (int j1 = x, j2 = y; j1 > (x - l) and j2 < (y + l); j1--, j2++) {
 			if (!Check_Letter(i, j1, j2, x-j1))
 				return false;
 		}
 		break;
-	case DIAG_FRONT_UP:
+	case FRONT_UP:
 		for (int j1 = x, j2 = y; j1 < (x + l) and j2 > (y - l); j1++, j2--) {
 			if (!Check_Letter(i, j1, j2, j1-x))
 				return false;
@@ -247,19 +219,19 @@ void Board::Insert_Word(int i)
 		for (int j = y, k = 0; j > (y - l) and k < l; j--, k++)
 			matrix[j][x] = list[i].Get_word()[k];
 		break;
-	case DIAG_FRONT_DOWN:
+	case FRONT_DOWN:
 		for (int j1 = x, j2 = y; j1 < (x + l) and j2 < (y + l); j1++, j2++)
 			matrix[j2][j1] = list[i].Get_word()[j1 - x];
 		break;
-	case DIAG_BACK_UP:
+	case BACK_UP:
 		for (int j1 = x, j2 = y, k = 0; j1 > (x - l) and j2 > (y - l) and k < l; j1--, j2--, k++)
 			matrix[j2][j1] = list[i].Get_word()[k];
 		break;
-	case DIAG_BACK_DOWN:
+	case BACK_DOWN:
 		for (int j1 = x, j2 = y; j1 > (x - l) and j2 < (y + l); j1--, j2++)
 			matrix[j2][j1] = list[i].Get_word()[j2 - y];
 		break;
-	case DIAG_FRONT_UP:
+	case FRONT_UP:
 		for (int j1 = x, j2 = y; j1 < (x + l) and j2 > (y - l); j1++, j2--)
 			matrix[j2][j1] = list[i].Get_word()[j1 - x];
 		break;

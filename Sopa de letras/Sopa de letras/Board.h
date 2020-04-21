@@ -25,6 +25,7 @@ public:
 	int Get_DimX(void) const { return DimX; };
 	int Get_DimY(void) const { return DimY; };
 	int Get_n(void) const { return n; };
+	int Get_n_used(void);
 	void Ask_DimX(void);
 	void Ask_DimY(void);
 	void Create_matrix(void);
@@ -32,7 +33,6 @@ public:
 	void Show_matrix(void);
 	void Load_list(void);
 	void Show_list(void);
-	bool Check_If_It_Fits(int i);
 	bool Check_Crossing(int i);
 	bool Check_Letter(int i, int x, int y, int k);
 	void Insert_Word(int i);

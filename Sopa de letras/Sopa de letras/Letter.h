@@ -16,7 +16,7 @@ public:
 	Letter();
 	Letter(char letra, Point ponto, int ascii, int M_m);
 	virtual ~Letter();
-	void Set_letra(char letter) { this->letter = letter; };
+	void Set_letter(char letter) { this->letter = letter; };
 	void Set_ascii(int ascii) { this->ascii = ascii; };
 	void Set_letter_case(int letter_case) { this->letter_case = letter_case; };
 	void Set_point(Point point) { this->point = point; };

@@ -3,7 +3,7 @@
 
 
 Word::Word()
-	:orientation(-1), state(NOT_USED)
+	:orientation(NONE), state(NOT_USED)
 {
 }
 
@@ -28,6 +28,49 @@ Word::~Word()
 void Word::Set_initial_point(int x, int y)
 {
 	initial_point.Set_P(x, y);
+}
+
+void Word::RandPoint(int DimX, int DimY)
+{
+	int x, y;
+	int l = word.length();
+	int h = l - 1;
+	switch (orientation)
+	{
+	case FRONT:
+		x = rand() % (DimX - h);
+		y = rand() % DimY;
+		break;
+	case BACK:
+		x = h + rand() % (DimX - h);
+		y = rand() % DimY;
+		break;
+	case DOWN:
+		x = rand() % DimX;
+		y = rand() % (DimY - h);
+		break;
+	case UP:
+		x = rand() % DimX;
+		y = h + rand() % (DimY - h);
+		break;
+	case FRONT_DOWN:
+		x = rand() % (DimX - h);
+		y = rand() % (DimY - h);
+		break;
+	case BACK_UP:
+		x = h + rand() % (DimX - h);
+		y = h + rand() % (DimY - h);
+		break;
+	case BACK_DOWN:
+		x = h + rand() % (DimX - h);
+		y = rand() % (DimY - h);
+		break;
+	case FRONT_UP:
+		x = rand() % (DimX - h);
+		y = h + rand() % (DimY - h);
+		break;
+	}
+	this->Set_initial_point(x, y);
 }
 
 void Word::Ask2Set_W(void)

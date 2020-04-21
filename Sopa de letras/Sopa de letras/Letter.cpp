@@ -19,7 +19,7 @@ Letter::~Letter()
 
 void Letter::Set_Letter(char letter, int ascii, int letter_case, Point point)
 {
-	Set_letra(letter);
+	Set_letter(letter);
 	Set_ascii(ascii);
 	Set_letter_case(letter_case);
 	Set_point(point);
@@ -27,7 +27,7 @@ void Letter::Set_Letter(char letter, int ascii, int letter_case, Point point)
 
 void Letter::Set_Letter(char letter, int ascii, int letter_case)
 {
-	Set_letra(letter);
+	Set_letter(letter);
 	Set_ascii(ascii);
 	Set_letter_case(letter_case);
 }
@@ -40,7 +40,7 @@ void Letter::Rand_letter()
 
 void Letter::operator=(Letter l)
 {
-	Set_letra(l.Get_letter());
+	Set_letter(l.Get_letter());
 	Set_ascii(l.Get_ascii());
 	Set_letter_case(l.Get_letter_case());
 	Set_point(l.Get_point());
@@ -48,7 +48,7 @@ void Letter::operator=(Letter l)
 
 void Letter::operator=(char c)
 {
-	this->Set_letra(c);
+	this->Set_letter(c);
 }
 
 ostream& operator<<(ostream& os, Letter l)

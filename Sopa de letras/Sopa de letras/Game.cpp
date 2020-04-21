@@ -59,7 +59,7 @@ void Game::Run_Game()
 		Play();
 		cout << player;
 		this_thread::sleep_for(chrono::seconds(2));
-	} while (player->Get_score()<board->Get_n());
+	} while (player->Get_score()<board->Get_n_used());
 	board->Show_list();
 }
 
