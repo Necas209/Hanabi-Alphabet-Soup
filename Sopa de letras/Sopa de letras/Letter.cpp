@@ -17,7 +17,7 @@ Letter::~Letter()
 {
 }
 
-void Letter::Set_Letter(char letter, int ascii, int letter_case, Point point)
+void Letter::Set_L(char letter, int ascii, int letter_case, Point point)
 {
 	Set_letter(letter);
 	Set_ascii(ascii);
@@ -25,7 +25,7 @@ void Letter::Set_Letter(char letter, int ascii, int letter_case, Point point)
 	Set_point(point);
 }
 
-void Letter::Set_Letter(char letter, int ascii, int letter_case)
+void Letter::Set_L(char letter, int ascii, int letter_case)
 {
 	Set_letter(letter);
 	Set_ascii(ascii);
@@ -35,7 +35,7 @@ void Letter::Set_Letter(char letter, int ascii, int letter_case)
 void Letter::Rand_letter()
 {
 	char c = rand() % 26 + 65;
-	Set_Letter(c, c, UPPERCASE);
+	Set_L(c, c, UPPERCASE);
 }
 
 void Letter::operator=(Letter l)

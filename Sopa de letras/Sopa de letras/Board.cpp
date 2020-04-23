@@ -26,17 +26,23 @@ void Board::Create_matrix()
 
 void Board::Fill_matrix(void)
 {
+	int l;
 	srand((unsigned)time(nullptr));
+	auto start = chrono::high_resolution_clock::now();
+	chrono::duration<double> elapsed;
 	for (int i = 0; i < n; i++) 
 	{
-		int l = list[i].size();
+		l = list[i].size();
 		if (l <= DimX and l <= DimY)
 		{
 			do {
-				list[i].Set_orientation(rand() % 8 + 1);
+				list[i].RandOrientation();
 				list[i].RandPoint(DimX, DimY);
-			} while (!Check_Crossing(i));
-			Insert_Word(i);
+				auto end = chrono::high_resolution_clock::now();
+				elapsed = end - start;
+			} while (!Check_Crossing(i) and elapsed.count() < 1);
+			if(Check_Crossing(i))
+				Insert_Word(i);
 		}
 	}
 	for (int i = 0; i < DimY; i++)
@@ -80,7 +86,7 @@ int Board::Get_n_used(void)
 void Board::Ask_DimX()
 {
 	int dim_x;
-	cout << endl << "Insira a dimensão X da matriz: ";
+	cout << endl << " Insira a dimensão X da matriz: ";
 	cin >> dim_x;
 	if (dim_x <= 0)
 	{
@@ -94,7 +100,7 @@ void Board::Ask_DimX()
 void Board::Ask_DimY()
 {
 	int dim_y;
-	cout << endl << "Insira a dimensão Y da matriz: ";
+	cout << endl << " Insira a dimensão Y da matriz: ";
 	cin >> dim_y;
 	if (dim_y <= 0)
 	{
@@ -122,7 +128,10 @@ void Board::Load_list()
 void Board::Show_list()
 {
 	for (int i = 0; i < n; i++)
-		cout << list[i] << endl;
+	{
+		if(list[i].Get_state() == FOUND)
+			cout << list[i] << endl;
+	}
 }
 
 bool Board::Check_Crossing(int i)
@@ -208,24 +217,24 @@ void Board::Insert_Word(int i)
 			matrix[y][j] = list[i].Get_word()[j - x];
 		break;
 	case BACK:
-		for (int j = x, k = 0; j > (x - l) and k < l; j--, k++)
-			matrix[y][j] = list[i].Get_word()[k];
+		for (int j = x; j > (x - l); j--)
+			matrix[y][j] = list[i].Get_word()[x - j];
 		break;
 	case DOWN:
 		for (int j = y; j < (y + l); j++)
 			matrix[j][x] = list[i].Get_word()[j - y];
 		break;
 	case UP:
-		for (int j = y, k = 0; j > (y - l) and k < l; j--, k++)
-			matrix[j][x] = list[i].Get_word()[k];
+		for (int j = y; j > (y - l); j--)
+			matrix[j][x] = list[i].Get_word()[y - j];
 		break;
 	case FRONT_DOWN:
 		for (int j1 = x, j2 = y; j1 < (x + l) and j2 < (y + l); j1++, j2++)
 			matrix[j2][j1] = list[i].Get_word()[j1 - x];
 		break;
 	case BACK_UP:
-		for (int j1 = x, j2 = y, k = 0; j1 > (x - l) and j2 > (y - l) and k < l; j1--, j2--, k++)
-			matrix[j2][j1] = list[i].Get_word()[k];
+		for (int j1 = x, j2 = y; j1 > (x - l) and j2 > (y - l); j1--, j2--)
+			matrix[j2][j1] = list[i].Get_word()[x - j1];
 		break;
 	case BACK_DOWN:
 		for (int j1 = x, j2 = y; j1 > (x - l) and j2 < (y + l); j1--, j2++)

@@ -7,16 +7,16 @@ int main()
 {
 	int option;
 	Game game;
-	setlocale(LC_ALL, "portuguese");
-	cout << endl << " Diogo Medeiros n.o 70633" << endl;
-	cout << endl << "\t\t\t\tSopa de letras" << endl << endl;
-	cout << endl << "\tMenu:" << endl;
-	cout << endl << " 1 -> Começar um novo jogo" << endl;
-	cout << endl << " 2 -> Salvar o jogo" << endl;
-	cout << endl << " 3 -> Carregar um jogo" << endl;
-	cout << endl << " 4 -> Sair" << endl;
+	setlocale(LC_ALL, "");
 	do
 	{
+		cout << endl << " Diogo Medeiros n.o 70633" << endl;
+		cout << endl << "\t\t\t\tSopa de letras" << endl << endl;
+		cout << endl << "\tMenu:" << endl;
+		cout << endl << " 1 -> Começar um novo jogo" << endl;
+		cout << endl << " 2 -> Salvar o jogo" << endl;
+		cout << endl << " 3 -> Carregar um jogo" << endl;
+		cout << endl << " 4 -> Sair" << endl;
 		cout << endl << " Opção: ";
 		cin >> option;
 		if (!cin.good()) {
@@ -42,5 +42,5 @@ int main()
 				cout << " Opção inválida.";
 			}
 		}
-	} while (option < 1 or option > 4);
+	} while (option != 4);
 }

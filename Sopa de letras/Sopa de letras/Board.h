@@ -2,6 +2,8 @@
 #include "Letter.h"
 #include "Word.h"
 #include <vector>
+#include <thread>
+#include <chrono>
 
 class Board
 {

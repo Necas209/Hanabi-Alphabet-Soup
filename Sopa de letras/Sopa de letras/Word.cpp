@@ -1,6 +1,4 @@
 #include "Word.h"
-#include <ctime>
-
 
 Word::Word()
 	:orientation(NONE), state(NOT_USED)
@@ -71,6 +69,11 @@ void Word::RandPoint(int DimX, int DimY)
 		break;
 	}
 	this->Set_initial_point(x, y);
+}
+
+void Word::RandOrientation(void)
+{
+	this->Set_orientation(rand() % 8 + 1);
 }
 
 void Word::Ask2Set_W(void)

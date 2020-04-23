@@ -1,6 +1,4 @@
 #include "Game.h"
-#include <thread>
-#include <chrono>
 
 Game::Game()
 {
@@ -52,15 +50,19 @@ void Game::New_Game()
 
 void Game::Run_Game()
 {
-	do
+	while (player->Get_score() < board->Get_n_used())
 	{
 		system("CLS");
 		board->Show_matrix();
+		cout << endl << board->Get_n_used();
 		Play();
 		cout << player;
+		board->Show_list();
 		this_thread::sleep_for(chrono::seconds(2));
-	} while (player->Get_score()<board->Get_n_used());
-	board->Show_list();
+	}
+	cout << endl << " Ganhaste!!!" << endl;
+	this_thread::sleep_for(chrono::seconds(2));
+	system("ClS");
 }
 
 void Game::Play(void)

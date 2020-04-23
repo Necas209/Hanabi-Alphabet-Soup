@@ -2,6 +2,7 @@
 #include "Letter.h"
 #include <string>
 #include <algorithm>
+#include <ctime>
 
 // States
 #define NOT_USED 0
@@ -40,6 +41,7 @@ public:
 	int Get_state(void) const { return state; };
 	Point Get_initial_point(void) const { return initial_point; };
 	void RandPoint(int DimX, int DimY);
+	void RandOrientation(void);
 	void Ask2Set_W(void);
 	void Upper_Case(void);
 	size_t size(void);
