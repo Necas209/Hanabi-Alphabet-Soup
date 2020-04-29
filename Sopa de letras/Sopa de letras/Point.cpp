@@ -34,24 +34,37 @@ bool Point::Set_y(int m_y)
 
 void Point::Set_P(int m_x, int m_y)
 {
-	Set_x(m_x);
-	Set_y(m_y);
+	x = m_x;
+	y = m_y;
 }
 
 void Point::Set_P(Point m_P)
 {
-	Set_x(m_P.Get_x());
-	Set_y(m_P.Get_y());
+	x = m_P.x;
+	y = m_P.y;
 }
 
 bool Point::Ask2Set_P(void)
 {
 	int x, y;
-	cout << " X: ";
+	cout << endl << " X: ";
 	cin >> x;
-	cout << " Y: ";
-	cin >> y;
-	Set_P(x, y);
+	if (!cin.good())
+	{
+		PreventLoop();
+		Ask2Set_P();
+	}
+	else {
+		cout << endl << " Y: ";
+		cin >> y;
+		if (!cin.good())
+		{
+			PreventLoop();
+			Ask2Set_P();
+		}
+		else
+			Set_P(x, y);
+	}
 	return IsValid();
 }
 
@@ -67,22 +80,21 @@ void Point::ShowPoint(void)
 
 bool Point::operator==(const Point ponto) const
 {
-	 return (x == ponto.Get_x()) ? (y == ponto.Get_y()) ? 1 : 0 : 0;
+	 return (x == ponto.x) ? (y == ponto.y) ? 1 : 0 : 0;
 }
 
 bool Point::operator!=(const Point ponto) const
 {
-	return (x == ponto.Get_x()) ? (y == ponto.Get_y()) ? 0 : 1 : 1;
+	return (x == ponto.x) ? (y == ponto.y) ? 0 : 1 : 1;
 }
 
 void Point::operator=(Point ponto)
 {
-	Set_x(ponto.Get_x());
-	Set_y(ponto.Get_y());
+	Set_P(ponto.x, ponto.y);
 }
 void Point::Save(ofstream& os)
 {
-	os << Get_x() << ' ' << Get_y();
+	os << x << ' ' << y;
 }
 
 void Point::Read(ifstream& is)

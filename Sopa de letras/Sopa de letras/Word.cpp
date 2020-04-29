@@ -5,14 +5,6 @@ Word::Word()
 {
 }
 
-Word::Word(string word, int orientation, int state, Point initial_point)
-{
-	this->word = word;
-	this->orientation = orientation;
-	this->state = state;
-	this->initial_point = initial_point;
-}
-
 Word::Word(string word)
 {
 	this->word = word;
@@ -21,11 +13,6 @@ Word::Word(string word)
 
 Word::~Word()
 {
-}
-
-void Word::Set_initial_point(int x, int y)
-{
-	initial_point.Set_P(x, y);
 }
 
 void Word::RandPoint(int DimX, int DimY)
@@ -68,12 +55,12 @@ void Word::RandPoint(int DimX, int DimY)
 		y = h + rand() % (DimY - h);
 		break;
 	}
-	this->Set_initial_point(x, y);
+	initial_point.Set_P(x, y);
 }
 
 void Word::RandOrientation(void)
 {
-	this->Set_orientation(rand() % 8 + 1);
+	orientation = rand() % 8 + 1;
 }
 
 void Word::Ask2Set_W(void)
@@ -94,22 +81,36 @@ size_t Word::size(void)
 	return word.length();
 }
 
-int Word::Verify_letter(char c)
+void Word::Read(ifstream& is)
 {
-	return(c < 'a' or c > 'z');
+	int o, s;
+	string w;
+	is >> o >> s;
+	initial_point.Read(is);
+	getline(is, w, ';');
+	Set_orientation(o);
+	Set_state(s);
+	Set_word(w);
+}
+
+void Word::Save(ofstream& os)
+{
+	os << orientation << state;
+	initial_point.Save(os);
+	os << word;
 }
 
 bool Word::operator==(Word w)
 {
-	return (word == w.Get_word() && initial_point == w.Get_initial_point());
+	return (this->word == w.word && this->initial_point == w.initial_point);
 }
 
 void Word::operator=(Word w)
 {
-	Set_word(w.Get_word());
-	Set_orientation(w.Get_orientation());
-	Set_state(w.Get_state());
-	Set_initial_point(w.Get_initial_point());
+	Set_word(w.word);
+	Set_orientation(w.orientation);
+	Set_state(w.state);
+	this->initial_point.Set_P(w.initial_point);
 }
 
 ostream& operator<<(ostream& os, Word w)

@@ -1,7 +1,7 @@
 #pragma once
-#include <iostream>
 #include <fstream>
 #include <ctime>
+#include "functions.h"
 
 using namespace std;
 

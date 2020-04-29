@@ -10,23 +10,14 @@ class Board
 private:
 	vector<vector<Letter>> matrix;
 	vector<Word> list;
+	vector<int> orientations;
 	int DimX;
 	int DimY;
 	int n;          // numero de palavras
 public:
 	Board();
 	virtual ~Board();
-	//virtual void Difficulty() = 0;
-	void Set_matrix(vector<vector<Letter>> matrix) { this->matrix = matrix; };
-	void Set_list(vector<Word> list) { this->list = list; };
-	void Set_DimX(int DimX) { this->DimX = DimX; };
-	void Set_DimY(int DimY) { this->DimY = DimY; };
 	void Set_n(int n) { this->n = n; };
-	vector<vector<Letter>> Get_matrix(void) const { return matrix; };
-	vector<Word> Get_list(void) const { return list; };
-	int Get_DimX(void) const { return DimX; };
-	int Get_DimY(void) const { return DimY; };
-	int Get_n(void) const { return n; };
 	int Get_n_used(void);
 	void Ask_DimX(void);
 	void Ask_DimY(void);

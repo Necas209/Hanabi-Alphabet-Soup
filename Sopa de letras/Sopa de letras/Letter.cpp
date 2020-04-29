@@ -32,10 +32,29 @@ void Letter::Set_L(char letter, int ascii, int letter_case)
 	Set_letter_case(letter_case);
 }
 
+int Upper_lower(char c)
+{
+	return (c < 'a' or c > 'z');
+}
+
 void Letter::Rand_letter()
 {
 	char c = rand() % 26 + 65;
 	Set_L(c, c, UPPERCASE);
+}
+
+void Letter::Read(ifstream& is)
+{
+	char c;
+	is >> c;
+	point.Read(is);
+	Set_L(c, c, Upper_lower(c));
+}
+
+void Letter::Save(ofstream& os)
+{
+	os << letter;
+	point.Save(os);
 }
 
 void Letter::operator=(Letter l)

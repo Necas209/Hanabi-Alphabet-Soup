@@ -6,6 +6,5 @@ class Expert :
 {
 public:
 	Expert();
-	void Set_level(void);
 };
 

@@ -88,13 +88,21 @@ void Board::Ask_DimX()
 	int dim_x;
 	cout << endl << " Insira a dimensão X da matriz: ";
 	cin >> dim_x;
-	if (dim_x <= 0)
+	if (!cin.good())
 	{
-		cout << " Dimensão inválida." << endl;
+		PreventLoop();
 		Ask_DimX();
 	}
 	else
-		Set_DimX(dim_x);
+	{
+		if (dim_x <= 0)
+		{
+			cout << " Dimensão inválida." << endl;
+			Ask_DimX();
+		}
+		else
+			DimX = dim_x;
+	}
 }
 
 void Board::Ask_DimY()
@@ -102,13 +110,21 @@ void Board::Ask_DimY()
 	int dim_y;
 	cout << endl << " Insira a dimensão Y da matriz: ";
 	cin >> dim_y;
-	if (dim_y <= 0)
+	if (!cin.good())
 	{
-		cout << " Dimensão inválida." << endl;
+		PreventLoop();
 		Ask_DimY();
 	}
 	else
-		Set_DimY(dim_y);
+	{
+		if (dim_y <= 0)
+		{
+			cout << " Dimensão inválida." << endl;
+			Ask_DimY();
+		}
+		else
+			DimY = dim_y;
+	}
 }
 
 void Board::Load_list()
@@ -120,8 +136,8 @@ void Board::Load_list()
 	{
 		getline(file, aux);
 		list.push_back(Word(aux));
-		n++;
 	}
+	Set_n(list.size());
 	file.close();
 }
 

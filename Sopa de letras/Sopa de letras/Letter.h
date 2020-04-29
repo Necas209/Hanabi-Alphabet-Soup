@@ -27,6 +27,8 @@ public:
 	int Get_letter_case(void) const { return letter_case; };
 	Point Get_point(void) const { return point; };
 	void Rand_letter(void);
+	void Read(ifstream& is);
+	void Save(ofstream& os);
 	void operator=(Letter l);
 	void operator=(char c);
 	friend ostream& operator<<(ostream& os, Letter l);

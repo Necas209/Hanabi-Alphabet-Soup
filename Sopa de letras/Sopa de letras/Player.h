@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
-
-using namespace std;
+#include "functions.h"
 
 class Player
 {
@@ -9,21 +8,12 @@ private:
 	string name;
 	int age;
 	int score;
-	string level;
 public:
 	Player();
-	Player(string n, int id, int p);
 	virtual ~Player();
-	void Set_name(string name) { this->name = name; };
-	void Set_age(int age) { this->age = age; };
-	void Set_score(int score) { this->score = score; };
-	void Set_level(string level) { this->level = level; };
-	virtual void Set_level(void) = 0;
-	string Get_name(void) const { return name; };
-	int Get_age(void) const { return age; };
 	int Get_score(void) const { return score; };
-	string Ask_name(void);
-	int Ask_age(void);
+	void Ask_name(void);
+	void Ask_age(void);
 	void Increase_score(void);
-	friend ostream& operator<<(ostream& os, Player* player);
+	friend ostream& operator<<(ostream& os, Player& player);
 };

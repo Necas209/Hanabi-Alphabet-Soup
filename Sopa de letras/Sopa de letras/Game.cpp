@@ -10,6 +10,42 @@ Game::~Game()
 {
 }
 
+void Game::Menu(void)
+{
+	int option;
+	setlocale(LC_ALL, "");
+		cout << endl << " Diogo Medeiros n.o 70633" << endl;
+		cout << endl << "\t\t\t\tSopa de letras" << endl << endl;
+		cout << endl << "\tMenu:" << endl;
+		cout << endl << " 1 -> Começar um novo jogo" << endl;
+		cout << endl << " 2 -> Salvar o jogo" << endl;
+		cout << endl << " 3 -> Carregar um jogo" << endl;
+		cout << endl << " 4 -> Sair" << endl;
+		cout << endl << " Opção: ";
+		cin >> option;
+		if (!cin.good()) {
+			PreventLoop();
+		}
+		else {
+			switch (option)
+			{
+			case 1:
+				New_Game();
+				Run_Game();
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				exit(0);
+			default:
+				cout << " Opção inválida.";
+				Menu();
+			}
+		}
+}
+
 void Game::Choose_Player(void)
 {
 	int option;
@@ -19,19 +55,16 @@ void Game::Choose_Player(void)
 	cout << endl << "\tOpção: ";
 	cin >> option;
 	if (!cin.good()) {
-		cin.clear();
-		string ignore;
-		cin >> ignore;
-		cout << endl << " Opção inválida." << endl;
+		PreventLoop();
 		Choose_Player();
 	}
 	switch (option)
 	{
 	case 1:
-		player = new Beginner();
+		player = new Beginner;
 		break;
 	case 2:
-		player = new Expert();
+		player = new Expert;
 		break;
 	default:
 		cout << endl << " Opção inválida." << endl;

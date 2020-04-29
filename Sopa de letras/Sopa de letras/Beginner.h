@@ -6,6 +6,5 @@ class Beginner :
 {
 public:
 	Beginner();
-	void Set_level(void);
 };
 
