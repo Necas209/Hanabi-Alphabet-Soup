@@ -1,9 +1,9 @@
 #pragma once
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
+#include <clocale>
 #include <Windows.h>
-#include <locale.h>
 #include <iostream>
 #include <string>
 

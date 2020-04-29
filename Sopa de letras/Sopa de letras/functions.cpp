@@ -37,29 +37,28 @@ void gotoxy(int x, int y) {
 void showRectAt(int x, int y, int width, int height) {
 
 	setlocale(LC_ALL, "C");
-	int i;
 	gotoxy(x, y);
-	printf("%c", 201);
-	for (i = 1; i < width; i++) {
-		printf("%c", 205);
+	cout << (char)201;
+	for (int i = 1; i < width; i++) {
+		cout << (char)205;
 	}
 
-	printf("%c", 187);
+	cout << (char)187;
 	gotoxy(x, height + y);
-	printf("%c", 200);
+	cout << (char)200;
 
-	for (i = 1; i < width; i++) {
-		printf("%c", 205);
+	for (int i = 1; i < width; i++) {
+		cout << (char)205;
 	}
 
-	printf("%c", 188);
+	cout <<(char)188;
 
-	for (i = y + 1; i < height + y; i++) {
+	for (int i = y + 1; i < height + y; i++) {
 		gotoxy(x, i);
-		printf("%c", 186);
+		cout << (char)186;
 
 		gotoxy(x + width, i);
-		printf("%c", 186);
+		cout << (char)186;
 
 	}
 	setlocale(LC_ALL, "");

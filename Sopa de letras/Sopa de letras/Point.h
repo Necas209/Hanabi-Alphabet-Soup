@@ -3,8 +3,6 @@
 #include <ctime>
 #include "functions.h"
 
-using namespace std;
-
 class Point
 {
 private:
