@@ -25,7 +25,7 @@
 #define MY_COLOR_WHITE			15
 
 using namespace std;
-
+// Draw Functions
 void setColor(int foreGround, int backGround);
 void setForeColor(int foreGround);
 void setBackColor(int backGround);
@@ -36,4 +36,5 @@ void show90RectAt(int x, int y, int width, int height);
 void showCharAt(int x, int y, char c);
 void showVerticalWordAt(int x, int y, string s);
 void printfAt(int x, int y, string s);
+////////////
 void PreventLoop(void);
