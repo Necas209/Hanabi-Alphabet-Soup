@@ -1,0 +1,54 @@
+﻿  Game.cpp
+  Sopa_Windows.cpp
+  Generating Code...
+Game.obj : error LNK2005: "struct HWND__ * Board_Title" (?Board_Title@@3PAUHWND__@@A) already defined in Board.obj
+Game.obj : error LNK2005: "struct HWND__ * _DimX" (?_DimX@@3PAUHWND__@@A) already defined in Board.obj
+Game.obj : error LNK2005: "struct HWND__ * DimX_Input" (?DimX_Input@@3PAUHWND__@@A) already defined in Board.obj
+Game.obj : error LNK2005: "struct HWND__ * _DimY" (?_DimY@@3PAUHWND__@@A) already defined in Board.obj
+Game.obj : error LNK2005: "struct HWND__ * DimY_Input" (?DimY_Input@@3PAUHWND__@@A) already defined in Board.obj
+Game.obj : error LNK2005: "struct HWND__ * Board_Button" (?Board_Button@@3PAUHWND__@@A) already defined in Board.obj
+Game.obj : error LNK2005: "struct HWND__ * * * _Board" (?_Board@@3PAPAPAUHWND__@@A) already defined in Board.obj
+Game.obj : error LNK2005: "struct HWND__ * * X_Bar" (?X_Bar@@3PAPAUHWND__@@A) already defined in Board.obj
+Game.obj : error LNK2005: "struct HWND__ * * Y_Bar" (?Y_Bar@@3PAPAUHWND__@@A) already defined in Board.obj
+Game.obj : error LNK2005: "char * b_dimx" (?b_dimx@@3PADA) already defined in Board.obj
+Game.obj : error LNK2005: "char * b_dimy" (?b_dimy@@3PADA) already defined in Board.obj
+Game.obj : error LNK2005: "int n_dimx" (?n_dimx@@3HA) already defined in Board.obj
+Game.obj : error LNK2005: "int n_dimy" (?n_dimy@@3HA) already defined in Board.obj
+Player.obj : error LNK2005: "char * p_name" (?p_name@@3PADA) already defined in Game.obj
+Player.obj : error LNK2005: "char * p_age" (?p_age@@3PADA) already defined in Game.obj
+Player.obj : error LNK2005: "int n_age" (?n_age@@3HA) already defined in Game.obj
+Player.obj : error LNK2005: "struct HWND__ * _Player" (?_Player@@3PAUHWND__@@A) already defined in Game.obj
+Player.obj : error LNK2005: "struct HWND__ * _Name" (?_Name@@3PAUHWND__@@A) already defined in Game.obj
+Player.obj : error LNK2005: "struct HWND__ * Name_Input" (?Name_Input@@3PAUHWND__@@A) already defined in Game.obj
+Player.obj : error LNK2005: "struct HWND__ * _Age" (?_Age@@3PAUHWND__@@A) already defined in Game.obj
+Player.obj : error LNK2005: "struct HWND__ * Age_Input" (?Age_Input@@3PAUHWND__@@A) already defined in Game.obj
+Player.obj : error LNK2005: "struct HWND__ * Player_Button" (?Player_Button@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * Board_Title" (?Board_Title@@3PAUHWND__@@A) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * _DimX" (?_DimX@@3PAUHWND__@@A) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * DimX_Input" (?DimX_Input@@3PAUHWND__@@A) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * _DimY" (?_DimY@@3PAUHWND__@@A) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * DimY_Input" (?DimY_Input@@3PAUHWND__@@A) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * Board_Button" (?Board_Button@@3PAUHWND__@@A) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * * * _Board" (?_Board@@3PAPAPAUHWND__@@A) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * * X_Bar" (?X_Bar@@3PAPAUHWND__@@A) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * * Y_Bar" (?Y_Bar@@3PAPAUHWND__@@A) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "char * b_dimx" (?b_dimx@@3PADA) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "char * b_dimy" (?b_dimy@@3PADA) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "int n_dimx" (?n_dimx@@3HA) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "int n_dimy" (?n_dimy@@3HA) already defined in Board.obj
+Sopa_Windows.obj : error LNK2005: "char * p_name" (?p_name@@3PADA) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "char * p_age" (?p_age@@3PADA) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "int n_age" (?n_age@@3HA) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * _Player" (?_Player@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * _Name" (?_Name@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * Name_Input" (?Name_Input@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * _Age" (?_Age@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * Age_Input" (?Age_Input@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * Player_Button" (?Player_Button@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * NewGame" (?NewGame@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * LoadGame" (?LoadGame@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * Exit" (?Exit@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * Level" (?Level@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * _Beginner" (?_Beginner@@3PAUHWND__@@A) already defined in Game.obj
+Sopa_Windows.obj : error LNK2005: "struct HWND__ * _Expert" (?_Expert@@3PAUHWND__@@A) already defined in Game.obj
+C:\Users\diogo\Desktop\Sopa_Windows\Debug\Sopa_Windows.exe : fatal error LNK1169: one or more multiply defined symbols found
