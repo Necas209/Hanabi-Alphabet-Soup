@@ -15,5 +15,6 @@ public:
 	void Ask_name(void);
 	void Ask_age(void);
 	void Increase_score(void);
+	void Show(void);
 	friend ostream& operator<<(ostream& os, Player& player);
 };

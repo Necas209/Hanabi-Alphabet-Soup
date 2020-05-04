@@ -8,27 +8,28 @@ Game::Game()
 
 Game::~Game()
 {
+	delete player;
+	delete board;
 }
 
 void Game::Menu(void)
 {
 	int option;
 	setlocale(LC_ALL, "");
-		cout << endl << " Diogo Medeiros n.o 70633" << endl;
-		cout << endl << "\t\t\t\tSopa de letras" << endl << endl;
-		cout << endl << "\tMenu:" << endl;
-		cout << endl << " 1 -> Começar um novo jogo" << endl;
-		cout << endl << " 2 -> Salvar o jogo" << endl;
-		cout << endl << " 3 -> Carregar um jogo" << endl;
-		cout << endl << " 4 -> Sair" << endl;
-		cout << endl << " Opção: ";
-		cin >> option;
-		if (!cin.good()) {
-			PreventLoop();
-		}
-		else {
-			switch (option)
-			{
+	cout << endl << " Diogo Medeiros n.o 70633" << endl;
+	cout << endl << "\t\t\t\tSopa de letras" << endl << endl;
+	cout << endl << "\tMenu:" << endl;
+	cout << endl << " 1 -> Começar um novo jogo" << endl;
+	cout << endl << " 2 -> Salvar o jogo" << endl;
+	cout << endl << " 3 -> Carregar um jogo" << endl;
+	cout << endl << " 4 -> Sair" << endl;
+	cout << endl << " Opção: ";
+	cin >> option;
+	if (!cin.good()) 
+		PreventLoop();
+	else {
+		switch (option)
+		{
 			case 1:
 				New_Game();
 				Run_Game();
@@ -41,9 +42,10 @@ void Game::Menu(void)
 				exit(0);
 			default:
 				cout << " Opção inválida.";
+				system("cls");
 				Menu();
-			}
 		}
+	}
 }
 
 void Game::Choose_Player(void)
@@ -74,8 +76,10 @@ void Game::Choose_Player(void)
 
 void Game::New_Game()
 {
+	system("cls");
 	Choose_Player();
-	board = new Board();
+	system("cls");
+	board = new Board;
 	board->Create_matrix();
 	board->Load_list();
 	board->Fill_matrix();
@@ -89,12 +93,12 @@ void Game::Run_Game()
 		board->Show_matrix();
 		cout << endl << board->Get_n_used();
 		Play();
-		cout << player;
+		player->Show();
 		board->Show_list();
-		this_thread::sleep_for(chrono::seconds(2));
+		this_thread::sleep_for(chrono::seconds(3));
 	}
 	cout << endl << " Ganhaste!!!" << endl;
-	this_thread::sleep_for(chrono::seconds(2));
+	this_thread::sleep_for(chrono::seconds(5));
 	system("ClS");
 }
 

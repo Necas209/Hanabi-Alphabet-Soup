@@ -1,7 +1,6 @@
 #pragma once
 #include "Letter.h"
 #include <string>
-#include <algorithm>
 #include <ctime>
 
 // States
@@ -24,19 +23,19 @@ class Word
 private:
 	string word;
 	int orientation;
-	int state;
+	int* state;
 	Point initial_point;
 public:
 	Word();
 	Word(string word);
 	virtual ~Word();
 	void Set_word(string word) { this->word = word; };
-	void Set_orientation(int orientation) { this->orientation = orientation; };
-	void Set_state(int state) { this->state = state; };
+	void Set_state(int s) { *state = s; };
 	string Get_word(void) const { return word; };
 	int Get_orientation(void) const { return orientation; };
-	int Get_state(void) const { return state; };
-	Point Get_initial_point(void) const { return initial_point; };
+	int* Get_state(void) const { return state; };
+	int Get_initial_x(void);
+	int Get_initial_y(void);
 	void RandPoint(int DimX, int DimY);
 	void RandOrientation(void);
 	void Ask2Set_W(void);

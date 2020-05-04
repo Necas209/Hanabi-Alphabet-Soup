@@ -3,6 +3,7 @@
 Board::Board()
 	:DimX(0), DimY(0), n(0)
 {
+	cout << endl << "\tDimensões da sopa de letras" << endl;
 	Ask_DimX();
 	Ask_DimY();
 }
@@ -49,7 +50,7 @@ void Board::Fill_matrix(void)
 	{
 		for (int j = 0; j < DimX; j++)
 		{
-			if (matrix[i][j].Get_letter() == ' ')
+			if (matrix[i][j] == ' ')
 				matrix[i][j].Rand_letter();
 		}
 	}
@@ -57,16 +58,19 @@ void Board::Fill_matrix(void)
 
 void Board::Show_matrix()
 {
-	cout << endl << "   ";
+	cout << endl << "    ";
 	for (int i = 0; i < DimX; i++)
 			cout << i % 10 << ' ';
 	cout << endl;
 	for (int i = 0; i < DimY; i++) 
 	{
-		cout << ' ' << i % 10 << ' ';
+		cout << "  " << i % 10 << ' ';
 		for (int j = 0; j < DimX; j++)
 		{
+			if (*matrix[i][j].Get_state() == FOUND)
+				setForeColor(MY_COLOR_LIGTH_RED);
 			cout << matrix[i][j];
+			resetColor();
 		}
 		cout << endl;
 	}
@@ -77,7 +81,7 @@ int Board::Get_n_used(void)
 	int k = 0;
 	for (int i = 0; i < n; i++)
 	{
-		if (list[i].Get_state() != NOT_USED)
+		if (*list[i].Get_state() != NOT_USED)
 			k++;
 	}
 	return k;
@@ -131,29 +135,65 @@ void Board::Load_list()
 {
 	string aux;
 	ifstream file;
-	file.open("distritos.txt");
-	while (!file.eof())
+	int option, i = 0;
+	cout << endl << "\tEscolha o tema da sopa de letras:" << endl;
+	cout << endl << " 1 -> Distritos de Portugal" << endl;
+	cout << endl << " 2 -> Estados Unidos da América" << endl;
+	cout << endl << "\tOpção: ";
+	cin >> option;
+	if (!cin.good() or (option != 1 and option != 2))
 	{
-		getline(file, aux);
-		list.push_back(Word(aux));
+		PreventLoop();
+		Load_list();
 	}
-	Set_n(list.size());
-	file.close();
+	else
+	{
+		switch (option)
+		{
+		case 1:
+			file.open("distritos.txt");
+			break;
+		case 2:
+			file.open("usa.txt");
+			break;
+		}
+		if (!file.is_open())
+			cout << endl << "Erro ao abrir o ficheiro." << endl;
+		else
+		{
+			while (!file.eof())
+			{
+				getline(file, aux);
+				list.push_back(Word(aux));
+				list[i].Upper_Case();
+				i++;
+			}
+			n = list.size();
+		}
+		file.close();
+	}
 }
 
 void Board::Show_list()
 {
+	int k = 0;
+	gotoxy(2 * DimX + 20, 1);
+	cout << "Palavras encontradas:";
 	for (int i = 0; i < n; i++)
 	{
-		if(list[i].Get_state() == FOUND)
-			cout << list[i] << endl;
+		if (*list[i].Get_state() == FOUND)
+		{
+			gotoxy(2 * DimX + 20, 3 + 2 * k);
+			cout << list[i];
+			k++;
+		}
 	}
 }
 
 bool Board::Check_Crossing(int i)
 {
-	int x = list[i].Get_initial_point().Get_x();
-	int y = list[i].Get_initial_point().Get_y();
+	int x = list[i].Get_initial_x();
+	int y = list[i].Get_initial_y();
 	int l = list[i].size();
 	int o = list[i].Get_orientation();
 	if (i == 0)
@@ -214,51 +254,78 @@ bool Board::Check_Crossing(int i)
 
 bool Board::Check_Letter(int i, int x, int y, int k)
 {
-	char l = matrix[y][x].Get_letter();
+	Letter l = matrix[y][x];
 	char c = list[i].Get_word()[k];
 	return (l == ' ' or l == c);
 }
 
 void Board::Insert_Word(int i)
 {
-	int x = list[i].Get_initial_point().Get_x();
-	int y = list[i].Get_initial_point().Get_y();
-	int l = list[i].size();
-	int o = list[i].Get_orientation();
+	int x, y, l, o, *s;
+	string w = list[i].Get_word();
+	x = list[i].Get_initial_x();
+	y = list[i].Get_initial_y();
+	l = list[i].size();
+	o = list[i].Get_orientation();
 	list[i].Set_state(NOT_FOUND);
+	s = list[i].Get_state();
 	switch (o)
 	{
 	case FRONT:
 		for (int j = x; j < (x + l); j++)
-			matrix[y][j] = list[i].Get_word()[j - x];
+		{
+			matrix[y][j] = w[j - x];
+			matrix[y][j].Set_state(s);
+		}
 		break;
 	case BACK:
 		for (int j = x; j > (x - l); j--)
-			matrix[y][j] = list[i].Get_word()[x - j];
+		{
+			matrix[y][j] = w[x - j];
+			matrix[y][j].Set_state(s);
+		}
 		break;
 	case DOWN:
 		for (int j = y; j < (y + l); j++)
-			matrix[j][x] = list[i].Get_word()[j - y];
+		{
+			matrix[j][x] = w[j - y];
+			matrix[j][x].Set_state(s);
+		}
 		break;
 	case UP:
 		for (int j = y; j > (y - l); j--)
-			matrix[j][x] = list[i].Get_word()[y - j];
+		{
+			matrix[j][x] = w[y - j];
+			matrix[j][x].Set_state(s);
+		}
 		break;
 	case FRONT_DOWN:
 		for (int j1 = x, j2 = y; j1 < (x + l) and j2 < (y + l); j1++, j2++)
-			matrix[j2][j1] = list[i].Get_word()[j1 - x];
+		{
+			matrix[j2][j1] = w[j1 - x];
+			matrix[j2][j1].Set_state(s);
+		}
 		break;
 	case BACK_UP:
 		for (int j1 = x, j2 = y; j1 > (x - l) and j2 > (y - l); j1--, j2--)
-			matrix[j2][j1] = list[i].Get_word()[x - j1];
+		{
+			matrix[j2][j1] = w[x - j1];
+			matrix[j2][j1].Set_state(s);
+		}
 		break;
 	case BACK_DOWN:
 		for (int j1 = x, j2 = y; j1 > (x - l) and j2 < (y + l); j1--, j2++)
-			matrix[j2][j1] = list[i].Get_word()[j2 - y];
+		{
+			matrix[j2][j1] = w[j2 - y];
+			matrix[j2][j1].Set_state(s);
+		}
 		break;
 	case FRONT_UP:
-		for (int j1 = x, j2 = y; j1 < (x + l) and j2 > (y - l); j1++, j2--)
-			matrix[j2][j1] = list[i].Get_word()[j1 - x];
+		for (int j1 = x, j2 = y; j1 < (x + l) and j2 >(y - l); j1++, j2--)
+		{
+			matrix[j2][j1] = w[j1 - x];
+			matrix[j2][j1].Set_state(s);
+		}
 		break;
 	}
 }
@@ -270,7 +337,7 @@ bool Board::Check_If_Word_Is_Present(Word w)
 	{
 		if (w == list[i])
 		{
-			if (list[i].Get_state() != FOUND)
+			if (*list[i].Get_state() != FOUND)
 			{
 				list[i].Set_state(FOUND);
 				return true;

@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #define MY_COLOR_BLACK			0
 #define MY_COLOR_DARK_BLUE		1
@@ -38,3 +39,4 @@ void showVerticalWordAt(int x, int y, string s);
 void printfAt(int x, int y, string s);
 ////////////
 void PreventLoop(void);
+void Upper(string& s);

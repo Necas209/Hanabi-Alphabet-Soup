@@ -1,23 +1,36 @@
 #include "Word.h"
 
 Word::Word()
-	:orientation(NONE), state(NOT_USED)
+	:orientation(NONE)
 {
+	state = new int;
+	*state = NOT_USED;
 }
 
 Word::Word(string word)
 {
 	this->word = word;
-	state = NOT_USED;
+	state = new int;
+	*state = NOT_USED;
 }
 
 Word::~Word()
 {
 }
 
+int Word::Get_initial_x(void)
+{
+	return initial_point.Get_x();
+}
+
+int Word::Get_initial_y(void)
+{
+	return initial_point.Get_y();
+}
+
 void Word::RandPoint(int DimX, int DimY)
 {
-	int x, y;
+	int x = 0, y = 0;
 	int l = word.length();
 	int h = l - 1;
 	switch (orientation)
@@ -73,7 +86,7 @@ void Word::Ask2Set_W(void)
 
 void Word::Upper_Case(void)
 {
-	transform(word.begin(), word.end(), word.begin(), ::toupper);
+	Upper(word);
 }
 
 size_t Word::size(void)
@@ -83,14 +96,9 @@ size_t Word::size(void)
 
 void Word::Read(ifstream& is)
 {
-	int o, s;
-	string w;
-	is >> o >> s;
+	is >> orientation >> *state;
 	initial_point.Read(is);
-	getline(is, w, ';');
-	Set_orientation(o);
-	Set_state(s);
-	Set_word(w);
+	getline(is, word, ';');
 }
 
 void Word::Save(ofstream& os)
@@ -107,10 +115,10 @@ bool Word::operator==(Word w)
 
 void Word::operator=(Word w)
 {
-	Set_word(w.word);
-	Set_orientation(w.orientation);
-	Set_state(w.state);
-	this->initial_point.Set_P(w.initial_point);
+	this->word = w.word;
+	this->orientation = w.orientation;
+	this->state = w.state;
+	this->initial_point = w.initial_point;
 }
 
 ostream& operator<<(ostream& os, Word w)

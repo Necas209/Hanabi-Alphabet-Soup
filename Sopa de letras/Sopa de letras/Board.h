@@ -17,7 +17,6 @@ private:
 public:
 	Board();
 	virtual ~Board();
-	void Set_n(int n) { this->n = n; };
 	int Get_n_used(void);
 	void Ask_DimX(void);
 	void Ask_DimY(void);

@@ -101,4 +101,8 @@ void PreventLoop(void)
 	cout << endl << "Opção inválida." << endl;
 }
 
+void Upper(string& s)
+{
+	transform(s.begin(), s.end(), s.begin(), ::toupper);
+}
 #endif

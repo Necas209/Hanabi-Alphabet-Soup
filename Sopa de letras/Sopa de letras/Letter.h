@@ -4,33 +4,29 @@
 
 #define LOWERCASE 0
 #define UPPERCASE 1
+#define NOT_USED 0
 
 class Letter
 {
 private:
 	char letter;
 	int ascii;
-	int letter_case;    // 0 - minuscula, 1 - maiuscula
+	int letter_case;  // 0 - minuscula, 1 - maiuscula
+	int* state;
 	Point point;
 public:
 	Letter();
 	Letter(char letra, Point ponto, int ascii, int M_m);
 	virtual ~Letter();
-	void Set_letter(char letter) { this->letter = letter; };
-	void Set_ascii(int ascii) { this->ascii = ascii; };
-	void Set_letter_case(int letter_case) { this->letter_case = letter_case; };
-	void Set_point(Point point) { this->point = point; };
-	void Set_L(char letter, int ascii, int letter_case, Point point);
 	void Set_L(char letter, int ascii, int letter_case);
-	char Get_letter(void) const { return letter; };
-	int Get_ascii(void) const { return ascii; };
-	int Get_letter_case(void) const { return letter_case; };
-	Point Get_point(void) const { return point; };
+	void Set_state(int* state) { this->state = state; };
+	int* Get_state(void) const { return state; };
 	void Rand_letter(void);
 	void Read(ifstream& is);
 	void Save(ofstream& os);
 	void operator=(Letter l);
 	void operator=(char c);
+	bool operator==(char c);
 	friend ostream& operator<<(ostream& os, Letter l);
 };
 

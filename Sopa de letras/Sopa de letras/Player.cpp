@@ -38,6 +38,13 @@ void Player::Increase_score(void)
 	score++;
 }
 
+void Player::Show(void)
+{
+	cout << endl << " Nome: " << name << endl;
+	cout << endl << " Idade: " << age << endl;
+	cout << endl << " Pontuação: " << score << endl;
+}
+
 ostream& operator<<(ostream& os, Player& player)
 {
 	os << endl << " Nome: " << player.name << endl;

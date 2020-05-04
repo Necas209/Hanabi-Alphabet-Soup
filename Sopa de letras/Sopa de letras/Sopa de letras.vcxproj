@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="distritos.txt" />
+    <Text Include="usa.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Beginner.h" />
