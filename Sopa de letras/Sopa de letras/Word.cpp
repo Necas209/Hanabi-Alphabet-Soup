@@ -89,7 +89,7 @@ void Word::Upper_Case(void)
 	Upper(word);
 }
 
-size_t Word::size(void)
+size_t Word::length(void)
 {
 	return word.length();
 }

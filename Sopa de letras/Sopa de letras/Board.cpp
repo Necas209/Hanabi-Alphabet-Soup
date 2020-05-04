@@ -40,7 +40,7 @@ void Board::Fill_matrix(void)
 	chrono::duration<double> elapsed;
 	for (int i = 0; i < n; i++) 
 	{
-		l = list[i].size();
+		l = list[i].length();
 		if (l <= DimX and l <= DimY)
 		{
 			do {
@@ -201,7 +201,7 @@ bool Board::Check_Crossing(int i)
 {
 	int x = list[i].Get_initial_x();
 	int y = list[i].Get_initial_y();
-	int l = list[i].size();
+	int l = list[i].length();
 	int o = list[i].Get_orientation();
 	if (i == 0)
 		return 1;
@@ -272,7 +272,7 @@ void Board::Insert_Word(int i)
 	string w = list[i].Get_word();
 	x = list[i].Get_initial_x();
 	y = list[i].Get_initial_y();
-	l = list[i].size();
+	l = list[i].length();
 	o = list[i].Get_orientation();
 	list[i].Set_state(NOT_FOUND);
 	s = list[i].Get_state();

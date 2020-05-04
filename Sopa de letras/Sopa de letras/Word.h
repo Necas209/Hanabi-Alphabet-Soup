@@ -38,7 +38,7 @@ public:
 	void RandOrientation(void);
 	void Ask2Set_W(void);
 	void Upper_Case(void);
-	size_t size(void);
+	size_t length(void);
 	void Read(ifstream& is);
 	void Save(ofstream& os);
 	bool operator==(Word w);
