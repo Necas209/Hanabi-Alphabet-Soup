@@ -1,10 +1,7 @@
 #pragma once
-
-#include <cstdlib>
-#include <cstdio>
+#include <Windows.h>
 #include <clocale>
 #include <ctime>
-#include <Windows.h>
 #include <iostream>
 #include <fstream>
 #include <string>
