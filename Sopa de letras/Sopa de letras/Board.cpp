@@ -17,6 +17,7 @@ Board::~Board()
 void Board::Create_matrix()
 {
 	char l = ' ';
+	matrix.clear();
 	matrix.resize(DimY, vector<Letter>(DimX));
 	for (int i = 0; i < DimY; i++) 
 	{
@@ -136,6 +137,7 @@ void Board::Load_list()
 	string aux;
 	ifstream file;
 	int option, i = 0;
+	list.clear();
 	cout << endl << "\tEscolha o tema da sopa de letras:" << endl;
 	cout << endl << " 1 -> Distritos de Portugal" << endl;
 	cout << endl << " 2 -> Estados Unidos da América" << endl;
