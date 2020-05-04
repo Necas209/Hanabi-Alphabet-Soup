@@ -9,6 +9,9 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <vector>
+#include <thread>
+#include <chrono>
 
 #define MY_COLOR_BLACK			0
 #define MY_COLOR_DARK_BLUE		1
@@ -39,6 +42,6 @@ void show90RectAt(int x, int y, int width, int height);
 void showCharAt(int x, int y, char c);
 void showVerticalWordAt(int x, int y, string s);
 void printfAt(int x, int y, string s);
-////////////
+// Functions involving strings
 void PreventLoop(void);
 void Upper(string& s);
