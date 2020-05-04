@@ -349,6 +349,6 @@ bool Board::Check_If_Word_Is_Present(Word w)
 			}
 		}
 	}
-	cout << endl << " A palavra não está na sopa de letras." << endl;
+	cout << endl << " A palavra não se encontra na sopa de letras." << endl;
 	return false;
 }
