@@ -1,6 +1,4 @@
 #pragma once
-#include <fstream>
-#include <ctime>
 #include "functions.h"
 
 class Point

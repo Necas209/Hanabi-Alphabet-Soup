@@ -1,7 +1,5 @@
 #pragma once
 #include "Letter.h"
-#include <string>
-#include <ctime>
 
 // States
 #define NOT_USED 0

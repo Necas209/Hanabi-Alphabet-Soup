@@ -1,6 +1,5 @@
 #pragma once
 #include "Point.h"
-#include <iostream>
 
 #define LOWERCASE 0
 #define UPPERCASE 1

@@ -3,8 +3,10 @@
 #include <cstdlib>
 #include <cstdio>
 #include <clocale>
+#include <ctime>
 #include <Windows.h>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <algorithm>
 

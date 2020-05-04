@@ -1,5 +1,4 @@
 #include "Player.h"
-#include <string>
 
 Player::Player()
 	:score(0)

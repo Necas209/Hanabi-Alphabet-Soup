@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include "functions.h"
 
 class Player

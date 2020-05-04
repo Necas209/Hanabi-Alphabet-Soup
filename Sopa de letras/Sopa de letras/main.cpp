@@ -7,4 +7,5 @@ int main()
 	{
 		game.Menu();
 	}
+	return 0;
 }
