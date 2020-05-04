@@ -14,6 +14,8 @@ private:
 public:
 	Board();
 	virtual ~Board();
+	void Clear_Board(void);
+	int Get_DimY(void) const { return DimY; };
 	int Get_n_used(void);
 	void Ask_DimX(void);
 	void Ask_DimY(void);
