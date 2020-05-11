@@ -41,6 +41,7 @@ public:
 	size_t length(void);
 	void Read(ifstream& is);
 	void Save(ofstream& os);
+	void ShowWord(void);
 	bool operator==(Word w);
 	void operator=(Word w);
 	friend ostream& operator<<(ostream& os, Word w);

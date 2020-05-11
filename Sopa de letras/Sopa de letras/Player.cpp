@@ -1,14 +1,19 @@
 #include "Player.h"
 
+
 Player::Player()
-	:score(0)
+	:name(""), age(0), score(0)
 {
-	Ask_name();
-	Ask_age();
 }
 
 Player::~Player()
 {
+}
+
+void Player::New_player(void)
+{
+	Ask_name();
+	Ask_age();
 }
 
 void Player::Ask_name()
@@ -42,6 +47,19 @@ void Player::Show(void)
 	cout << endl << " Nome: " << name << endl;
 	cout << endl << " Idade: " << age << endl;
 	cout << endl << " Pontuação: " << score << endl;
+}
+
+void Player::Read(ifstream& is)
+{
+	string s;
+	getline(is, s);
+	is >> age >> score;
+	getline(is, name, ';');
+}
+
+void Player::Save(ofstream& os)
+{
+	os << age << ' ' << score << ' ' << name << ';';
 }
 
 ostream& operator<<(ostream& os, Player& player)

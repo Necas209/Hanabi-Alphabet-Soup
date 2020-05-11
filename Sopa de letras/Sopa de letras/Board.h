@@ -27,5 +27,7 @@ public:
 	bool Check_Crossing(int i);
 	bool Check_Letter(int i, int x, int y, int k);
 	void Insert_Word(int i);
+	void Read(ifstream& is);
+	void Save(ofstream& os);
 	bool Check_If_Word_Is_Present(Word w);
 };

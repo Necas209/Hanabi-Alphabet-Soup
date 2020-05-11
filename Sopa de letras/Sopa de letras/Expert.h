@@ -6,5 +6,6 @@ class Expert :
 {
 public:
 	Expert();
+	~Expert();
+	void Save(ofstream& os);
 };
-

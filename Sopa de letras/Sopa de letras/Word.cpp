@@ -8,6 +8,7 @@ Word::Word()
 }
 
 Word::Word(string word)
+	:orientation(NONE)
 {
 	this->word = word;
 	state = new int;
@@ -103,9 +104,18 @@ void Word::Read(ifstream& is)
 
 void Word::Save(ofstream& os)
 {
-	os << orientation << state;
+	os << orientation << ' ';
+	os << *state << ' ';
 	initial_point.Save(os);
-	os << word;
+	os << ' ' << word << ';';
+}
+
+void Word::ShowWord(void)
+{
+	cout << "Palavra: " << word << endl;
+	cout << "Orientação: " << orientation << endl;
+	cout << "Estado: " << *state << endl;
+	initial_point.ShowPoint();
 }
 
 bool Word::operator==(Word w)

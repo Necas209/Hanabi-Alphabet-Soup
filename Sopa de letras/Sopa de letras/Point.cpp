@@ -94,12 +94,13 @@ void Point::operator=(Point ponto)
 }
 void Point::Save(ofstream& os)
 {
-	os << x << ' ' << y;
+	os << '(' << x << ',' << y << ')';
 }
 
 void Point::Read(ifstream& is)
 {
+	char c;
 	int x, y;
-	is >> x >> y;
+	is >> c>> x >> c >> y >> c;
 	Set_P(x,y);
 }

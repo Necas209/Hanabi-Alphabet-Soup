@@ -46,8 +46,15 @@ void Letter::Read(ifstream& is)
 
 void Letter::Save(ofstream& os)
 {
-	os << letter;
+	os << letter << ' ';
 	point.Save(os);
+	os << ';';
+}
+
+void Letter::ShowLetter(void)
+{
+	cout << "Letra: " << letter << endl;
+	point.ShowPoint();
 }
 
 void Letter::operator=(Letter l)

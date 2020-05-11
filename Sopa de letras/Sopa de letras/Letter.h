@@ -23,6 +23,7 @@ public:
 	void Rand_letter(void);
 	void Read(ifstream& is);
 	void Save(ofstream& os);
+	void ShowLetter(void);
 	void operator=(Letter l);
 	void operator=(char c);
 	bool operator==(char c);

@@ -3,15 +3,13 @@
 Board::Board()
 	:DimX(0), DimY(0), n(0)
 {
-	cout << endl << "\tDimensões da sopa de letras" << endl;
-	Ask_DimX();
-	Ask_DimY();
 }
 
 Board::~Board()
 {
 	matrix.clear();
 	list.clear();
+	orientations.clear();
 }
 
 void Board::Clear_Board(void)
@@ -23,12 +21,14 @@ void Board::Clear_Board(void)
 
 void Board::Create_matrix()
 {
-	char l = ' ';
+	cout << endl << "\tDimensões da sopa de letras" << endl;
+	Ask_DimX();
+	Ask_DimY();
 	matrix.resize(DimY, vector<Letter>(DimX));
 	for (int i = 0; i < DimY; i++) 
 	{
 		for (int j = 0; j < DimX; j++) 
-			matrix[i][j] = Letter(l, Point(j, i), l, LOWERCASE);
+			matrix[i][j] = Letter(' ', Point(j, i), ' ', LOWERCASE);
 	}
 }
 
@@ -334,6 +334,34 @@ void Board::Insert_Word(int i)
 			matrix[j2][j1].Set_state(s);
 		}
 		break;
+	}
+}
+
+void Board::Read(ifstream& is)
+{
+	string s;
+	getline(is, s);
+}
+
+void Board::Save(ofstream& os)
+{
+	os << "Dimensions:\n";
+	os << DimX << ' ' << DimY << ";\n";
+	os << "Letters:\n";
+	for (int y = 0; y < DimY; y++)
+	{
+		for (int x = 0; x < DimX; x++)
+			matrix[y][x].Save(os);
+		os << endl;
+	}
+	os << "Number of Words:\n";
+	os << n << ";\n";
+	os << "Words:\n";
+	for (int i = 0; i < n; i++)
+	{
+		list[i].Save(os);
+		if (i != n - 1)
+			os << endl;
 	}
 }
 

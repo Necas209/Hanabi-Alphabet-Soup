@@ -6,5 +6,6 @@ class Beginner :
 {
 public:
 	Beginner();
+	~Beginner();
+	void Save(ofstream& os);
 };
-

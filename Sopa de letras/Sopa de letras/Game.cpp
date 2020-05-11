@@ -36,8 +36,10 @@ void Game::Menu(void)
 				Clear_Game();
 				break;
 			case 2:
+				Save_Game();
 				break;
 			case 3:
+				Load_Game();
 				break;
 			case 4:
 				exit(0);
@@ -61,17 +63,21 @@ void Game::Choose_Player(void)
 		PreventLoop();
 		Choose_Player();
 	}
-	switch (option)
+	else
 	{
-	case 1:
-		player = new Beginner;
-		break;
-	case 2:
-		player = new Expert;
-		break;
-	default:
-		cout << endl << " Opção inválida." << endl;
-		Choose_Player();
+		switch (option)
+		{
+		case 1:
+			player = new Beginner;
+			break;
+		case 2:
+			player = new Expert;
+			break;
+		default:
+			cout << endl << " Opção inválida." << endl;
+			Choose_Player();
+		}
+		player->New_player();
 	}
 }
 
@@ -102,6 +108,27 @@ void Game::Run_Game()
 	system("ClS");
 }
 
+void Game::Save_Game(void)
+{
+	Beginner* B;
+	Expert* E;
+	ofstream save;
+	save.open("save.txt");
+	if (!save)
+		cout << endl << "Erro ao abrir o ficheiro." << endl;
+	else
+	{
+		player->Save(save);
+		save << "\n";
+		board->Save(save);
+	}
+	save.close();
+}
+
+void Game::Load_Game(void)
+{
+}
+
 void Game::Clear_Game(void)
 {
 	board->Clear_Board();
@@ -116,7 +143,7 @@ void Game::Play(void)
 	int l = board->Get_DimY() + 2;
 	for (int i = l; i < l + 20; i++)
 	{
-		for (int j = 1; j < 50; j++)
+		for (int j = 1; j < 30; j++)
 		{
 			showCharAt(j, i, ' ');
 		}
@@ -126,20 +153,25 @@ void Game::Play(void)
 	cout << endl << "\t2 -> Salvar o jogo" << endl;
 	cout << endl << "\tOpção: ";
 	cin >> option;
-	switch (option)
+	if (!cin.good())
+		PreventLoop();
+	else
 	{
-	case 1:
-		w.Ask2Set_W();
-		if (board->Check_If_Word_Is_Present(w))
+		switch (option)
 		{
-			cout << endl << "\tCerto!!" << endl;
-			player->Increase_score();
+		case 1:
+			w.Ask2Set_W();
+			if (board->Check_If_Word_Is_Present(w))
+			{
+				cout << endl << "\tCerto!!" << endl;
+				player->Increase_score();
+			}
+			break;
+		case 2:
+			Save_Game();
+			break;
+		default:
+			cout << endl << "\t Opção inválida." << endl;
 		}
-		break;
-	case 2:
-		break;
-	default:
-		cout << endl << "\t Opção inválida." << endl;
-		Play();
 	}
 }

@@ -3,9 +3,7 @@
 int main() 
 {
 	Game game;
-	while(true)
-	{
+	while (true)  
 		game.Menu();
-	}
 	return 0;
 }
