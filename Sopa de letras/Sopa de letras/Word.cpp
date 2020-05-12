@@ -100,6 +100,7 @@ void Word::Read(ifstream& is)
 	is >> orientation >> *state;
 	initial_point.Read(is);
 	getline(is, word, ';');
+	word.erase(word.begin());
 }
 
 void Word::Save(ofstream& os)

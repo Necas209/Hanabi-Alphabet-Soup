@@ -38,15 +38,16 @@ void Letter::Rand_letter()
 
 void Letter::Read(ifstream& is)
 {
+	state = new int;
 	char c;
-	is >> c;
+	is >> c >> *state;
 	point.Read(is);
 	Set_L(c, c, Upper_lower(c));
 }
 
 void Letter::Save(ofstream& os)
 {
-	os << letter << ' ';
+	os << letter << ' ' << *state << ' ';
 	point.Save(os);
 	os << ';';
 }

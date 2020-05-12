@@ -339,8 +339,32 @@ void Board::Insert_Word(int i)
 
 void Board::Read(ifstream& is)
 {
+	char c;
 	string s;
 	getline(is, s);
+	is >> DimX >> DimY;
+	getline(is, s);
+	matrix.resize(DimY, vector<Letter>(DimX));
+	getline(is, s);
+	for (int y = 0; y < DimY; y++)
+	{
+		for (int x = 0; x < DimX; x++)
+		{
+			matrix[y][x].Read(is);
+			is >> c;
+		}
+		getline(is, s);
+	}
+	getline(is, s);
+	is >> n;
+	getline(is, s);
+	list.resize(n);
+	getline(is, s);
+	for (int i = 0; i < n; i++)
+	{
+		list[i].Read(is);
+		getline(is, s);
+	}
 }
 
 void Board::Save(ofstream& os)

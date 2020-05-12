@@ -1,9 +1,1 @@
-﻿  Beginner.cpp
-  Board.cpp
-  Expert.cpp
-  Game.cpp
-C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Game.cpp(113,12): warning C4101: 'B': unreferenced local variable
-C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Game.cpp(114,10): warning C4101: 'E': unreferenced local variable
-  main.cpp
-  Generating Code...
-  Sopa de letras.vcxproj -> C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Debug\Sopa de letras.exe
+﻿  Sopa de letras.vcxproj -> C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Debug\Sopa de letras.exe

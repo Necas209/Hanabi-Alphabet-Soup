@@ -52,7 +52,6 @@ void Player::Show(void)
 void Player::Read(ifstream& is)
 {
 	string s;
-	getline(is, s);
 	is >> age >> score;
 	getline(is, name, ';');
 }

@@ -1,9 +1,8 @@
 #include "Game.h"
 
 Game::Game()
+	:player(nullptr), board(nullptr)
 {
-	player = nullptr;
-	board = nullptr;
 }
 
 Game::~Game()
@@ -20,9 +19,8 @@ void Game::Menu(void)
 	cout << endl << "\t\t\t\tSopa de letras" << endl << endl;
 	cout << endl << "\tMenu:" << endl;
 	cout << endl << " 1 -> Começar um novo jogo" << endl;
-	cout << endl << " 2 -> Salvar o jogo" << endl;
-	cout << endl << " 3 -> Carregar um jogo" << endl;
-	cout << endl << " 4 -> Sair" << endl;
+	cout << endl << " 2 -> Carregar um jogo" << endl;
+	cout << endl << " 3 -> Sair" << endl;
 	cout << endl << " Opção: ";
 	cin >> option;
 	if (!cin.good()) 
@@ -33,15 +31,11 @@ void Game::Menu(void)
 			case 1:
 				New_Game();
 				Run_Game();
-				Clear_Game();
 				break;
 			case 2:
-				Save_Game();
-				break;
-			case 3:
 				Load_Game();
 				break;
-			case 4:
+			case 3:
 				exit(0);
 			default:
 				cout << " Opção inválida.";
@@ -104,14 +98,13 @@ void Game::Run_Game()
 		this_thread::sleep_for(chrono::seconds(3));
 	}
 	cout << endl << " Ganhaste!!!" << endl;
+	Clear_Game();
 	this_thread::sleep_for(chrono::seconds(5));
 	system("ClS");
 }
 
 void Game::Save_Game(void)
 {
-	Beginner* B;
-	Expert* E;
 	ofstream save;
 	save.open("save.txt");
 	if (!save)
@@ -127,6 +120,27 @@ void Game::Save_Game(void)
 
 void Game::Load_Game(void)
 {
+	char c;
+	string s;
+	ifstream load;
+	load.open("save.txt");
+	if(!load)
+		cout << endl << "Erro ao abrir o ficheiro." << endl;
+	else
+	{
+		load >> c;
+		if (c == 'B')
+			player = new Beginner;
+		else if (c == 'E')
+			player = new Expert;
+		load >> c;
+		player->Read(load);
+		getline(load, s);
+		board = new Board;
+		board->Read(load);
+		Run_Game();
+	}
+	load.close();
 }
 
 void Game::Clear_Game(void)
