@@ -1,17 +1,13 @@
 #include "Letter.h"
 
 Letter::Letter()
-	:letter(' '), ascii(' '), letter_case(LOWERCASE)
+	:letter(' '), ascii(' '), letter_case(LOWERCASE), state(NOT_USED)
 {
-	state = new int;
-	*state = NOT_USED;
 }
 
 Letter::Letter(char letter, Point point, int ascii, int letter_case)
-	:letter(letter), point(point), ascii(ascii), letter_case(letter_case)
+	:letter(letter), point(point), ascii(ascii), letter_case(letter_case), state(NOT_USED)
 {
-	state = new int;
-	*state = NOT_USED;
 }
 
 Letter::~Letter()
@@ -38,16 +34,15 @@ void Letter::Rand_letter()
 
 void Letter::Read(ifstream& is)
 {
-	state = new int;
 	char c;
-	is >> c >> *state;
+	is >> c >> state;
 	point.Read(is);
 	Set_L(c, c, Upper_lower(c));
 }
 
 void Letter::Save(ofstream& os)
 {
-	os << letter << ' ' << *state << ' ';
+	os << letter << ' ' << state << ' ';
 	point.Save(os);
 	os << ';';
 }

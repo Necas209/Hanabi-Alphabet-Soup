@@ -1,18 +1,13 @@
 #include "Word.h"
 
 Word::Word()
-	:orientation(NONE)
+	:orientation(NONE), state(NOT_USED), word("")
 {
-	state = new int;
-	*state = NOT_USED;
 }
 
 Word::Word(string word)
-	:orientation(NONE)
+	:orientation(NONE), state(NOT_USED), word(word)
 {
-	this->word = word;
-	state = new int;
-	*state = NOT_USED;
 }
 
 Word::~Word()
@@ -97,7 +92,7 @@ size_t Word::length(void)
 
 void Word::Read(ifstream& is)
 {
-	is >> orientation >> *state;
+	is >> orientation >> state;
 	initial_point.Read(is);
 	getline(is, word, ';');
 	word.erase(word.begin());
@@ -106,16 +101,16 @@ void Word::Read(ifstream& is)
 void Word::Save(ofstream& os)
 {
 	os << orientation << ' ';
-	os << *state << ' ';
+	os << state << ' ';
 	initial_point.Save(os);
 	os << ' ' << word << ';';
 }
 
-void Word::ShowWord(void)
+void Word::Show(void)
 {
 	cout << "Palavra: " << word << endl;
 	cout << "Orientação: " << orientation << endl;
-	cout << "Estado: " << *state << endl;
+	cout << "Estado: " << state << endl;
 	initial_point.ShowPoint();
 }
 

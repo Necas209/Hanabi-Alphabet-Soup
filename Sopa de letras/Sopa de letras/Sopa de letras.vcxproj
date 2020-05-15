@@ -151,7 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="distritos.txt" />
-    <Text Include="save.txt" />
     <Text Include="usa.txt" />
   </ItemGroup>
   <ItemGroup>

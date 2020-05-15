@@ -21,17 +21,17 @@ class Word
 private:
 	string word;
 	int orientation;
-	int* state;
+	int state;
 	Point initial_point;
 public:
 	Word();
 	Word(string word);
 	virtual ~Word();
 	void Set_word(string word) { this->word = word; };
-	void Set_state(int s) { *state = s; };
+	void Set_state(int state) { this->state = state; };
 	string Get_word(void) const { return word; };
 	int Get_orientation(void) const { return orientation; };
-	int* Get_state(void) const { return state; };
+	int Get_state(void) const { return state; };
 	int Get_initial_x(void);
 	int Get_initial_y(void);
 	void RandPoint(int DimX, int DimY);
@@ -41,7 +41,7 @@ public:
 	size_t length(void);
 	void Read(ifstream& is);
 	void Save(ofstream& os);
-	void ShowWord(void);
+	void Show(void);
 	bool operator==(Word w);
 	void operator=(Word w);
 	friend ostream& operator<<(ostream& os, Word w);

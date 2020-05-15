@@ -82,8 +82,5 @@
     <Text Include="usa.txt">
       <Filter>Source Files</Filter>
     </Text>
-    <Text Include="save.txt">
-      <Filter>Source Files</Filter>
-    </Text>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-South Carolina
+SouthCarolina
 Arizona
 Tennessee
 Indiana
@@ -8,9 +8,9 @@ Massachusetts
 Maine
 Wisconsin
 Washington
-North Dakota
+NorthDakota
 Alaska
-Rhode Island
+RhodeIsland
 Louisiana
 Idaho
 Colorado
@@ -22,23 +22,23 @@ Mississippi
 Ohio
 Georgia
 Illinois
-New Mexico
+NewMexico
 Utah
 Hawaii
-New Jersey
+NewJersey
 Alabama
-West Virginia
-New Hampshire
+WestVirginia
+NewHampshire
 California
 Florida
-New York
+NewYork
 Virginia
 Maryland
 Missouri
-South Dakota
+SouthDakota
 Oklahoma
 Kentucky
-North Carolina
+NorthCarolina
 Michigan
 Arkansas
 Pennsylvania

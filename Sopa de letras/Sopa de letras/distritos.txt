@@ -1,8 +1,8 @@
 Braganca
-Vila Real
+VilaReal
 Porto
 Guarda
-Castelo Branco
+CasteloBranco
 Lisboa
 Santarem
 Beja
@@ -15,4 +15,4 @@ Aveiro
 Coimbra
 Portalegre
 Evora
-Viana do Castelo
+VianadoCastelo

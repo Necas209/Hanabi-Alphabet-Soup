@@ -11,15 +11,15 @@ private:
 	char letter;
 	int ascii;
 	int letter_case;  // 0 - minuscula, 1 - maiuscula
-	int* state;
+	int state;
 	Point point;
 public:
 	Letter();
 	Letter(char letra, Point ponto, int ascii, int M_m);
 	virtual ~Letter();
 	void Set_L(char letter, int ascii, int letter_case);
-	void Set_state(int* state) { this->state = state; };
-	int* Get_state(void) const { return state; };
+	void Set_state(int state) { this->state = state; };
+	int Get_state(void) const { return state; };
 	void Rand_letter(void);
 	void Read(ifstream& is);
 	void Save(ofstream& os);

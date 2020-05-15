@@ -49,8 +49,11 @@ void Board::Fill_matrix(void)
 				auto end = chrono::high_resolution_clock::now();
 				elapsed = end - start;
 			} while (!Check_Crossing(i) and elapsed.count() < 1);
-			if(Check_Crossing(i))
+			if (Check_Crossing(i))
+			{
+				list[i].Set_state(NOT_FOUND);
 				Insert_Word(i);
+			}
 		}
 	}
 	for (int i = 0; i < DimY; i++)
@@ -74,7 +77,7 @@ void Board::Show_matrix()
 		cout << "  " << i % 10 << ' ';
 		for (int j = 0; j < DimX; j++)
 		{
-			if (*matrix[i][j].Get_state() == FOUND)
+			if (matrix[i][j].Get_state() == FOUND)
 				setForeColor(MY_COLOR_LIGTH_RED);
 			cout << matrix[i][j];
 			resetColor();
@@ -88,7 +91,7 @@ int Board::Get_n_used(void)
 	int k = 0;
 	for (int i = 0; i < n; i++)
 	{
-		if (*list[i].Get_state() != NOT_USED)
+		if (list[i].Get_state() != NOT_USED)
 			k++;
 	}
 	return k;
@@ -188,7 +191,7 @@ void Board::Show_list()
 	cout << "Palavras encontradas:";
 	for (int i = 0; i < n; i++)
 	{
-		if (*list[i].Get_state() == FOUND)
+		if (list[i].Get_state() == FOUND)
 		{
 			gotoxy(2 * DimX + 20, 3 + 2 * k);
 			cout << list[i];
@@ -268,13 +271,12 @@ bool Board::Check_Letter(int i, int x, int y, int k)
 
 void Board::Insert_Word(int i)
 {
-	int x, y, l, o, *s;
+	int x, y, l, o, s;
 	string w = list[i].Get_word();
 	x = list[i].Get_initial_x();
 	y = list[i].Get_initial_y();
 	l = list[i].length();
 	o = list[i].Get_orientation();
-	list[i].Set_state(NOT_FOUND);
 	s = list[i].Get_state();
 	switch (o)
 	{
@@ -396,9 +398,10 @@ bool Board::Check_If_Word_Is_Present(Word w)
 	{
 		if (w == list[i])
 		{
-			if (*list[i].Get_state() != FOUND)
+			if (list[i].Get_state() != FOUND)
 			{
 				list[i].Set_state(FOUND);
+				Insert_Word(i);
 				return true;
 			}
 			else
