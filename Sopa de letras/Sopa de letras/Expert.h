@@ -7,5 +7,6 @@ class Expert :
 public:
 	Expert();
 	~Expert();
+	void Score();
 	void Save(ofstream& os);
 };

@@ -8,6 +8,10 @@ Beginner::~Beginner()
 {
 }
 
+void Beginner::Score()
+{
+}
+
 void Beginner::Save(ofstream& os)
 {
 	os << "B: ";

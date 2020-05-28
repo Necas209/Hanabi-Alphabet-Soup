@@ -45,7 +45,7 @@ void Game::Menu(void)
 	}
 }
 
-void Game::Choose_Player(void)
+void Game::Choose_Level(void)
 {
 	int option;
 	cout << endl << " Nível do jogador: " << endl;
@@ -53,9 +53,9 @@ void Game::Choose_Player(void)
 	cout << endl << "\t2 -> Experiente" << endl;
 	cout << endl << "\tOpção: ";
 	cin >> option;
-	if (!cin.good()) {
+	if (!cin.good() or (option != 1 and option != 2)) {
 		PreventLoop();
-		Choose_Player();
+		Choose_Level();
 	}
 	else
 	{
@@ -63,24 +63,23 @@ void Game::Choose_Player(void)
 		{
 		case 1:
 			player = new Beginner;
+			board = new Easy_Board;
 			break;
 		case 2:
 			player = new Expert;
+			board = new Hard_Board;
 			break;
-		default:
-			cout << endl << " Opção inválida." << endl;
-			Choose_Player();
 		}
-		player->New_player();
+		player->Ask_name();
+		player->Ask_age();
 	}
 }
 
 void Game::New_Game()
 {
 	system("cls");
-	Choose_Player();
+	Choose_Level();
 	system("cls");
-	board = new Board;
 	board->Create_matrix();
 	board->Load_list();
 	board->Fill_matrix();
@@ -88,7 +87,7 @@ void Game::New_Game()
 
 void Game::Run_Game()
 {
-	while (player->Get_score() < board->Get_n_used())
+	while (board->Number_NOT_FOUND() > 0)
 	{
 		system("CLS");
 		board->Show_matrix();
@@ -98,9 +97,10 @@ void Game::Run_Game()
 		this_thread::sleep_for(chrono::seconds(3));
 	}
 	cout << endl << " Ganhaste!!!" << endl;
+	player->Score();
 	Clear_Game();
 	this_thread::sleep_for(chrono::seconds(5));
-	system("ClS");
+	system("CLS");
 }
 
 void Game::Save_Game(void)
@@ -131,12 +131,16 @@ void Game::Load_Game(void)
 		load >> c;
 		if (c == 'B')
 			player = new Beginner;
-		else if (c == 'E')
+		else
 			player = new Expert;
 		load >> c;
 		player->Read(load);
 		getline(load, s);
-		board = new Board;
+		load >> c;
+		if (c == 'E')
+			board = new Easy_Board;
+		else
+			board = new Hard_Board;
 		board->Read(load);
 		Run_Game();
 	}
@@ -178,7 +182,7 @@ void Game::Play(void)
 			if (board->Check_If_Word_Is_Present(w))
 			{
 				cout << endl << "\tCerto!!" << endl;
-				player->Increase_score();
+				player->Score();
 			}
 			break;
 		case 2:

@@ -7,5 +7,6 @@ class Beginner :
 public:
 	Beginner();
 	~Beginner();
+	void Score();
 	void Save(ofstream& os);
 };

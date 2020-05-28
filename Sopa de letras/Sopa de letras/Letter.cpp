@@ -5,13 +5,13 @@ Letter::Letter()
 {
 }
 
-Letter::Letter(char letter, Point point, int ascii, int letter_case)
-	:letter(letter), point(point), ascii(ascii), letter_case(letter_case), state(NOT_USED)
+Letter::~Letter()
 {
 }
 
-Letter::~Letter()
+void Letter::Set_point(int x, int y)
 {
+	point.Set_P(x, y);
 }
 
 void Letter::Set_L(char letter, int ascii, int letter_case)

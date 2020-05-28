@@ -27,8 +27,9 @@ public:
 	Word();
 	Word(string word);
 	virtual ~Word();
-	void Set_word(string word) { this->word = word; };
-	void Set_state(int state) { this->state = state; };
+	void Set_word(string w) { word = w; };
+	void Set_orientation(int o) { orientation = o; };
+	void Set_state(int s) { state = s; };
 	string Get_word(void) const { return word; };
 	int Get_orientation(void) const { return orientation; };
 	int Get_state(void) const { return state; };
@@ -43,6 +44,8 @@ public:
 	void Save(ofstream& os);
 	void Show(void);
 	bool operator==(Word w);
+	bool operator==(int state);
+	bool operator!=(int state);
 	void operator=(Word w);
 	friend ostream& operator<<(ostream& os, Word w);
 };

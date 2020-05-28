@@ -116,15 +116,25 @@ void Word::Show(void)
 
 bool Word::operator==(Word w)
 {
-	return (this->word == w.word && this->initial_point == w.initial_point);
+	return (word == w.word && initial_point == w.initial_point);
+}
+
+bool Word::operator==(int state)
+{
+	return (this->state == state);
+}
+
+bool Word::operator!=(int state)
+{
+	return (this->state != state);
 }
 
 void Word::operator=(Word w)
 {
-	this->word = w.word;
-	this->orientation = w.orientation;
-	this->state = w.state;
-	this->initial_point = w.initial_point;
+	word = w.word;
+	orientation = w.orientation;
+	state = w.state;
+	initial_point = w.initial_point;
 }
 
 ostream& operator<<(ostream& os, Word w)

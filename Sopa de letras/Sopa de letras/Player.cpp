@@ -10,12 +10,6 @@ Player::~Player()
 {
 }
 
-void Player::New_player(void)
-{
-	Ask_name();
-	Ask_age();
-}
-
 void Player::Ask_name()
 {
 	cout << endl << " Insira o seu nome: ";
@@ -35,11 +29,6 @@ void Player::Ask_age()
 	}
 	else
 		this->age = age;
-}
-
-void Player::Increase_score(void)
-{
-	score++;
 }
 
 void Player::Show(void)

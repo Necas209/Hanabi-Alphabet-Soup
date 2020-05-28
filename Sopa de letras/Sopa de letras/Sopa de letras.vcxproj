@@ -139,8 +139,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Beginner.cpp" />
+    <ClCompile Include="Easy_Board.cpp" />
     <ClCompile Include="Expert.cpp" />
     <ClCompile Include="functions.cpp" />
+    <ClCompile Include="Hard_Board.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Letter.cpp" />
@@ -151,12 +153,15 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="distritos.txt" />
+    <Text Include="save.txt" />
     <Text Include="usa.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Beginner.h" />
+    <ClInclude Include="Easy_Board.h" />
     <ClInclude Include="Expert.h" />
     <ClInclude Include="functions.h" />
+    <ClInclude Include="Hard_Board.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Letter.h" />

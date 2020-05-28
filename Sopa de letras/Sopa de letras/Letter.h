@@ -15,8 +15,8 @@ private:
 	Point point;
 public:
 	Letter();
-	Letter(char letra, Point ponto, int ascii, int M_m);
 	virtual ~Letter();
+	void Set_point(int x, int y);
 	void Set_L(char letter, int ascii, int letter_case);
 	void Set_state(int state) { this->state = state; };
 	int Get_state(void) const { return state; };

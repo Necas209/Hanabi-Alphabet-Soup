@@ -8,6 +8,10 @@ Expert::~Expert()
 {
 }
 
+void Expert::Score()
+{
+}
+
 void Expert::Save(ofstream& os)
 {
 	os << "E: ";

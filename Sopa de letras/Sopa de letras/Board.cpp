@@ -1,68 +1,37 @@
 #include "Board.h"
 
 Board::Board()
-	:DimX(0), DimY(0), n(0)
+	:matrix(nullptr), DimX(0), DimY(0), no_words(0)
 {
 }
 
 Board::~Board()
 {
-	matrix.clear();
+	for (int i = 0; i < DimY; i++)
+		delete[] matrix[i];
+	delete[] matrix;
 	list.clear();
-	orientations.clear();
 }
 
-void Board::Clear_Board(void)
+void Board::Clear_Board()
 {
-	matrix.clear();
+	for (int i = 0; i < DimY; i++)
+		delete[] matrix[i];
+	delete[] matrix;
 	list.clear();
-	orientations.clear();
 }
 
 void Board::Create_matrix()
 {
-	cout << endl << "\tDimensões da sopa de letras" << endl;
+	cout << endl << "\tDimensões da sopa de letras mínimas: 10 x 10" << endl;
 	Ask_DimX();
 	Ask_DimY();
-	matrix.resize(DimY, vector<Letter>(DimX));
+	matrix = new Letter*[DimY];
 	for (int i = 0; i < DimY; i++) 
 	{
+		matrix[i] = new Letter[DimX];
 		for (int j = 0; j < DimX; j++) 
-			matrix[i][j] = Letter(' ', Point(j, i), ' ', LOWERCASE);
-	}
-}
-
-void Board::Fill_matrix(void)
-{
-	int l;
-	srand((unsigned)time(nullptr));
-	auto start = chrono::high_resolution_clock::now();
-	chrono::duration<double> elapsed;
-	for (int i = 0; i < n; i++) 
-	{
-		l = list[i].length();
-		if (l <= DimX and l <= DimY)
-		{
-			do {
-				list[i].RandOrientation();
-				list[i].RandPoint(DimX, DimY);
-				auto end = chrono::high_resolution_clock::now();
-				elapsed = end - start;
-			} while (!Check_Crossing(i) and elapsed.count() < 1);
-			if (Check_Crossing(i))
-			{
-				list[i].Set_state(NOT_FOUND);
-				Insert_Word(i);
-			}
-		}
-	}
-	for (int i = 0; i < DimY; i++)
-	{
-		for (int j = 0; j < DimX; j++)
-		{
-			if (matrix[i][j] == ' ')
-				matrix[i][j].Rand_letter();
-		}
+			matrix[i][j].Set_point(j, i);
 	}
 }
 
@@ -86,12 +55,12 @@ void Board::Show_matrix()
 	}
 }
 
-int Board::Get_n_used(void)
+int Board::Number_NOT_FOUND()
 {
 	int k = 0;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < no_words; i++)
 	{
-		if (list[i].Get_state() != NOT_USED)
+		if (list[i] == NOT_FOUND)
 			k++;
 	}
 	return k;
@@ -102,21 +71,13 @@ void Board::Ask_DimX()
 	int dim_x;
 	cout << endl << " Insira a dimensão X da matriz: ";
 	cin >> dim_x;
-	if (!cin.good())
+	if (!cin.good() or dim_x < 10)
 	{
 		PreventLoop();
 		Ask_DimX();
 	}
 	else
-	{
-		if (dim_x <= 0)
-		{
-			cout << " Dimensão inválida." << endl;
-			Ask_DimX();
-		}
-		else
-			DimX = dim_x;
-	}
+		DimX = dim_x;
 }
 
 void Board::Ask_DimY()
@@ -124,21 +85,13 @@ void Board::Ask_DimY()
 	int dim_y;
 	cout << endl << " Insira a dimensão Y da matriz: ";
 	cin >> dim_y;
-	if (!cin.good())
+	if (!cin.good() or dim_y < 10)
 	{
 		PreventLoop();
 		Ask_DimY();
 	}
 	else
-	{
-		if (dim_y <= 0)
-		{
-			cout << " Dimensão inválida." << endl;
-			Ask_DimY();
-		}
-		else
-			DimY = dim_y;
-	}
+		DimY = dim_y;
 }
 
 void Board::Load_list()
@@ -178,7 +131,7 @@ void Board::Load_list()
 				list[i].Upper_Case();
 				i++;
 			}
-			n = list.size();
+			no_words = list.size();
 		}
 		file.close();
 	}
@@ -189,9 +142,9 @@ void Board::Show_list()
 	int k = 0;
 	gotoxy(2 * DimX + 20, 1);
 	cout << "Palavras encontradas:";
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < no_words; i++)
 	{
-		if (list[i].Get_state() == FOUND)
+		if (list[i] == FOUND)
 		{
 			gotoxy(2 * DimX + 20, 3 + 2 * k);
 			cout << list[i];
@@ -207,7 +160,7 @@ bool Board::Check_Crossing(int i)
 	int l = list[i].length();
 	int o = list[i].Get_orientation();
 	if (i == 0)
-		return 1;
+		return true;
 	switch (o) 
 	{
 	case FRONT:
@@ -345,8 +298,10 @@ void Board::Read(ifstream& is)
 	string s;
 	getline(is, s);
 	is >> DimX >> DimY;
+	matrix = new Letter * [DimY];
+	for (int i = 0; i < DimY; i++)
+		matrix[i] = new Letter[DimX];
 	getline(is, s);
-	matrix.resize(DimY, vector<Letter>(DimX));
 	getline(is, s);
 	for (int y = 0; y < DimY; y++)
 	{
@@ -358,11 +313,11 @@ void Board::Read(ifstream& is)
 		getline(is, s);
 	}
 	getline(is, s);
-	is >> n;
+	is >> no_words;
 	getline(is, s);
-	list.resize(n);
+	list.resize(no_words);
 	getline(is, s);
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < no_words; i++)
 	{
 		list[i].Read(is);
 		getline(is, s);
@@ -381,12 +336,12 @@ void Board::Save(ofstream& os)
 		os << endl;
 	}
 	os << "Number of Words:\n";
-	os << n << ";\n";
+	os << no_words << ";\n";
 	os << "Words:\n";
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < no_words; i++)
 	{
 		list[i].Save(os);
-		if (i != n - 1)
+		if (i != no_words - 1)
 			os << endl;
 	}
 }
@@ -394,11 +349,11 @@ void Board::Save(ofstream& os)
 bool Board::Check_If_Word_Is_Present(Word w)
 {
 	w.Upper_Case();
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < no_words; i++)
 	{
 		if (w == list[i])
 		{
-			if (list[i].Get_state() != FOUND)
+			if (list[i] != FOUND)
 			{
 				list[i].Set_state(FOUND);
 				Insert_Word(i);
