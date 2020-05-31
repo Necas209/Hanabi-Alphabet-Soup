@@ -149,9 +149,8 @@ void Game::Load_Game(void)
 
 void Game::Clear_Game(void)
 {
-	board->Clear_Board();
-	delete board;
 	delete player;
+	delete board;
 }
 
 void Game::Play(void)

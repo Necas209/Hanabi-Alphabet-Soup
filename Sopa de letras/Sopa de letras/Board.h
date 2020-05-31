@@ -13,7 +13,6 @@ protected:
 public:
 	Board();
 	virtual ~Board();
-	void Clear_Board(void);
 	int Get_DimY(void) const { return DimY; };
 	int Number_NOT_FOUND(void);
 	void Ask_DimX(void);

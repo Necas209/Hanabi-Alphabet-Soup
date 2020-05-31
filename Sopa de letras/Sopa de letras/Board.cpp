@@ -13,14 +13,6 @@ Board::~Board()
 	list.clear();
 }
 
-void Board::Clear_Board()
-{
-	for (int i = 0; i < DimY; i++)
-		delete[] matrix[i];
-	delete[] matrix;
-	list.clear();
-}
-
 void Board::Create_matrix()
 {
 	cout << endl << "\tDimensões da sopa de letras mínimas: 10 x 10" << endl;
