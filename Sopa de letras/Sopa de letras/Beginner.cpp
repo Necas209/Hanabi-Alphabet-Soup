@@ -8,8 +8,10 @@ Beginner::~Beginner()
 {
 }
 
-void Beginner::Score()
+void Beginner::Score(bool flag, chrono::duration<double> elapsed, double max_time)
 {
+	if (flag)
+		score++;
 }
 
 void Beginner::Save(ofstream& os)

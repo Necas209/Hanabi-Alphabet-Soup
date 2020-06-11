@@ -7,6 +7,6 @@ class Beginner :
 public:
 	Beginner();
 	~Beginner();
-	void Score();
+	void Score(bool flag, chrono::duration<double> elapsed, double max_time);
 	void Save(ofstream& os);
 };

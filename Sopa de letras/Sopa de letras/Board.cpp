@@ -1,7 +1,7 @@
 #include "Board.h"
 
 Board::Board()
-	:matrix(nullptr), DimX(0), DimY(0), no_words(0)
+	:matrix(nullptr), DimX(0), DimY(0), num_words(0)
 {
 }
 
@@ -50,7 +50,7 @@ void Board::Show_matrix()
 int Board::Number_NOT_FOUND()
 {
 	int k = 0;
-	for (int i = 0; i < no_words; i++)
+	for (int i = 0; i < num_words; i++)
 	{
 		if (list[i] == NOT_FOUND)
 			k++;
@@ -123,7 +123,7 @@ void Board::Load_list()
 				list[i].Upper_Case();
 				i++;
 			}
-			no_words = list.size();
+			num_words = list.size();
 		}
 		file.close();
 	}
@@ -134,7 +134,7 @@ void Board::Show_list()
 	int k = 0;
 	gotoxy(2 * DimX + 20, 1);
 	cout << "Palavras encontradas:";
-	for (int i = 0; i < no_words; i++)
+	for (int i = 0; i < num_words; i++)
 	{
 		if (list[i] == FOUND)
 		{
@@ -305,11 +305,11 @@ void Board::Read(ifstream& is)
 		getline(is, s);
 	}
 	getline(is, s);
-	is >> no_words;
+	is >> num_words;
 	getline(is, s);
-	list.resize(no_words);
+	list.resize(num_words);
 	getline(is, s);
-	for (int i = 0; i < no_words; i++)
+	for (int i = 0; i < num_words; i++)
 	{
 		list[i].Read(is);
 		getline(is, s);
@@ -328,12 +328,12 @@ void Board::Save(ofstream& os)
 		os << endl;
 	}
 	os << "Number of Words:\n";
-	os << no_words << ";\n";
+	os << num_words << ";\n";
 	os << "Words:\n";
-	for (int i = 0; i < no_words; i++)
+	for (int i = 0; i < num_words; i++)
 	{
 		list[i].Save(os);
-		if (i != no_words - 1)
+		if (i != num_words - 1)
 			os << endl;
 	}
 }
@@ -341,7 +341,7 @@ void Board::Save(ofstream& os)
 bool Board::Check_If_Word_Is_Present(Word w)
 {
 	w.Upper_Case();
-	for (int i = 0; i < no_words; i++)
+	for (int i = 0; i < num_words; i++)
 	{
 		if (w == list[i])
 		{

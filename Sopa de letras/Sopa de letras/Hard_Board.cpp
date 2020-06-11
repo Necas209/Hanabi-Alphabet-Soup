@@ -14,7 +14,7 @@ void Hard_Board::Fill_matrix(void)
 	srand((unsigned)time(nullptr));
 	auto start = chrono::high_resolution_clock::now();
 	chrono::duration<double> elapsed;
-	for (int i = 0; i < no_words; i++)
+	for (int i = 0; i < num_words; i++)
 	{
 		l = list[i].length();
 		if (l <= DimX and l <= DimY)

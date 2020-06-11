@@ -1,7 +1,10 @@
-﻿  Board.cpp
+﻿  Beginner.cpp
+  Board.cpp
   Easy_Board.cpp
+  Expert.cpp
   Game.cpp
   Hard_Board.cpp
+  Player.cpp
   main.cpp
   Generating Code...
   Sopa de letras.vcxproj -> C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Debug\Sopa de letras.exe

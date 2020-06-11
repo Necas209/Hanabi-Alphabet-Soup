@@ -87,17 +87,17 @@ void Game::New_Game()
 
 void Game::Run_Game()
 {
+	auto start = chrono::high_resolution_clock::now();
 	while (board->Number_NOT_FOUND() > 0)
 	{
 		system("CLS");
 		board->Show_matrix();
 		board->Show_list();
-		Play();
+		Play(start);
 		player->Show();
 		this_thread::sleep_for(chrono::seconds(3));
 	}
 	cout << endl << " Ganhaste!!!" << endl;
-	player->Score();
 	Clear_Game();
 	this_thread::sleep_for(chrono::seconds(5));
 	system("CLS");
@@ -153,10 +153,14 @@ void Game::Clear_Game(void)
 	delete board;
 }
 
-void Game::Play(void)
+void Game::Play(chrono::time_point<chrono::high_resolution_clock> start)
 {
 	Word w;
+	bool flag;
+	chrono::time_point<chrono::high_resolution_clock> end;
 	int option = 0;
+	double max_time;
+	chrono::duration<double> elapsed;
 	int l = board->Get_DimY() + 2;
 	for (int i = l; i < l + 20; i++)
 	{
@@ -178,11 +182,14 @@ void Game::Play(void)
 		{
 		case 1:
 			w.Ask2Set_W();
-			if (board->Check_If_Word_Is_Present(w))
-			{
+			end = chrono::high_resolution_clock::now();
+			elapsed = end - start;
+			cout << elapsed.count();
+			flag = board->Check_If_Word_Is_Present(w);
+			if (flag)
 				cout << endl << "\tCerto!!" << endl;
-				player->Score();
-			}
+			max_time = double(board->Get_DimX() * board->Get_DimY()) / 4;
+			player->Score(flag, elapsed, max_time);
 			break;
 		case 2:
 			Save_Game();

@@ -9,10 +9,11 @@ protected:
 	vector<Word> list;
 	int DimX;
 	int DimY;
-	int no_words;          // numero de palavras
+	int num_words;
 public:
 	Board();
 	virtual ~Board();
+	int Get_DimX(void) const { return DimX; };
 	int Get_DimY(void) const { return DimY; };
 	int Number_NOT_FOUND(void);
 	void Ask_DimX(void);

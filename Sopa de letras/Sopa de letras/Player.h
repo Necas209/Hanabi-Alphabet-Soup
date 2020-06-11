@@ -3,17 +3,16 @@
 
 class Player
 {
-private:
+protected:
 	string name;
 	int age;
 	int score;
 public:
 	Player();
 	virtual ~Player();
-	int Get_score(void) const { return score; };
 	void Ask_name(void);
 	void Ask_age(void);
-	virtual void Score() = 0;
+	virtual void Score(bool flag, chrono::duration<double> elapsed, double max_time) = 0;
 	void Show(void);
 	virtual void Read(ifstream& is);
 	virtual void Save(ofstream& os);

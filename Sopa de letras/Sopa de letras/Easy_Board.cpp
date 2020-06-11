@@ -10,12 +10,12 @@ Easy_Board::~Easy_Board()
 
 void Easy_Board::Fill_matrix(void)
 {
-	int orientation[] = { 1,3,5,8 };
+	int orientation[] = { FRONT,DOWN,FRONT_DOWN,FRONT_UP };
 	int i = 0, k = 0, l;
 	srand((unsigned)time(nullptr));
 	auto start = chrono::high_resolution_clock::now();
 	chrono::duration<double> elapsed;
-	while (k < 10 and i < no_words)
+	while (k < 10 and i < num_words)
 	{
 		l = list[i].length();
 		if (l <= DimX and l <= DimY)
@@ -51,7 +51,7 @@ void Easy_Board::Show_list(void)
 	Board::Show_list();
 	gotoxy(2 * DimX + 50, 1);
 	cout << "Palavras por encontrar:";
-	for (int i = 0; i < no_words; i++)
+	for (int i = 0; i < num_words; i++)
 	{
 		if (list[i] == NOT_FOUND)
 		{
