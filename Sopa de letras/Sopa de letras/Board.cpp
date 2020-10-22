@@ -15,7 +15,6 @@ Board::~Board()
 
 void Board::Create_matrix()
 {
-	cout << endl << "\tDimensões da sopa de letras mínimas: 10 x 10" << endl;
 	Ask_DimX();
 	Ask_DimY();
 	matrix = new Letter*[DimY];
@@ -47,6 +46,17 @@ void Board::Show_matrix()
 	}
 }
 
+int Board::Number_USED(void)
+{
+	int k = 0;
+	for (int i = 0; i < num_words; i++)
+	{
+		if (list[i] != NOT_USED)
+			k++;
+	}
+	return k;
+}
+
 int Board::Number_NOT_FOUND()
 {
 	int k = 0;
@@ -56,34 +66,6 @@ int Board::Number_NOT_FOUND()
 			k++;
 	}
 	return k;
-}
-
-void Board::Ask_DimX()
-{
-	int dim_x;
-	cout << endl << " Insira a dimensão X da matriz: ";
-	cin >> dim_x;
-	if (!cin.good() or dim_x < 10)
-	{
-		PreventLoop();
-		Ask_DimX();
-	}
-	else
-		DimX = dim_x;
-}
-
-void Board::Ask_DimY()
-{
-	int dim_y;
-	cout << endl << " Insira a dimensão Y da matriz: ";
-	cin >> dim_y;
-	if (!cin.good() or dim_y < 10)
-	{
-		PreventLoop();
-		Ask_DimY();
-	}
-	else
-		DimY = dim_y;
 }
 
 void Board::Load_list()
@@ -133,7 +115,7 @@ void Board::Show_list()
 {
 	int k = 0;
 	gotoxy(2 * DimX + 20, 1);
-	cout << "Palavras encontradas:";
+	cout << "Palavras encontradas: " << Number_USED()-Number_NOT_FOUND() << " de " << Number_USED();
 	for (int i = 0; i < num_words; i++)
 	{
 		if (list[i] == FOUND)

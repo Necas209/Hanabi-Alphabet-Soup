@@ -19,5 +19,5 @@ public:
 	void Save_Game(void);
 	void Load_Game(void);
 	void Clear_Game(void);
-	void Play(chrono::time_point<chrono::high_resolution_clock> time_point);
+	void Play(void);
 };

@@ -8,16 +8,13 @@ Expert::~Expert()
 {
 }
 
-void Expert::Score(bool flag, chrono::duration<double> elapsed, double max_time)
+void Expert::Final_Score(chrono::duration<double> elapsed, int num_words)
 {
-	if (!flag and score > 0)
-		score--;
-	else if (flag)
-	{
-		score++;
-		if (elapsed.count() < 30)
-			score += 5;
-	}
+	double bonus;
+	int max_time;
+	max_time = (num_words * 60);
+	bonus = (max_time - elapsed.count()) / 10;
+	score += bonus;
 }
 
 void Expert::Save(ofstream& os)

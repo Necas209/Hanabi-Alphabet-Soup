@@ -8,6 +8,40 @@ Easy_Board::~Easy_Board()
 {
 }
 
+void Easy_Board::Ask_DimX(void)
+{
+	int dim_x;
+	cout << endl << " Insira a dimensão X da matriz: ";
+	cin >> dim_x;
+	if (!cin.good() or dim_x < 5)
+	{
+		PreventLoop();
+		Ask_DimX();
+	}
+	else
+		DimX = dim_x;
+}
+
+void Easy_Board::Ask_DimY(void)
+{
+	int dim_y;
+	cout << endl << " Insira a dimensão Y da matriz: ";
+	cin >> dim_y;
+	if (!cin.good() or dim_y < 5)
+	{
+		PreventLoop();
+		Ask_DimY();
+	}
+	else
+		DimY = dim_y;
+}
+
+void Easy_Board::Create_matrix(void)
+{
+	cout << endl << "\tDimensões da sopa de letras mínimas: 5 x 5" << endl;
+	Board::Create_matrix();
+}
+
 void Easy_Board::Fill_matrix(void)
 {
 	int orientation[] = { FRONT,DOWN,FRONT_DOWN,FRONT_UP };

@@ -1,0 +1,22 @@
+﻿  Beginner.cpp
+  Easy_Board.cpp
+C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Easy_Board.cpp(54,23): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Expert.cpp
+C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Expert.cpp(17,16): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+  functions.cpp
+C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\functions.cpp(83,18): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Hard_Board.cpp
+C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Hard_Board.cpp(53,23): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Player.cpp
+  Game.cpp
+  Letter.cpp
+  main.cpp
+  Word.cpp
+C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Word.cpp(30,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Point.cpp
+  Board.cpp
+C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Board.cpp(108,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Board.cpp(134,26): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\Sopa de letras\Board.cpp(205,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  Sopa de letras.vcxproj -> C:\Users\diogo\Desktop\Projects-LEI\Sopa de letras\x64\Debug\Sopa de letras.exe

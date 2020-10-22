@@ -8,6 +8,40 @@ Hard_Board::~Hard_Board()
 {
 }
 
+void Hard_Board::Ask_DimX(void)
+{
+	int dim_x;
+	cout << endl << " Insira a dimensão X da matriz: ";
+	cin >> dim_x;
+	if (!cin.good() or dim_x < 10)
+	{
+		PreventLoop();
+		Ask_DimX();
+	}
+	else
+		DimX = dim_x;
+}
+
+void Hard_Board::Ask_DimY(void)
+{
+	int dim_y;
+	cout << endl << " Insira a dimensão Y da matriz: ";
+	cin >> dim_y;
+	if (!cin.good() or dim_y < 10)
+	{
+		PreventLoop();
+		Ask_DimY();
+	}
+	else
+		DimY = dim_y;
+}
+
+void Hard_Board::Create_matrix(void)
+{
+	cout << endl << "\tDimensões da sopa de letras mínimas: 10 x 10" << endl;
+	Board::Create_matrix();
+}
+
 void Hard_Board::Fill_matrix(void)
 {
 	int l;

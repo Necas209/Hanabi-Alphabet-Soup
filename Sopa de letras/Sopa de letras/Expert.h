@@ -7,6 +7,6 @@ class Expert :
 public:
 	Expert();
 	~Expert();
-	void Score(bool flag, chrono::duration<double> elapsed, double max_time);
+	void Final_Score(chrono::duration<double> elapsed, int num_words);
 	void Save(ofstream& os);
 };

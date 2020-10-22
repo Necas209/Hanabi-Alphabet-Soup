@@ -31,6 +31,14 @@ void Player::Ask_age()
 		this->age = age;
 }
 
+void Player::Update_Score(bool flag)
+{
+	if (!flag and score >= 5)
+		score -= 5;
+	else if (flag)
+		score += 10;
+}
+
 void Player::Show(void)
 {
 	cout << endl << " Nome: " << name << endl;
