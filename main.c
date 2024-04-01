@@ -64,6 +64,7 @@ int main(void) {
                 break;
             }
             case 2: {
+                game_t game;
                 game_t *loaded_game = load_game("save.json");
                 if (loaded_game == NULL) {
                     enter_to_continue();

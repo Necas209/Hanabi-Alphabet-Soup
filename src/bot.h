@@ -8,7 +8,7 @@
 
 // Bot related functions
 
-int get_bot_discardable(const hand_t *hand, int number, const deck_t *deck);
+uint32_t get_bot_discardable(const hand_t *hand, int number, const deck_t *deck);
 
 int get_bot_playable(const hand_t *hand, const deck_t *deck);
 

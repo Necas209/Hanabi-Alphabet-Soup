@@ -8,7 +8,7 @@
 
 // Function Implementation
 
-int get_bot_discardable(const hand_t *hand, const int number, const deck_t *deck) {
+uint32_t get_bot_discardable(const hand_t *hand, const int number, const deck_t *deck) {
     switch (number) {
         case 1:
             for (int i = 0; i < HAND_LEN; i++) {
@@ -52,7 +52,7 @@ int get_bot_discardable(const hand_t *hand, const int number, const deck_t *deck
         default:
             break;
     }
-    return -1;
+    return UINT32_MAX;
 }
 
 int get_bot_playable(const hand_t *hand, const deck_t *deck) {
@@ -98,8 +98,8 @@ void bot_turn(game_t *game) {
 
     if (game->clues == 0) {
         int number = 1;
-        int idx = get_bot_discardable(&game->bot_hand, number, &game->deck);
-        while (idx == -1 && number < 6) {
+        uint32_t idx = get_bot_discardable(&game->bot_hand, number, &game->deck);
+        while (idx == UINT32_MAX && number < 6) {
             number++;
             idx = get_bot_discardable(&game->bot_hand, number, &game->deck);
         }
@@ -109,7 +109,7 @@ void bot_turn(game_t *game) {
             }
         } else {
             printfAt(120, 8, "The bot decided to discard a random card.");
-            const int card_idx = generate_random_int(0, HAND_LEN);
+            const uint32_t card_idx = generate_random_int(0, HAND_LEN);
             if (discard_card(&game->deck, &game->bot_hand, card_idx)) {
                 game->clues++;
             }

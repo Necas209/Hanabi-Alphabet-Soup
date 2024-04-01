@@ -6,24 +6,14 @@
 #include <time.h>
 #include <errno.h>
 
-// ANSI color codes
-#define ANSI_COLOR_BLACK 0
-#define ANSI_COLOR_RED 1
-#define ANSI_COLOR_GREEN 2
-#define ANSI_COLOR_YELLOW 3
-#define ANSI_COLOR_BLUE 4
-#define ANSI_COLOR_MAGENTA 5
-#define ANSI_COLOR_CYAN 6
-#define ANSI_COLOR_WHITE 7
-
 // Set the foreground and background color
-void setColor(const AnsiColor foreGround, const AnsiBackgroundColor backGround) {
-    printf("\033[%d;%dm", foreGround, backGround);
+__attribute__((unused)) void setColor(const ansi_color foreground, const ansi_bg_color background) {
+    printf("\033[%d;%dm", foreground, background);
 }
 
 // Set the foreground color
-void setForeColor(const AnsiColor foreGround) {
-    printf("\033[%dm", foreGround);
+void setForeColor(const ansi_color foreground) {
+    printf("\033[%dm", foreground);
 }
 
 // Reset the color
@@ -87,8 +77,8 @@ uint32_t generate_random_int(const uint32_t lower, const uint32_t upper) {
 /* msleep(): Sleep for the requested number of milliseconds. */
 int msleep(const uint32_t milliseconds) {
     struct timespec ts = {
-        .tv_sec = milliseconds / 1000,
-        .tv_nsec = milliseconds % 1000 * 1000000
+            .tv_sec = milliseconds / 1000,
+            .tv_nsec = milliseconds % 1000 * 1000000
     };
 
     int res;

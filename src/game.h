@@ -22,6 +22,10 @@ void game_loop(game_t *game);
 
 void game_turn(game_t *game);
 
+cJSON *get_game_json(const game_t *game);
+
+void get_game_from_json(cJSON *game_json, game_t *game);
+
 void save_game(const game_t *game, const char *filename);
 
 game_t *load_game(const char *filename);

@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 
 void enter_to_continue() {
     printfAt(120, 32, "Press enter to continue...");
@@ -10,10 +11,19 @@ void enter_to_continue() {
     clear_screen();
 }
 
-char read_char(FILE *stream) {
+char *read_string(FILE *stream) {
     char *line = NULL;
     size_t len = 0;
     if (getline(&line, &len, stream) == -1) {
+        return NULL;
+    }
+    line[len - 1] = '\0';
+    return line;
+}
+
+char read_char(FILE *stream) {
+    char *line = read_string(stream);
+    if (line == NULL) {
         return '\0';
     }
     const char c = line[0];
@@ -22,24 +32,13 @@ char read_char(FILE *stream) {
 }
 
 int read_int(FILE *stream) {
-    char *line = NULL;
-    size_t len = 0;
-    if (getline(&line, &len, stream) == -1) {
+    char *line = read_string(stream);
+    if (line == NULL) {
         return -1;
     }
-    const int number = atoi(line);
+    const long number = strtoimax(line, NULL, 10);
     free(line);
-    return number;
-}
-
-char *read_string(FILE *stream) {
-    char *line = NULL;
-    size_t len = 0;
-    if (getline(&line, &len, stream) == -1) {
-        return NULL;
-    }
-    line[strlen(line) - 1] = '\0';
-    return line;
+    return (int) number;
 }
 
 void print_game_start() {
@@ -47,7 +46,7 @@ void print_game_start() {
     gotoxy(1, 1);
     int ch;
     while ((ch = fgetc(file)) != EOF) {
-        AnsiColor color;
+        ansi_color color;
         switch (ch) {
             case 'H':
                 color = ANSI_COLOR_BLUE;
@@ -84,10 +83,10 @@ void print_ui(const game_t *game) {
     print_bot_hand(&game->bot_hand);
     print_deck(&game->deck);
     printfAt(85, 15, "Clues: %d", game->clues);
-    printfAt(85, 20, "Lifes: %d", game->lives);
+    printfAt(85, 20, "Lives: %d", game->lives);
 }
 
-AnsiColor get_card_ui_color(const color_t color) {
+ansi_color get_card_ui_color(const color_t color) {
     switch (color) {
         case YELLOW:
             return ANSI_COLOR_YELLOW;
@@ -147,8 +146,7 @@ void print_bot_hand(const hand_t *bot_hand) {
 
     for (int i = 0; i < HAND_LEN; i++) {
         card_t card = bot_hand->cards[i];
-        // The player can see the bot's hand
-        // so we can reveal the color and number of the cards
+        // The player can see the robot's hand, so we can reveal the color and number of the cards
         card.color_known = true;
         card.number_known = true;
         print_card(card, 10 + 14 * i, 5);
@@ -175,8 +173,8 @@ void print_score(const deck_t *deck) {
     msleep(5000);
 }
 
-void print_no_lifes() {
-    printfAt(120, 6, "You lost all your lifes.");
+void print_no_lives() {
+    printfAt(120, 6, "You lost all your lives.");
     printfAt(120, 8, "The gods showed their wrath in the form of a storm");
     printfAt(120, 9, " that ended the fireworks.");
     printfAt(120, 12, "Final score: 0 points");
@@ -205,15 +203,12 @@ void print_deck(const deck_t *deck) {
     }
     // Display the fireworks
     for (int k = 0; k < 5; k++) {
-        const AnsiColor color = get_card_ui_color(k);
+        const ansi_color color = get_card_ui_color(k);
         setForeColor(color);
         showRectAt(11 + 14 * k, 16, 6, 4);
         printfAt(14 + 14 * k, 18, "%d", deck->fireworks[k]);
         resetColor();
     }
-}
-
-void print_clues_lives(const int clues, const int lives) {
 }
 
 void clear_screen() {

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.27)
 
 project(hanabi)
 
@@ -6,6 +6,8 @@ set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 add_executable(hanabi
+        src/cJSON.h
+        src/cJSON.c
         src/lab.h
         src/lab.c
         src/interface.h

@@ -1,3 +1,4 @@
+#include <string.h>
 #include "hand.h"
 
 #include "lab.h"
@@ -75,34 +76,31 @@ void give_color_clue(const hand_t *from, hand_t *to, const color_t color) {
     printfAt(120, 6, "%s gave clues about the color %s to %s.", from->name, colors[color], to->name);
 }
 
-void save_hand(FILE *file, const hand_t *hand) {
-    // Print as a JSON object
-    fprintf(file, "{");
-    fprintf(file, " \"name\": \"%s\",", hand->name);
-    fprintf(file, " \"cards\": [");
+cJSON *get_hand_json(const hand_t *hand) {
+    // Create a cJSON object for the hand
+    cJSON *hand_json = cJSON_CreateObject();
+
+    // Add the hand properties to the cJSON object
+    cJSON_AddStringToObject(hand_json, "name", hand->name);
+    cJSON_AddArrayToObject(hand_json, "cards");
+
+    // Add each card to the cJSON array
     for (int i = 0; i < HAND_LEN; i++) {
-        save_card(file, &hand->cards[i]);
-        if (i != HAND_LEN - 1) {
-            fprintf(file, ",");
-        }
+        cJSON *card_json = save_card(&hand->cards[i]);
+        cJSON_AddItemToArray(cJSON_GetObjectItem(hand_json, "cards"), card_json);
     }
-    fprintf(file, "]");
-    fprintf(file, "}");
+
+    return hand_json;
 }
 
-void load_hand(FILE *file, hand_t *hand) {
-    // Read the opening curly brace
-    fgetc(file);
-    fscanf(file, " \"name\": \"%[^\"]\",", hand->name);
-    fscanf(file, " \"cards\": [");
+void load_hand(cJSON *hand_json, hand_t *hand) {
+// Extract hand properties from the parsed JSON object
+    cJSON *name = cJSON_GetObjectItem(hand_json, "name");
+    strcpy(hand->name, name->valuestring);
+
+    cJSON *cards = cJSON_GetObjectItem(hand_json, "cards");
     for (int i = 0; i < HAND_LEN; i++) {
-        load_card(file, &hand->cards[i]);
-        if (i != HAND_LEN - 1) {
-            fgetc(file); // Skip the comma
-        }
+        cJSON *card_json = cJSON_GetArrayItem(cards, i);
+        load_card(card_json, &hand->cards[i]);
     }
-    // Read the closing square brace
-    fgetc(file);
-    // Read the closing curly brace
-    fgetc(file);
 }

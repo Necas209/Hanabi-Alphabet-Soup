@@ -2,6 +2,7 @@
 #define CARD_H
 
 #include <stdio.h>
+#include "cJSON.h"
 
 typedef enum color {
     YELLOW,
@@ -22,8 +23,8 @@ extern const char *colors[];
 
 // Function Prototypes
 
-void save_card(FILE *file, const card_t *card);
+cJSON *save_card(const card_t *card);
 
-void load_card(FILE *file, card_t *card);
+void load_card(cJSON *card_json, card_t *card);
 
 #endif //CARD_H

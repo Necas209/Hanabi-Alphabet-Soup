@@ -23,8 +23,8 @@ void give_number_clue(const hand_t *from, hand_t *to, int number);
 
 void give_color_clue(const hand_t *from, hand_t *to, color_t color);
 
-void save_hand(FILE *file, const hand_t *hand);
+cJSON *get_hand_json(const hand_t *hand);
 
-void load_hand(FILE *file, hand_t *hand);
+void load_hand(cJSON *hand_json, hand_t *hand);
 
 #endif //HAND_H

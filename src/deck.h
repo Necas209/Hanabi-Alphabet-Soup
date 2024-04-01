@@ -7,6 +7,7 @@
 #define DECK_LEN 50 // NUMBERS_PER_COLOR * COLORS
 
 #include <stddef.h>
+#include <stdint.h>
 
 #include "hand.h"
 
@@ -19,9 +20,9 @@ typedef struct deck {
 
 hand_t new_hand(deck_t *deck, const char *name);
 
-bool play_card(deck_t *deck, hand_t *hand, int idx);
+bool play_card(deck_t *deck, hand_t *hand, uint32_t idx);
 
-bool discard_card(deck_t *deck, hand_t *hand, int idx);
+bool discard_card(deck_t *deck, hand_t *hand, uint32_t idx);
 
 bool is_playable(const deck_t *deck, card_t card);
 
@@ -37,8 +38,8 @@ int get_lowest_table(const deck_t *deck);
 
 bool is_table(const deck_t *deck);
 
-void save_deck(FILE *file, const deck_t *deck);
+cJSON *get_deck_json(const deck_t *deck);
 
-void load_deck(FILE *file, deck_t *deck);
+void load_deck(cJSON *deck_json, deck_t *deck);
 
 #endif //DECK_H
