@@ -1,5 +1,4 @@
 # Projects-LEI
 
-Games developed in C and C++ for programming courses.
-
-Hanabi in C, for LIC; Alphabet Soup in C++, for LP.
+Hanabi game developed in C, for Computers and Informatics Laboratory (LEI) course at University of Trás-os-Montes and
+Alto Douro (UTAD).
