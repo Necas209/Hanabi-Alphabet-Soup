@@ -27,7 +27,7 @@ int player_turn(game_t *const game) {
     }
     printfAt(120, 16, "\t Option: ");
     const int option = read_int(stdin);
-    clear_screen();
+    clear_menu_screen();
 
     switch (option) {
         case 1:

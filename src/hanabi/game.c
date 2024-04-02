@@ -51,7 +51,7 @@ void game_turn(game_t *const game) {
 
     if (game->player_first) {
         while (player_turn(game) == INVALID_ACTION) {
-            clear_screen();
+            clear_menu_screen();
         }
         enter_to_continue();
         print_ui(game);
@@ -65,7 +65,7 @@ void game_turn(game_t *const game) {
         print_ui(game);
 
         while (player_turn(game) == INVALID_ACTION) {
-            clear_screen();
+            clear_menu_screen();
         }
         enter_to_continue();
         print_ui(game);
@@ -104,7 +104,7 @@ void save_game(const game_t *const game, const char *const filename) {
     free(game_str);
 }
 
-game_t* get_game_from_json(const cJSON *const game_json) {
+game_t *get_game_from_json(const cJSON *const game_json) {
     // Create a new game
     game_t *game = malloc(sizeof(game_t));
     // Get the properties of the game from the JSON object
@@ -135,7 +135,11 @@ game_t *load_game(const char *const filename) {
     fseek(save, 0, SEEK_SET);
 
     char *game_str = malloc(size + 1);
-    fread(game_str, 1, size, save);
+    size_t read = fread(game_str, 1, size, save);
+    if (read != size) {
+        puts("Error reading save file.");
+        exit(1);
+    }
     game_str[size] = '\0';
     fclose(save);
 

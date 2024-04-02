@@ -15,6 +15,9 @@
 /// Prints a string and waits for the user to press enter.
 void enter_to_continue();
 
+/// Clear console screen.
+void clear_screen();
+
 /// Read a character from a file stream.
 /// \param stream  The file stream to read the character from.
 /// \return  The character read from the file stream.
@@ -37,8 +40,8 @@ void error_msg(const char *message);
 /// Print the game's logo to the screen.
 void print_game_start();
 
-/// Clear the screen.
-void clear_screen();
+/// Clear the menu screen.
+void clear_menu_screen();
 
 /// Get the ANSI color for a given card color.
 /// \param color  The color to get the ANSI color for.

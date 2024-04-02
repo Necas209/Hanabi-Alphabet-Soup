@@ -8,7 +8,14 @@ void enter_to_continue() {
     printfAt(120, 32, "Press enter to continue...");
     while (getchar() != '\n') {
     }
-    clear_screen();
+    clear_menu_screen();
+}
+
+void clear_screen() {
+    if (system("clear") != 0) {
+        puts("Error clearing the console.");
+        exit(1);
+    }
 }
 
 char *read_string(FILE *stream) {
@@ -85,7 +92,7 @@ void print_game_start() {
 }
 
 void print_ui(const game_t *const game) {
-    system("clear");
+    clear_screen();
     print_hand(&game->bot_hand, 10, 5, true);
     print_hand(&game->player_hand, 10, 26, false);
     print_deck(&game->deck);
@@ -213,7 +220,7 @@ void print_deck(const deck_t *deck) {
     }
 }
 
-void clear_screen() {
+void clear_menu_screen() {
     char spaces[SCREEN_WIDTH + 1]; // 80 spaces + null terminator
     memset(spaces, ' ', SCREEN_WIDTH);
     spaces[SCREEN_WIDTH] = '\0'; // Null terminate the string

@@ -23,7 +23,7 @@ int main(void) {
         puts("\n\t 4 - Exit the application");
         printf("\n Option: ");
         const int option = read_int(stdin);
-        system("clear");
+        clear_screen();
         switch (option) {
             case 1: {
                 play_game();
@@ -34,7 +34,7 @@ int main(void) {
                 game_t *loaded_game = load_game("save.json");
                 if (loaded_game == NULL) {
                     enter_to_continue();
-                    system("clear");
+                    clear_screen();
                     break;
                 }
                 game_loop(loaded_game);
@@ -49,8 +49,6 @@ int main(void) {
                     printf("%s", line);
                 }
                 fclose(rules);
-                enter_to_continue();
-                system("clear");
                 break;
             }
             case 4:
@@ -58,9 +56,9 @@ int main(void) {
             default:
                 puts("\nThe option does not exist.");
                 enter_to_continue();
-                system("clear");
                 break;
         }
+        clear_screen();
     }
 }
 
@@ -76,7 +74,7 @@ void play_game() {
     printf("\n If you complete the fireworks show, you win the game.");
     printf("\n Good luck!\n");
     enter_to_continue();
-    system("clear");
+    clear_screen();
 
     printfAt(1, 1, "\n\n Let's start the game!\n");
     printf("\n You will have to give your name to start the game.\n");

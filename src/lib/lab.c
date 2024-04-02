@@ -77,7 +77,7 @@ uint32_t generate_random_int(const uint32_t lower, const uint32_t upper) {
     const uint32_t num = lower + rand() % (upper - lower + 1);
     return num;
 #endif
-#ifdef __APPLE__ || __MACH__
+#ifdef __APPLE__
     // Generate a random number between lower and upper (inclusive)
     const uint32_t num = lower + arc4random_uniform(upper - lower + 1);
     return num;
