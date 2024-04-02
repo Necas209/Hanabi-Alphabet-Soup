@@ -69,9 +69,19 @@ void showRectAt(const int x, const int y, const int width, const int height) {
 
 // Generate a random integer between lower and upper
 uint32_t generate_random_int(const uint32_t lower, const uint32_t upper) {
+#ifdef __linux__
+    // Seed the random number generator
+    srand(time(NULL));
+
+    // Generate a random number between lower and upper (inclusive)
+    const uint32_t num = lower + rand() % (upper - lower + 1);
+    return num;
+#endif
+#ifdef __APPLE__ || __MACH__
     // Generate a random number between lower and upper (inclusive)
     const uint32_t num = lower + arc4random_uniform(upper - lower + 1);
     return num;
+#endif
 }
 
 /* msleep(): Sleep for the requested number of milliseconds. */
