@@ -2,7 +2,6 @@
 #include "hand.h"
 
 #include "../lib/lab.h"
-#include "interface.h"
 
 hand_t new_hand(const card_t cards[HAND_LEN], const char *const name) {
     hand_t hand;
@@ -78,12 +77,7 @@ int cards_with_number(const hand_t *const hand, const int number) {
     return counter;
 }
 
-int give_number_clue(const hand_t *const from, hand_t *const to, const int number) {
-    if (number < 1 || number > 5) {
-        error_msg("Invalid number option");
-        return INVALID_ACTION;
-    }
-
+void give_number_clue(const hand_t *from, hand_t *to, int number) {
     int i;
     card_t *card;
     vec_foreach_ptr(&to->cards, card, i) {
@@ -91,17 +85,10 @@ int give_number_clue(const hand_t *const from, hand_t *const to, const int numbe
             card->number_known = true;
         }
     }
-
     printfAt(120, 6, "%s gave hints about the number %d to %s.", from->name, number, to->name);
-    return 0;
 }
 
-int give_color_clue(const hand_t *const from, hand_t *const to, const color_t color) {
-    if (color < YELLOW || color > WHITE) {
-        error_msg("Invalid color option");
-        return INVALID_ACTION;
-    }
-
+void give_color_clue(const hand_t *from, hand_t *to, color_t color) {
     int i;
     card_t *card;
     vec_foreach_ptr(&to->cards, card, i) {
@@ -109,20 +96,16 @@ int give_color_clue(const hand_t *const from, hand_t *const to, const color_t co
             card->color_known = true;
         }
     }
-
     printfAt(120, 6, "%s gave hints about the color %s to %s.", from->name, colors[color], to->name);
-    return 0;
 }
 
 cJSON *get_hand_json(const hand_t *const hand) {
     // Create a cJSON object for the hand
     cJSON *hand_json = cJSON_CreateObject();
-
     // Add the hand properties to the cJSON object
     cJSON_AddStringToObject(hand_json, "name", hand->name);
     cJSON *cards_json = get_card_vec_json(&hand->cards);
     cJSON_AddItemToObject(hand_json, "cards", cards_json);
-
     return hand_json;
 }
 
@@ -132,10 +115,8 @@ hand_t load_hand(cJSON *const hand_json) {
     // Extract hand properties from the parsed JSON object
     cJSON *name = cJSON_GetObjectItem(hand_json, "name");
     strcpy(hand.name, name->valuestring);
-
     // Load the cards from the cJSON array
     cJSON *cards = cJSON_GetObjectItem(hand_json, "cards");
     hand.cards = load_card_vec(cards);
-
     return hand;
 }

@@ -57,17 +57,21 @@ int cards_with_number(const hand_t *hand, int number);
 /// Gets the index of the card in the hand with the given number.
 /// \param hand The hand.
 /// \param number The number.
-/// \return The success status.
-int give_number_clue(const hand_t *from, hand_t *to, int number);
+void give_number_clue(const hand_t *from, hand_t *to, int number);
 
 /// Gets the index of the card in the hand with the given color.
 /// \param hand The hand.
 /// \param color The color.
-/// \return The success status.
-int give_color_clue(const hand_t *from, hand_t *to, color_t color);
+void give_color_clue(const hand_t *from, hand_t *to, color_t color);
 
+/// Gets a JSON object for a hand.
+/// \param hand The hand.
+/// \return The JSON object for the hand.
 cJSON *get_hand_json(const hand_t *hand);
 
+/// Loads a hand from a JSON object.
+/// \param hand_json The JSON object to load the hand from.
+/// \return The loaded hand.
 hand_t load_hand(cJSON *hand_json);
 
 #endif //HAND_H

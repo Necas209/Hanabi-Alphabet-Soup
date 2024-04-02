@@ -54,7 +54,6 @@ int player_hint(game_t *const game) {
         error_msg("No more hints available");
         return INVALID_ACTION;
     }
-    int ret;
     printfAt(120, 6, "Pick the type of clue you want to give:");
     printfAt(120, 8, "\t- Color (C)");
     printfAt(120, 10, "\t- Number (N)");
@@ -69,22 +68,28 @@ int player_hint(game_t *const game) {
             printfAt(120, 22, "\t(4) Red");
             printfAt(120, 24, "\t(5) White");
             printfAt(120, 26, "  Option: ");
-            const color_t color = read_int(stdin) - 1;
-            ret = give_color_clue(&game->player_hand, &game->bot_hand, color);
-            break;
+            const int color = read_int(stdin) - 1;
+            if (color < YELLOW || color > WHITE) {
+                error_msg("Invalid color option");
+                return INVALID_ACTION;
+            }
+            give_color_clue(&game->player_hand, &game->bot_hand, color);
+            game->hints--;
+            return 0;
         case 'n':
             printfAt(120, 14, "Pick a number between 1 and 5: ");
             const int number = read_int(stdin);
-            ret = give_number_clue(&game->player_hand, &game->bot_hand, number);
-            break;
+            if (number < 1 || number > 5) {
+                error_msg("Invalid number option");
+                return INVALID_ACTION;
+            }
+            give_number_clue(&game->player_hand, &game->bot_hand, number);
+            game->hints--;
+            return 0;
         default:
             error_msg("Invalid clue option");
             return INVALID_ACTION;
     }
-    if (ret == 0) {
-        game->hints--;
-    }
-    return ret;
 }
 
 int player_play(game_t *const game) {

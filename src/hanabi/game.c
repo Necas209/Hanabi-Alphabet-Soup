@@ -5,7 +5,6 @@
 #include "bot.h"
 #include "player.h"
 #include "interface.h"
-#include "../lib/lab.h"
 
 game_t new_game(const deck_t deck, const hand_t player_hand, const hand_t bot_hand,
                 const bool player_first) {
@@ -105,6 +104,26 @@ void save_game(const game_t *const game, const char *const filename) {
     free(game_str);
 }
 
+game_t* get_game_from_json(const cJSON *const game_json) {
+    // Create a new game
+    game_t *game = malloc(sizeof(game_t));
+    // Get the properties of the game from the JSON object
+    cJSON *deck_json = cJSON_GetObjectItem(game_json, "deck");
+    cJSON *player_hand_json = cJSON_GetObjectItem(game_json, "player_hand");
+    cJSON *bot_hand_json = cJSON_GetObjectItem(game_json, "bot_hand");
+    cJSON *player_first_json = cJSON_GetObjectItem(game_json, "player_first");
+    cJSON *hints_json = cJSON_GetObjectItem(game_json, "hints");
+    cJSON *lives_json = cJSON_GetObjectItem(game_json, "lives");
+    // Load the deck, player hand, bot hand, and other properties
+    game->deck = load_deck(deck_json);
+    game->player_hand = load_hand(player_hand_json);
+    game->bot_hand = load_hand(bot_hand_json);
+    game->player_first = cJSON_IsTrue(player_first_json);
+    game->hints = hints_json->valueint;
+    game->lives = lives_json->valueint;
+    return game;
+}
+
 game_t *load_game(const char *const filename) {
     FILE *save = fopen(filename, "r");
     if (save == NULL) {
@@ -123,25 +142,8 @@ game_t *load_game(const char *const filename) {
     cJSON *game_json = cJSON_Parse(game_str);
     free(game_str);
 
-    game_t *game = malloc(sizeof(game_t));
-    get_game_from_json(game, game_json);
+    game_t *game = get_game_from_json(game_json);
     cJSON_Delete(game_json);
 
     return game;
-}
-
-void get_game_from_json(game_t *game, const cJSON *game_json) {
-    cJSON *deck_json = cJSON_GetObjectItem(game_json, "deck");
-    cJSON *player_hand_json = cJSON_GetObjectItem(game_json, "player_hand");
-    cJSON *bot_hand_json = cJSON_GetObjectItem(game_json, "bot_hand");
-    cJSON *player_first_json = cJSON_GetObjectItem(game_json, "player_first");
-    cJSON *hints_json = cJSON_GetObjectItem(game_json, "hints");
-    cJSON *lives_json = cJSON_GetObjectItem(game_json, "lives");
-
-    load_deck(&game->deck, deck_json);
-    game->player_hand = load_hand(player_hand_json);
-    game->bot_hand = load_hand(bot_hand_json);
-    game->player_first = cJSON_IsTrue(player_first_json);
-    game->hints = hints_json->valueint;
-    game->lives = lives_json->valueint;
 }

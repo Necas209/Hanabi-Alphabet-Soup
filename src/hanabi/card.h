@@ -6,7 +6,6 @@
 #include "../lib/vec.h"
 
 typedef enum color {
-    INVALID_COLOR = -1,
     YELLOW,
     BLUE,
     GREEN,

@@ -144,23 +144,24 @@ cJSON *get_deck_json(const deck_t *const deck) {
     return deck_json;
 }
 
-void load_deck(deck_t *deck, const cJSON *deck_json) {
+deck_t load_deck(const cJSON *deck_json) {
+    // Create a new deck
+    deck_t deck;
     // Load the cards array
     cJSON *cards = cJSON_GetObjectItem(deck_json, "cards");
-    deck->cards = load_card_vec(cards);
-
+    deck.cards = load_card_vec(cards);
     // Load the discard deck
     cJSON *discard_deck = cJSON_GetObjectItem(deck_json, "discard_deck");
     for (int j = 0; j < NUMBERS; j++) {
         cJSON *number = cJSON_GetArrayItem(discard_deck, j);
         for (int i = 0; i < COLORS; i++) {
-            deck->discard_deck[j][i] = cJSON_GetArrayItem(number, i)->valueint;
+            deck.discard_deck[j][i] = cJSON_GetArrayItem(number, i)->valueint;
         }
     }
-
     // Load the fireworks
     cJSON *fireworks = cJSON_GetObjectItem(deck_json, "fireworks");
     for (int i = 0; i < COLORS; i++) {
-        deck->fireworks[i] = cJSON_GetArrayItem(fireworks, i)->valueint;
+        deck.fireworks[i] = cJSON_GetArrayItem(fireworks, i)->valueint;
     }
+    return deck;
 }

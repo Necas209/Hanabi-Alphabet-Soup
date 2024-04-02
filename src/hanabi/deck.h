@@ -38,7 +38,7 @@ optional_card_t draw_card(deck_t *deck);
 /// Returns the number of cards in the deck.
 /// \param deck The deck.
 /// \return The number of cards in the deck.
-size_t deck_len(const deck_t *const deck);
+size_t deck_len(const deck_t *deck);
 
 /// Returns the current score of the deck.
 /// \param deck The deck.
@@ -81,7 +81,7 @@ cJSON *get_deck_json(const deck_t *deck);
 
 /// Loads a deck from a JSON object.
 /// \param deck_json The JSON object.
-/// \param deck The deck to load.
-void load_deck(deck_t *deck, const cJSON *deck_json);
+/// \return The deck.
+deck_t load_deck(const cJSON *deck_json);
 
 #endif //DECK_H
