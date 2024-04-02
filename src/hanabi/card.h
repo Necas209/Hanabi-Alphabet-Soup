@@ -1,6 +1,7 @@
 #ifndef CARD_H
 #define CARD_H
 
+#include <stdbool.h>
 #include <stdio.h>
 #include "../lib/cJSON.h"
 #include "../lib/vec.h"
