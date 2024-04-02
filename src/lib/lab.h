@@ -5,7 +5,7 @@
 
 #include <stdint.h>
 
-typedef enum {
+typedef enum ansi_color {
     ANSI_COLOR_BLACK = 30,
     ANSI_COLOR_RED,
     ANSI_COLOR_GREEN,
@@ -14,9 +14,9 @@ typedef enum {
     ANSI_COLOR_MAGENTA,
     ANSI_COLOR_CYAN,
     ANSI_COLOR_WHITE = 39,
-} ansi_color;
+} ansi_color_t;
 
-typedef enum {
+typedef enum ansi_bg_color {
     ANSI_BACKGROUND_BLACK = 40,
     ANSI_BACKGROUND_RED,
     ANSI_BACKGROUND_GREEN,
@@ -25,7 +25,7 @@ typedef enum {
     ANSI_BACKGROUND_MAGENTA,
     ANSI_BACKGROUND_CYAN,
     ANSI_BACKGROUND_WHITE
-} ansi_bg_color;
+} ansi_bg_color_t;
 
 #ifdef __GNUC__
 #define PRINTF_LIKE(n, m) __attribute__((format(printf,n,m)))
@@ -38,10 +38,10 @@ typedef enum {
 // Function prototypes
 
 // Set the text color
-void setForeColor(ansi_color foreground);
+void setForeColor(ansi_color_t foreground);
 
 // Set the background color
-__attribute__((unused)) void setColor(ansi_color foreground, ansi_bg_color background);
+__attribute__((unused)) void setColor(ansi_color_t foreground, ansi_bg_color_t background);
 
 // Reset the color
 void resetColor();

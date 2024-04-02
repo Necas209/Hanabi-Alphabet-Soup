@@ -7,12 +7,12 @@
 #include <errno.h>
 
 // Set the foreground and background color
-__attribute__((unused)) void setColor(const ansi_color foreground, const ansi_bg_color background) {
+__attribute__((unused)) void setColor(const ansi_color_t foreground, const ansi_bg_color_t background) {
     printf("\033[%d;%dm", foreground, background);
 }
 
 // Set the foreground color
-void setForeColor(const ansi_color foreground) {
+void setForeColor(const ansi_color_t foreground) {
     printf("\033[%dm", foreground);
 }
 

@@ -14,16 +14,17 @@ void enter_to_continue() {
 char *read_string(FILE *stream) {
     char *line = NULL;
     size_t len = 0;
-    if (getline(&line, &len, stream) == -1) {
+    ssize_t read = getline(&line, &len, stream);
+    if (read == -1) {
         return NULL;
     }
-    line[len - 1] = '\0';
+    line[read - 1] = '\0'; // Remove the newline character
     return line;
 }
 
 char read_char(FILE *stream) {
     char *line = read_string(stream);
-    if (line == NULL) {
+    if (line == NULL || strlen(line) != 1) {
         return '\0';
     }
     const char c = line[0];
@@ -41,12 +42,17 @@ int read_int(FILE *stream) {
     return (int) number;
 }
 
+void error_msg(const char *const message) {
+    printfAt(120, 6, "%s! Try again.", message);
+    msleep(800);
+}
+
 void print_game_start() {
     FILE *file = fopen("logo.txt", "r");
     gotoxy(1, 1);
     int ch;
     while ((ch = fgetc(file)) != EOF) {
-        ansi_color color;
+        ansi_color_t color;
         switch (ch) {
             case 'H':
                 color = ANSI_COLOR_BLUE;
@@ -78,15 +84,16 @@ void print_game_start() {
     printfAt(85, 6, "- João Rodrigues");
 }
 
-void print_ui(const game_t *game) {
-    print_player_hand(&game->player_hand);
-    print_bot_hand(&game->bot_hand);
+void print_ui(const game_t *const game) {
+    system("clear");
+    print_hand(&game->bot_hand, 10, 5, true);
+    print_hand(&game->player_hand, 10, 26, false);
     print_deck(&game->deck);
-    printfAt(85, 15, "Clues: %d", game->clues);
+    printfAt(85, 15, "Clues: %d", game->hints);
     printfAt(85, 20, "Lives: %d", game->lives);
 }
 
-ansi_color get_card_ui_color(const color_t color) {
+ansi_color_t get_card_ui_color(const color_t color) {
     switch (color) {
         case YELLOW:
             return ANSI_COLOR_YELLOW;
@@ -114,43 +121,37 @@ bool is_player_first() {
     return true;
 }
 
-void print_card(const card_t card, const int x, const int y) {
-    if (card.color_known) {
-        const int ui_color = get_card_ui_color(card.color);
+void print_card(const card_t *const card, const int x, const int y) {
+    if (card->color_known) {
+        const ansi_color_t ui_color = get_card_ui_color(card->color);
         setForeColor(ui_color);
     } else {
         setForeColor(ANSI_COLOR_WHITE);
     }
-
     showRectAt(x, y, CARD_WIDTH, CARD_HEIGHT);
-
-    if (card.number_known) {
-        printfAt(x + CARD_WIDTH / 2, y + CARD_HEIGHT / 2, "%d", card.number);
+    if (card->number_known) {
+        printfAt(x + CARD_WIDTH / 2, y + CARD_HEIGHT / 2, "%d", card->number);
     } else {
         printfAt(x + CARD_WIDTH / 2, y + CARD_HEIGHT / 2, "?");
     }
     resetColor();
 }
 
-void print_player_hand(const hand_t *player_hand) {
-    printfAt(80, 28, "%s", player_hand->name);
-
-    for (int i = 0; i < HAND_LEN; i++) {
-        const card_t card = player_hand->cards[i];
-        print_card(card, 10 + 14 * i, 26);
+void print_hand(const hand_t *const hand, const int x, const int y, const bool bot) {
+    int i;
+    card_t *card;
+    vec_foreach_ptr(&hand->cards, card, i) {
+        print_card(card, x + 14 * i, y);
+        if (!bot) {
+            continue;
+        }
+        const ansi_color_t ui_color = get_card_ui_color(card->color);
+        setForeColor(ui_color);
+        printfAt(x + 14 * i + CARD_WIDTH / 2, y + CARD_HEIGHT, "%d", card->number);
+        resetColor();
     }
-}
 
-void print_bot_hand(const hand_t *bot_hand) {
-    printfAt(3, 7, "Bot\n");
-
-    for (int i = 0; i < HAND_LEN; i++) {
-        card_t card = bot_hand->cards[i];
-        // The player can see the robot's hand, so we can reveal the color and number of the cards
-        card.color_known = true;
-        card.number_known = true;
-        print_card(card, 10 + 14 * i, 5);
-    }
+    printfAt(x + 70, y + CARD_HEIGHT / 2 - 1, "%s", hand->name);
 }
 
 void print_score(const deck_t *deck) {
@@ -196,16 +197,17 @@ void print_deck(const deck_t *deck) {
     // Display the deck
     showRectAt(100, 15, 9, 6);
     printfAt(101, 14, "Deck:");
-    if (deck->length < 10) {
-        printfAt(104, 18, "0%lu", deck->length);
+    size_t deck_size = deck_len(deck);
+    if (deck_size < 10) {
+        printfAt(104, 18, "0%lu", deck_size);
     } else {
-        printfAt(104, 18, "%lu", deck->length);
+        printfAt(104, 18, "%lu", deck_size);
     }
     // Display the fireworks
     for (int k = 0; k < 5; k++) {
-        const ansi_color color = get_card_ui_color(k);
+        const ansi_color_t color = get_card_ui_color(k);
         setForeColor(color);
-        showRectAt(11 + 14 * k, 16, 6, 4);
+        showRectAt(11 + 14 * k, 16, 7, 5);
         printfAt(14 + 14 * k, 18, "%d", deck->fireworks[k]);
         resetColor();
     }
