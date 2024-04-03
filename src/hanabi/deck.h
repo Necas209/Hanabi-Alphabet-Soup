@@ -50,10 +50,11 @@ int get_score(const deck_t *deck);
 /// \return The lowest table.
 int get_lowest_table(const deck_t *deck);
 
-/// Returns whether the deck is a table (all fireworks are at 5).
+/// Returns whether the fireworks are at the given table.
 /// \param deck The deck.
-/// \return Whether the deck is a table.
-bool is_table(const deck_t *deck);
+/// \param table The table.
+/// \return Whether the fireworks are at the given table.
+bool is_fireworks_at_table(const deck_t *deck, int table);
 
 /// Plays a card from the hand.
 /// \param deck The deck.

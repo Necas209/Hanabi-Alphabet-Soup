@@ -59,7 +59,9 @@ uint32_t get_bot_playable(const hand_t *const hand, const deck_t *const deck) {
         if (!card->number_known) {
             continue;
         }
-        if (is_playable(deck, card) && (is_table(deck) || card->color_known)) {
+        const bool playable = is_playable(deck, card);
+        const bool fireworks_at_table = is_fireworks_at_table(deck, card->number - 1);
+        if (playable && (fireworks_at_table || card->color_known)) {
             return i;
         }
     }

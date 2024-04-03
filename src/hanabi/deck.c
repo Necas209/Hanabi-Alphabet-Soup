@@ -112,13 +112,16 @@ int get_lowest_table(const deck_t *const deck) {
     return min;
 }
 
-bool is_table(const deck_t *const deck) {
+bool is_fireworks_at_table(const deck_t *deck, int table) {
     for (int i = 1; i < COLORS; i++) {
-        if (deck->fireworks[i - 1] == deck->fireworks[i]) {
-            return true;
+        if (deck->fireworks[i - 1] != deck->fireworks[i]) {
+            return false;
+        }
+        if (deck->fireworks[i] != table) {
+            return false;
         }
     }
-    return false;
+    return true;
 }
 
 cJSON *get_deck_json(const deck_t *const deck) {
